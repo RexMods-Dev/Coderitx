@@ -1,20 +1,68 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { teamData } from '../data/team';
 import { Badge } from './ui/Badge';
 import { ShieldCheck, UserCheck, Terminal, Award, CheckCircle2 } from 'lucide-react';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export function AboutTeam() {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const ctx = gsap.context(() => {
+      // Header reveal
+      gsap.fromTo(".team-header-anim", 
+        { opacity: 0, y: 35 }, 
+        {
+          opacity: 1, 
+          y: 0, 
+          duration: 0.8, 
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+
+      // Founder dossier cards stagger
+      gsap.fromTo(".founder-dossier-card", 
+        { opacity: 0, y: 40 }, 
+        {
+          opacity: 1, 
+          y: 0, 
+          duration: 0.8, 
+          stagger: 0.12, 
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".team-grid-container",
+            start: "top 85%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="about" className="py-24 md:py-32 border-b border-border-soft dark:border-border-dark bg-surface dark:bg-background relative">
+    <section ref={sectionRef} id="about" className="py-24 md:py-36 border-b border-border-soft dark:border-border-dark bg-surface dark:bg-background relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-3xl mb-16">
+        <div className="team-header-anim max-w-3xl mb-16">
           <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-cobalt-muted dark:text-cobalt-accent font-semibold mb-3">
             <span>04 / Leadership &amp; Transparency</span>
           </div>
           
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-tight text-ink-midnight dark:text-foreground mb-5">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.6rem] font-extrabold tracking-tight text-ink-midnight dark:text-foreground mb-5">
             A small team. Different technical strengths. One shared goal.
           </h2>
           
@@ -24,7 +72,7 @@ export function AboutTeam() {
         </div>
 
         {/* Co-Founders Dossiers Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="team-grid-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {teamData.map((member) => {
             const monogram = member.name
               .split(' ')
@@ -35,7 +83,7 @@ export function AboutTeam() {
             return (
               <div
                 key={member.id}
-                className="group flex flex-col justify-between p-7 sm:p-8 rounded-2xl border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200"
+                className="founder-dossier-card group flex flex-col justify-between p-7 sm:p-8 rounded-2xl border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200"
               >
                 <div>
                   {/* Top Bar: Monogram and Role */}
@@ -96,7 +144,7 @@ export function AboutTeam() {
           })}
 
           {/* Direct Developer Access Commitment Card */}
-          <div className="flex flex-col justify-between p-7 sm:p-8 rounded-2xl border border-dashed border-border-soft dark:border-border-dark bg-ivory-warm/70 dark:bg-surface-elevated/40">
+          <div className="founder-dossier-card flex flex-col justify-between p-7 sm:p-8 rounded-2xl border border-dashed border-border-soft dark:border-border-dark bg-ivory-warm/70 dark:bg-surface-elevated/40 shadow-subtle">
             <div>
               <div className="w-12 h-12 rounded-xl bg-surface dark:bg-surface border border-border-soft dark:border-border-dark flex items-center justify-center text-cobalt-muted dark:text-cobalt-accent mb-5 shadow-subtle">
                 <ShieldCheck className="w-6 h-6 stroke-[1.9]" />

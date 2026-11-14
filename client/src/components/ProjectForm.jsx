@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Send, CheckCircle2, AlertCircle, Loader2, Sparkles, MessageSquare, ArrowRight } from 'lucide-react';
 import { siteConfig } from '../data/siteConfig';
 import { Button } from './ui/Button';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
+  const sectionRef = useRef(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,6 +27,45 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
   const [status, setStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
   const [statusMessage, setStatusMessage] = useState('');
   const [submittedData, setSubmittedData] = useState(null);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(".form-header-anim", 
+        { opacity: 0, y: 35 }, 
+        {
+          opacity: 1, 
+          y: 0, 
+          duration: 0.8, 
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+
+      gsap.fromTo(".form-container-card", 
+        { opacity: 0, y: 40 }, 
+        {
+          opacity: 1, 
+          y: 0, 
+          duration: 0.85, 
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".form-container-card",
+            start: "top 85%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   useEffect(() => {
     if (initialCategory) {
@@ -119,16 +163,16 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
   };
 
   return (
-    <section id="enquiry" className="py-24 md:py-32 border-b border-border-soft dark:border-border-dark bg-ivory-warm dark:bg-background">
+    <section ref={sectionRef} id="enquiry" className="py-24 md:py-36 border-b border-border-soft dark:border-border-dark bg-ivory-warm dark:bg-background relative">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-14">
+        <div className="form-header-anim text-center max-w-2xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-cobalt-muted dark:text-cobalt-accent font-semibold mb-3">
             <span>05 / Project Request</span>
           </div>
           
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-tight text-ink-midnight dark:text-foreground mb-4">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.6rem] font-extrabold tracking-tight text-ink-midnight dark:text-foreground mb-4">
             {siteConfig.enquiry.headline}
           </h2>
           
@@ -138,12 +182,12 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
         </div>
 
         {/* Form Container Card */}
-        <div className="bg-surface border border-border-soft dark:border-border-dark rounded-xl shadow-elevated p-7 sm:p-10 relative">
+        <div className="form-container-card bg-surface border border-border-soft dark:border-border-dark rounded-2xl shadow-elevated p-7 sm:p-11 relative">
           
           {status === 'success' ? (
             /* Success Feedback State */
             <div className="py-10 text-center space-y-6 animate-fade-in">
-              <div className="w-16 h-16 rounded-full bg-cobalt-muted/10 dark:bg-cobalt-accent/15 border border-cobalt-muted/20 dark:border-cobalt-accent/30 mx-auto flex items-center justify-center text-cobalt-muted dark:text-cobalt-accent">
+              <div className="w-16 h-16 rounded-2xl bg-cobalt-muted/10 dark:bg-cobalt-accent/15 border border-cobalt-muted/20 dark:border-cobalt-accent/30 mx-auto flex items-center justify-center text-cobalt-muted dark:text-cobalt-accent shadow-subtle">
                 <CheckCircle2 className="w-9 h-9" />
               </div>
 
@@ -157,18 +201,18 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
               </div>
 
               {submittedData && (
-                <div className="p-5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/50 dark:bg-surface-elevated/60 text-left max-w-md mx-auto font-mono text-xs space-y-2">
+                <div className="p-5 rounded-xl border border-border-soft dark:border-border-dark bg-ivory-warm/50 dark:bg-surface-elevated/60 text-left max-w-md mx-auto font-mono text-xs space-y-2 shadow-subtle">
                   <div className="flex justify-between text-slate-grey dark:text-muted-foreground">
                     <span>Reference ID:</span>
                     <span className="font-semibold text-ink-midnight dark:text-foreground">#CR-{submittedData.id}</span>
                   </div>
                   <div className="flex justify-between text-slate-grey dark:text-muted-foreground">
                     <span>Applicant:</span>
-                    <span className="text-ink-midnight dark:text-foreground">{submittedData.name}</span>
+                    <span className="text-ink-midnight dark:text-foreground font-medium">{submittedData.name}</span>
                   </div>
                   <div className="flex justify-between text-slate-grey dark:text-muted-foreground">
                     <span>Category:</span>
-                    <span className="text-ink-midnight dark:text-foreground">{submittedData.category}</span>
+                    <span className="text-ink-midnight dark:text-foreground font-medium">{submittedData.category}</span>
                   </div>
                   <div className="flex justify-between text-slate-grey dark:text-muted-foreground">
                     <span>Storage Engine:</span>
@@ -199,7 +243,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
               
               {/* Error Callout */}
               {status === 'error' && (
-                <div className="p-4 rounded-lg bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 flex items-start gap-3 text-red-800 dark:text-red-300 text-sm animate-fade-in">
+                <div className="p-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 flex items-start gap-3 text-red-800 dark:text-red-300 text-sm animate-fade-in">
                   <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
                   <span>{statusMessage}</span>
                 </div>
@@ -218,7 +262,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="e.g. John Doe"
-                    className={`w-full px-3.5 py-2.5 rounded-md border text-sm bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/40 transition-colors focus-ring ${
+                    className={`w-full px-4 py-2.5 rounded-lg border text-sm bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/40 transition-colors focus-ring ${
                       errors.name
                         ? 'border-red-500'
                         : 'border-border-soft dark:border-border-dark'
@@ -240,7 +284,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="john@example.com"
-                    className={`w-full px-3.5 py-2.5 rounded-md border text-sm bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/40 transition-colors focus-ring ${
+                    className={`w-full px-4 py-2.5 rounded-lg border text-sm bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/40 transition-colors focus-ring ${
                       errors.email
                         ? 'border-red-500'
                         : 'border-border-soft dark:border-border-dark'
@@ -265,7 +309,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="+91 98765 43210"
-                    className={`w-full px-3.5 py-2.5 rounded-md border text-sm bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/40 transition-colors focus-ring ${
+                    className={`w-full px-4 py-2.5 rounded-lg border text-sm bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/40 transition-colors focus-ring ${
                       errors.phone
                         ? 'border-red-500'
                         : 'border-border-soft dark:border-border-dark'
@@ -287,7 +331,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                     value={formData.institution}
                     onChange={handleChange}
                     placeholder="e.g. University College of Engineering"
-                    className="w-full px-3.5 py-2.5 rounded-md border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/40 transition-colors focus-ring text-sm"
+                    className="w-full px-4 py-2.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/40 transition-colors focus-ring text-sm"
                   />
                 </div>
               </div>
@@ -303,7 +347,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 rounded-md border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground transition-colors focus-ring text-sm"
+                    className="w-full px-4 py-2.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground transition-colors focus-ring text-sm"
                   >
                     {siteConfig.enquiry.categories.map((cat) => (
                       <option key={cat} value={cat} className="bg-surface text-ink-midnight dark:text-foreground">
@@ -324,7 +368,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                     value={formData.preferred_tech}
                     onChange={handleChange}
                     placeholder="e.g. Django, React, ESP32, YOLOv8"
-                    className="w-full px-3.5 py-2.5 rounded-md border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/40 transition-colors focus-ring text-sm"
+                    className="w-full px-4 py-2.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/40 transition-colors focus-ring text-sm"
                   />
                 </div>
               </div>
@@ -341,7 +385,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                   value={formData.description}
                   onChange={handleChange}
                   placeholder="Outline the core objective, problem to solve, college guide guidelines, or specific features you need implemented..."
-                  className={`w-full px-3.5 py-2.5 rounded-md border text-sm bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/40 transition-colors focus-ring resize-y ${
+                  className={`w-full px-4 py-2.5 rounded-lg border text-sm bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/40 transition-colors focus-ring resize-y ${
                     errors.description
                       ? 'border-red-500'
                       : 'border-border-soft dark:border-border-dark'
@@ -365,7 +409,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                     value={formData.deadline}
                     onChange={handleChange}
                     placeholder="e.g. 4 weeks, End of semester"
-                    className="w-full px-3.5 py-2.5 rounded-md border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/40 transition-colors focus-ring text-sm"
+                    className="w-full px-4 py-2.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/40 transition-colors focus-ring text-sm"
                   />
                 </div>
 
@@ -380,7 +424,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                     value={formData.additional_requirements}
                     onChange={handleChange}
                     placeholder="e.g. Code walkthrough, Viva prep, Report guidance"
-                    className="w-full px-3.5 py-2.5 rounded-md border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/40 transition-colors focus-ring text-sm"
+                    className="w-full px-4 py-2.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface-elevated/40 text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/40 transition-colors focus-ring text-sm"
                   />
                 </div>
               </div>
@@ -398,7 +442,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
               </div>
 
               {/* Submission Footer */}
-              <div className="pt-4 border-t border-border-soft dark:border-border-dark flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="pt-5 border-t border-border-soft dark:border-border-dark flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="text-xs text-slate-grey dark:text-muted-foreground font-mono">
                   Enquiries are directly reviewed by Coderitz co-founders within 24 hours.
                 </div>
@@ -408,7 +452,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                   size="lg"
                   variant="primary"
                   disabled={status === 'submitting'}
-                  className="w-full sm:w-auto gap-2"
+                  className="w-full sm:w-auto gap-2 px-8 py-3.5"
                 >
                   {status === 'submitting' ? (
                     <>

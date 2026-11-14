@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
   GraduationCap,
   Layout,
@@ -19,19 +21,64 @@ import { servicesData } from '../data/services';
 import { Badge } from './ui/Badge';
 import { Button } from './ui/Button';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export function Services({ onSelectServiceForEnquiry }) {
   const [selectedDomain, setSelectedDomain] = useState('all');
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const ctx = gsap.context(() => {
+      // Header reveal
+      gsap.fromTo(".services-header-anim", 
+        { opacity: 0, y: 35 }, 
+        {
+          opacity: 1, 
+          y: 0, 
+          duration: 0.8, 
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+
+      // Dossier cards stagger reveal
+      gsap.fromTo(".service-dossier-card", 
+        { opacity: 0, y: 45 }, 
+        {
+          opacity: 1, 
+          y: 0, 
+          duration: 0.75, 
+          stagger: 0.12, 
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".services-grid-container",
+            start: "top 85%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [selectedDomain]);
 
   const filteredServices = selectedDomain === 'all'
     ? servicesData
     : servicesData.filter((s) => s.id === selectedDomain);
 
   return (
-    <section id="services" className="py-24 md:py-32 border-b border-border-soft dark:border-border-dark bg-ivory-warm dark:bg-background relative">
+    <section ref={sectionRef} id="services" className="py-24 md:py-36 border-b border-border-soft dark:border-border-dark bg-ivory-warm dark:bg-background relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Editorial Section Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start mb-16">
+        <div className="services-header-anim grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start mb-16">
           
           {/* Left Column: Scope Overview */}
           <div className="lg:col-span-5">
@@ -39,7 +86,7 @@ export function Services({ onSelectServiceForEnquiry }) {
               <span>01 / What We Build</span>
             </div>
             
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-tight text-ink-midnight dark:text-foreground leading-tight mb-5">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.6rem] font-extrabold tracking-tight text-ink-midnight dark:text-foreground leading-tight mb-5">
               Comprehensive technical guidance &amp; implementation.
             </h2>
             
@@ -62,7 +109,7 @@ export function Services({ onSelectServiceForEnquiry }) {
           {/* Right Column: Filter Pills & Custom Stack Note */}
           <div className="lg:col-span-7 flex flex-col justify-between h-full pt-2">
             <div className="space-y-4">
-              <div className="text-xs font-mono uppercase tracking-wider text-slate-grey dark:text-muted-foreground">
+              <div className="text-xs font-mono uppercase tracking-wider text-slate-grey dark:text-muted-foreground font-semibold">
                 Domain Categories
               </div>
 
@@ -71,7 +118,7 @@ export function Services({ onSelectServiceForEnquiry }) {
                 <button
                   type="button"
                   onClick={() => setSelectedDomain('all')}
-                  className={`px-3.5 py-1.5 rounded text-xs font-medium transition-all ${
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                     selectedDomain === 'all'
                       ? 'bg-ink-midnight text-white dark:bg-foreground dark:text-ink-midnight shadow-sm'
                       : 'bg-surface border border-border-soft dark:border-border-dark text-slate-grey dark:text-muted-foreground hover:text-ink-midnight dark:hover:text-foreground'
@@ -84,7 +131,7 @@ export function Services({ onSelectServiceForEnquiry }) {
                     key={s.id}
                     type="button"
                     onClick={() => setSelectedDomain(s.id)}
-                    className={`px-3.5 py-1.5 rounded text-xs font-medium transition-all ${
+                    className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                       selectedDomain === s.id
                         ? 'bg-cobalt-muted text-white dark:bg-cobalt-accent dark:text-ink-midnight shadow-sm'
                         : 'bg-surface border border-border-soft dark:border-border-dark text-slate-grey dark:text-muted-foreground hover:text-ink-midnight dark:hover:text-foreground'
@@ -96,7 +143,7 @@ export function Services({ onSelectServiceForEnquiry }) {
               </div>
             </div>
 
-            <div className="mt-8 p-4 rounded-lg bg-surface/80 border border-border-soft/80 dark:border-border-dark/80 text-xs text-slate-grey dark:text-muted-foreground flex items-center justify-between">
+            <div className="mt-8 p-4 rounded-xl bg-surface/80 border border-border-soft/80 dark:border-border-dark/80 text-xs text-slate-grey dark:text-muted-foreground flex items-center justify-between shadow-subtle">
               <span>Have a custom syllabus requirement or hybrid stack?</span>
               <button
                 type="button"
@@ -111,14 +158,14 @@ export function Services({ onSelectServiceForEnquiry }) {
 
         </div>
 
-        {/* Distinctive Service Dossiers: Each with its own tailored visual treatment */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        {/* Distinctive Service Dossiers Grid */}
+        <div className="services-grid-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           
           {/* Service 1: Academic & CSE Projects */}
-          <div className="group relative flex flex-col justify-between p-7 rounded-xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
+          <div className="service-dossier-card group relative flex flex-col justify-between p-7 rounded-2xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
             <div>
               <div className="flex items-center justify-between mb-5">
-                <div className="w-10 h-10 rounded-lg bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors">
+                <div className="w-11 h-11 rounded-xl bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors shadow-subtle">
                   <GraduationCap className="w-5 h-5 stroke-[1.9]" />
                 </div>
                 <Badge variant="cobalt" className="font-mono text-[11px]">Academic Standard</Badge>
@@ -131,8 +178,8 @@ export function Services({ onSelectServiceForEnquiry }) {
                 Project planning, development assistance, implementation and technical guidance tailored for college submission standards and viva defense.
               </p>
 
-              {/* Unique Visual Element: Academic Viva Preparation Spec */}
-              <div className="p-3 rounded-lg bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
+              {/* Evaluation Blueprint Spec */}
+              <div className="p-3.5 rounded-xl bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
                 <div className="text-[10px] uppercase text-cobalt-muted dark:text-cobalt-accent font-semibold">Evaluation Blueprint:</div>
                 <div className="flex items-center gap-1.5 text-ink-midnight dark:text-foreground">
                   <Check className="w-3 h-3 text-emerald-500" />
@@ -163,10 +210,10 @@ export function Services({ onSelectServiceForEnquiry }) {
           </div>
 
           {/* Service 2: Web Applications */}
-          <div className="group relative flex flex-col justify-between p-7 rounded-xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
+          <div className="service-dossier-card group relative flex flex-col justify-between p-7 rounded-2xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
             <div>
               <div className="flex items-center justify-between mb-5">
-                <div className="w-10 h-10 rounded-lg bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors">
+                <div className="w-11 h-11 rounded-xl bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors shadow-subtle">
                   <Layout className="w-5 h-5 stroke-[1.9]" />
                 </div>
                 <Badge variant="subtle" className="font-mono text-[11px]">Full-Stack Systems</Badge>
@@ -179,8 +226,8 @@ export function Services({ onSelectServiceForEnquiry }) {
                 Full-stack websites, dashboards, management systems and REST APIs built with modern frontend frameworks and robust backend architectures.
               </p>
 
-              {/* Unique Visual Element: Endpoint & Database Matrix */}
-              <div className="p-3 rounded-lg bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
+              {/* Endpoint & Database Spec */}
+              <div className="p-3.5 rounded-xl bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
                 <div className="text-[10px] uppercase text-cobalt-muted dark:text-cobalt-accent font-semibold">Architecture Spec:</div>
                 <div className="text-ink-midnight dark:text-foreground font-medium">RESTful &amp; GraphQL Endpoint Design</div>
                 <div className="text-slate-grey dark:text-muted-foreground text-[10px]">PostgreSQL with Connection Pooling</div>
@@ -205,10 +252,10 @@ export function Services({ onSelectServiceForEnquiry }) {
           </div>
 
           {/* Service 3: AI & Machine Learning */}
-          <div className="group relative flex flex-col justify-between p-7 rounded-xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
+          <div className="service-dossier-card group relative flex flex-col justify-between p-7 rounded-2xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
             <div>
               <div className="flex items-center justify-between mb-5">
-                <div className="w-10 h-10 rounded-lg bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors">
+                <div className="w-11 h-11 rounded-xl bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors shadow-subtle">
                   <BrainCircuit className="w-5 h-5 stroke-[1.9]" />
                 </div>
                 <Badge variant="cobalt" className="font-mono text-[11px]">Intelligent Systems</Badge>
@@ -221,8 +268,8 @@ export function Services({ onSelectServiceForEnquiry }) {
                 Object detection, predictive models, data analysis and intelligent applications trained on targeted datasets with clear inference pipelines.
               </p>
 
-              {/* Unique Visual Element: Model Training & Inference Metric */}
-              <div className="p-3 rounded-lg bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
+              {/* Model Training Pipeline */}
+              <div className="p-3.5 rounded-xl bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
                 <div className="text-[10px] uppercase text-cobalt-muted dark:text-cobalt-accent font-semibold">Model Pipeline:</div>
                 <div className="text-ink-midnight dark:text-foreground font-medium">Ultralytics YOLOv8 + PyTorch</div>
                 <div className="text-emerald-600 dark:text-emerald-400 text-[10px]">Real-time Edge Inference &amp; Validation</div>
@@ -247,10 +294,10 @@ export function Services({ onSelectServiceForEnquiry }) {
           </div>
 
           {/* Service 4: Mobile Applications */}
-          <div className="group relative flex flex-col justify-between p-7 rounded-xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
+          <div className="service-dossier-card group relative flex flex-col justify-between p-7 rounded-2xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
             <div>
               <div className="flex items-center justify-between mb-5">
-                <div className="w-10 h-10 rounded-lg bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors">
+                <div className="w-11 h-11 rounded-xl bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors shadow-subtle">
                   <Smartphone className="w-5 h-5 stroke-[1.9]" />
                 </div>
                 <Badge variant="subtle" className="font-mono text-[11px]">Cross-Platform</Badge>
@@ -263,8 +310,8 @@ export function Services({ onSelectServiceForEnquiry }) {
                 Android and cross-platform application development with clean interfaces, state management, and seamless backend API synchronization.
               </p>
 
-              {/* Unique Visual Element: Telemetry & State Cache */}
-              <div className="p-3 rounded-lg bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
+              {/* Mobile State & Telemetry */}
+              <div className="p-3.5 rounded-xl bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
                 <div className="text-[10px] uppercase text-cobalt-muted dark:text-cobalt-accent font-semibold">Mobile Layer:</div>
                 <div className="text-ink-midnight dark:text-foreground font-medium">React Native &amp; Expo Workflow</div>
                 <div className="text-slate-grey dark:text-muted-foreground text-[10px]">Real-time Geolocation &amp; Telemetry</div>
@@ -289,10 +336,10 @@ export function Services({ onSelectServiceForEnquiry }) {
           </div>
 
           {/* Service 5: IoT & Embedded Systems */}
-          <div className="group relative flex flex-col justify-between p-7 rounded-xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
+          <div className="service-dossier-card group relative flex flex-col justify-between p-7 rounded-2xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
             <div>
               <div className="flex items-center justify-between mb-5">
-                <div className="w-10 h-10 rounded-lg bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors">
+                <div className="w-11 h-11 rounded-xl bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors shadow-subtle">
                   <Cpu className="w-5 h-5 stroke-[1.9]" />
                 </div>
                 <Badge variant="cobalt" className="font-mono text-[11px]">Hardware &amp; Cloud</Badge>
@@ -305,8 +352,8 @@ export function Services({ onSelectServiceForEnquiry }) {
                 ESP32, RFID, microcontrollers and hardware-integrated applications communicating reliably with web dashboards and cloud APIs.
               </p>
 
-              {/* Unique Visual Element: Hardware Protocol Spec */}
-              <div className="p-3 rounded-lg bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
+              {/* Hardware Protocol Spec */}
+              <div className="p-3.5 rounded-xl bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
                 <div className="text-[10px] uppercase text-cobalt-muted dark:text-cobalt-accent font-semibold">Embedded Pipeline:</div>
                 <div className="text-ink-midnight dark:text-foreground font-medium">ESP32 Firmware + RC522 RFID</div>
                 <div className="text-emerald-600 dark:text-emerald-400 text-[10px]">Secure HTTP / MQTT Cloud Sync</div>
@@ -331,10 +378,10 @@ export function Services({ onSelectServiceForEnquiry }) {
           </div>
 
           {/* Service 6: Custom Software Solutions */}
-          <div className="group relative flex flex-col justify-between p-7 rounded-xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
+          <div className="service-dossier-card group relative flex flex-col justify-between p-7 rounded-2xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
             <div>
               <div className="flex items-center justify-between mb-5">
-                <div className="w-10 h-10 rounded-lg bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors">
+                <div className="w-11 h-11 rounded-xl bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors shadow-subtle">
                   <Terminal className="w-5 h-5 stroke-[1.9]" />
                 </div>
                 <Badge variant="subtle" className="font-mono text-[11px]">Bespoke Systems</Badge>
@@ -347,8 +394,8 @@ export function Services({ onSelectServiceForEnquiry }) {
                 Tailored systems for individual requirements, student innovation prototypes, and small business workflow automations.
               </p>
 
-              {/* Unique Visual Element: Async Queue & Automation Spec */}
-              <div className="p-3 rounded-lg bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
+              {/* Async Worker Spec */}
+              <div className="p-3.5 rounded-xl bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
                 <div className="text-[10px] uppercase text-cobalt-muted dark:text-cobalt-accent font-semibold">Async Worker Spec:</div>
                 <div className="text-ink-midnight dark:text-foreground font-medium">Celery Task Processing + Redis</div>
                 <div className="text-slate-grey dark:text-muted-foreground text-[10px]">Automated OTP &amp; Notification Workflows</div>

@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
   Mail,
   Phone,
@@ -15,8 +17,50 @@ import { servicesData } from '../data/services';
 import { projectsData } from '../data/projects';
 import { Button } from './ui/Button';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export function ContactFooter({ onStartProjectClick }) {
   const [openFaq, setOpenFaq] = useState(0);
+  const footerRef = useRef(null);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(".closing-cta-anim", 
+        { opacity: 0, y: 35 }, 
+        {
+          opacity: 1, 
+          y: 0, 
+          duration: 0.85, 
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".closing-cta-container",
+            start: "top 85%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+
+      gsap.fromTo(".faq-container-anim", 
+        { opacity: 0, y: 35 }, 
+        {
+          opacity: 1, 
+          y: 0, 
+          duration: 0.8, 
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".faq-container-anim",
+            start: "top 85%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+    }, footerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -26,7 +70,7 @@ export function ContactFooter({ onStartProjectClick }) {
     e.preventDefault();
     const elem = document.querySelector(id);
     if (elem) {
-      const headerOffset = 76;
+      const headerOffset = 90;
       const elementPosition = elem.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
       window.scrollTo({
@@ -37,20 +81,20 @@ export function ContactFooter({ onStartProjectClick }) {
   };
 
   return (
-    <footer className="bg-ink-midnight text-white border-t border-border-dark selection:bg-cobalt-accent selection:text-ink-midnight">
+    <footer ref={footerRef} className="bg-ink-midnight text-white border-t border-border-dark selection:bg-cobalt-accent selection:text-ink-midnight relative">
       
       {/* Pre-footer Call to Action Banner */}
-      <div className="py-24 md:py-32 border-b border-border-dark/80 relative overflow-hidden">
+      <div className="closing-cta-container py-24 md:py-36 border-b border-border-dark/80 relative overflow-hidden">
         {/* Subtle background glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-cobalt-muted/[0.08] rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[320px] bg-cobalt-muted/[0.09] rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border-dark bg-surface-elevated/80 text-xs font-mono text-muted-foreground mb-6 shadow-subtle">
+        <div className="closing-cta-anim max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-border-dark bg-surface-elevated/80 text-xs font-mono text-muted-foreground mb-6 shadow-subtle">
             <span className="w-1.5 h-1.5 rounded-full bg-cobalt-accent animate-pulse" />
             <span>Consultation &amp; Feasibility Review</span>
           </div>
 
-          <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6 max-w-2xl mx-auto leading-tight">
+          <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 max-w-3xl mx-auto leading-tight">
             {siteConfig.contact.closingHeadline}
           </h2>
 
@@ -62,7 +106,7 @@ export function ContactFooter({ onStartProjectClick }) {
             size="lg"
             variant="primary"
             onClick={onStartProjectClick}
-            className="gap-2 px-8 py-3.5 text-base shadow-elevated"
+            className="gap-2 px-9 py-4 text-base shadow-elevated"
           >
             <span>{siteConfig.contact.cta}</span>
             <ArrowUpRight className="w-4 h-4" />
@@ -71,13 +115,13 @@ export function ContactFooter({ onStartProjectClick }) {
       </div>
 
       {/* Frequently Asked Questions */}
-      <div className="py-20 border-b border-border-dark/80 bg-ink-deep/50">
+      <div className="faq-container-anim py-20 border-b border-border-dark/80 bg-ink-deep/50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <div className="text-xs font-mono uppercase tracking-wider text-cobalt-accent font-semibold mb-2">
               Common Inquiries
             </div>
-            <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white">
+            <h3 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
               Frequently Asked Questions
             </h3>
             <p className="text-xs text-muted-foreground font-mono mt-2">
@@ -91,7 +135,7 @@ export function ContactFooter({ onStartProjectClick }) {
               return (
                 <div
                   key={idx}
-                  className="rounded-xl border border-border-dark bg-surface/40 hover:bg-surface/60 transition-colors overflow-hidden"
+                  className="rounded-2xl border border-border-dark bg-surface/40 hover:bg-surface/60 transition-colors overflow-hidden"
                 >
                   <button
                     type="button"
@@ -125,11 +169,11 @@ export function ContactFooter({ onStartProjectClick }) {
             {/* Col 1 & 2: Brand & Studio Mission */}
             <div className="lg:col-span-2 space-y-5">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-md bg-cobalt-muted flex items-center justify-center text-white shadow-sm">
+                <div className="w-8 h-8 rounded-lg bg-cobalt-muted flex items-center justify-center text-white shadow-sm">
                   <Code2 className="w-4 h-4 stroke-[2.2]" />
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="font-display text-base font-bold tracking-tight text-white uppercase">
+                  <span className="font-display text-base font-extrabold tracking-tight text-white uppercase">
                     {siteConfig.brand}
                   </span>
                   <span className="w-1.5 h-1.5 rounded-full bg-cobalt-accent" />
@@ -141,7 +185,7 @@ export function ContactFooter({ onStartProjectClick }) {
               </p>
 
               {/* Editable Touchpoint Placeholders */}
-              <div className="p-4 rounded-lg border border-border-dark bg-surface-elevated/40 text-xs font-mono space-y-1 text-muted-foreground">
+              <div className="p-4 rounded-xl border border-border-dark bg-surface-elevated/40 text-xs font-mono space-y-1 text-muted-foreground shadow-subtle">
                 <div className="text-white font-semibold mb-1 text-[11px] uppercase tracking-wider">
                   Contact Coordinates
                 </div>

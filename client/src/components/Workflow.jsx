@@ -1,22 +1,86 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { workflowSteps } from '../data/workflow';
 import { Check, MessageSquare, Compass, Hammer, Presentation, ArrowRight, ShieldCheck, ChevronRight } from 'lucide-react';
 import { Button } from './ui/Button';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const stepIcons = [MessageSquare, Compass, Hammer, Presentation];
 
 export function Workflow({ onStartProjectClick }) {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const ctx = gsap.context(() => {
+      // Header reveal
+      gsap.fromTo(".workflow-header-anim", 
+        { opacity: 0, y: 35 }, 
+        {
+          opacity: 1, 
+          y: 0, 
+          duration: 0.8, 
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+
+      // Workflow step cards sequence
+      gsap.fromTo(".workflow-step-card", 
+        { opacity: 0, y: 40 }, 
+        {
+          opacity: 1, 
+          y: 0, 
+          duration: 0.8, 
+          stagger: 0.15, 
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".workflow-steps-container",
+            start: "top 85%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+
+      // Guarantee callout banner
+      gsap.fromTo(".workflow-guarantee-banner", 
+        { opacity: 0, y: 30 }, 
+        {
+          opacity: 1, 
+          y: 0, 
+          duration: 0.8, 
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".workflow-guarantee-banner",
+            start: "top 90%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="workflow" className="py-24 md:py-32 border-b border-border-soft dark:border-border-dark bg-ivory-warm dark:bg-background relative">
+    <section ref={sectionRef} id="workflow" className="py-24 md:py-36 border-b border-border-soft dark:border-border-dark bg-ivory-warm dark:bg-background relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-2xl mb-16">
+        <div className="workflow-header-anim max-w-2xl mb-16">
           <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-cobalt-muted dark:text-cobalt-accent font-semibold mb-3">
             <span>03 / Development Framework</span>
           </div>
           
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-tight text-ink-midnight dark:text-foreground mb-4">
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.6rem] font-extrabold tracking-tight text-ink-midnight dark:text-foreground mb-4">
             How We Work
           </h2>
           
@@ -26,7 +90,7 @@ export function Workflow({ onStartProjectClick }) {
         </div>
 
         {/* Refined Process Pipeline Visualization */}
-        <div className="relative mb-16">
+        <div className="workflow-steps-container relative mb-16">
           
           {/* Subtle connecting guideline on desktop */}
           <div className="hidden lg:block absolute top-[52px] left-[8%] right-[8%] h-[2px] bg-border-soft dark:bg-border-dark z-0" />
@@ -39,7 +103,7 @@ export function Workflow({ onStartProjectClick }) {
               return (
                 <div
                   key={step.step}
-                  className={`group relative flex flex-col justify-between p-7 rounded-2xl border transition-all duration-200 ${
+                  className={`workflow-step-card group relative flex flex-col justify-between p-7 rounded-2xl border transition-all duration-200 ${
                     isDeliverStep
                       ? 'border-cobalt-muted/50 dark:border-cobalt-accent/50 bg-surface shadow-surface ring-1 ring-cobalt-muted/20 dark:ring-cobalt-accent/20'
                       : 'border-border-soft dark:border-border-dark bg-surface shadow-subtle hover:shadow-surface'
@@ -89,7 +153,7 @@ export function Workflow({ onStartProjectClick }) {
         </div>
 
         {/* The Understanding Guarantee Callout */}
-        <div className="p-8 sm:p-10 rounded-2xl border border-border-soft dark:border-border-dark bg-surface shadow-subtle flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+        <div className="workflow-guarantee-banner p-8 sm:p-10 rounded-2xl border border-border-soft dark:border-border-dark bg-surface shadow-subtle flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
           <div className="space-y-2.5 max-w-2xl">
             <div className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-cobalt-muted dark:text-cobalt-accent">
               <ShieldCheck className="w-4 h-4" />
@@ -110,7 +174,7 @@ export function Workflow({ onStartProjectClick }) {
               variant="primary"
               size="lg"
               onClick={onStartProjectClick}
-              className="w-full sm:w-auto gap-2 px-6 py-3"
+              className="w-full sm:w-auto gap-2 px-7 py-3.5"
             >
               <span>Schedule Project Discussion</span>
               <ArrowRight className="w-4 h-4" />
