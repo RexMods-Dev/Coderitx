@@ -7,8 +7,8 @@ import {
   ArrowUpRight,
   Code2,
   ChevronDown,
-  MessageCircle,
-  ExternalLink
+  MessageSquare,
+  ShieldCheck
 } from 'lucide-react';
 import { siteConfig } from '../data/siteConfig';
 import { servicesData } from '../data/services';
@@ -16,7 +16,7 @@ import { projectsData } from '../data/projects';
 import { Button } from './ui/Button';
 
 export function ContactFooter({ onStartProjectClick }) {
-  const [openFaq, setOpenFaq] = useState(null);
+  const [openFaq, setOpenFaq] = useState(0);
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -26,7 +26,7 @@ export function ContactFooter({ onStartProjectClick }) {
     e.preventDefault();
     const elem = document.querySelector(id);
     if (elem) {
-      const headerOffset = 70;
+      const headerOffset = 76;
       const elementPosition = elem.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
       window.scrollTo({
@@ -37,28 +37,32 @@ export function ContactFooter({ onStartProjectClick }) {
   };
 
   return (
-    <footer className="bg-neutral-950 text-neutral-100 border-t border-neutral-800">
+    <footer className="bg-ink-midnight text-white border-t border-border-dark selection:bg-cobalt-accent selection:text-ink-midnight">
       
-      {/* Pre-footer Call to Action */}
-      <div className="py-20 md:py-28 border-b border-neutral-800/80">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-800 bg-neutral-900 text-xs font-mono text-neutral-400 mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            <span>Consultation &amp; Project Planning</span>
+      {/* Pre-footer Call to Action Banner */}
+      <div className="py-24 md:py-32 border-b border-border-dark/80 relative overflow-hidden">
+        {/* Subtle background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-cobalt-muted/[0.08] rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border-dark bg-surface-elevated/80 text-xs font-mono text-muted-foreground mb-6 shadow-subtle">
+            <span className="w-1.5 h-1.5 rounded-full bg-cobalt-accent animate-pulse" />
+            <span>Consultation &amp; Feasibility Review</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-6 max-w-2xl mx-auto">
+          <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6 max-w-2xl mx-auto leading-tight">
             {siteConfig.contact.closingHeadline}
           </h2>
 
-          <p className="text-base text-neutral-400 max-w-xl mx-auto mb-10 leading-relaxed">
+          <p className="text-base sm:text-lg text-slate-grey dark:text-muted-foreground max-w-xl mx-auto mb-10 leading-relaxed">
             Have a project concept, need technical guidance, or want to explore implementation approaches? Get in touch with our team today.
           </p>
 
           <Button
             size="lg"
+            variant="primary"
             onClick={onStartProjectClick}
-            className="bg-white text-neutral-950 hover:bg-neutral-200 gap-2 font-semibold shadow-lg"
+            className="gap-2 px-8 py-3.5 text-base shadow-elevated"
           >
             <span>{siteConfig.contact.cta}</span>
             <ArrowUpRight className="w-4 h-4" />
@@ -67,14 +71,17 @@ export function ContactFooter({ onStartProjectClick }) {
       </div>
 
       {/* Frequently Asked Questions */}
-      <div className="py-16 border-b border-neutral-800/80">
+      <div className="py-20 border-b border-border-dark/80 bg-ink-deep/50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <h3 className="text-xl font-bold tracking-tight text-white mb-2">
+          <div className="text-center mb-12">
+            <div className="text-xs font-mono uppercase tracking-wider text-cobalt-accent font-semibold mb-2">
+              Common Inquiries
+            </div>
+            <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white">
               Frequently Asked Questions
             </h3>
-            <p className="text-xs text-neutral-400 font-mono">
-              Answers regarding our academic guidance and development process
+            <p className="text-xs text-muted-foreground font-mono mt-2">
+              Direct insights into our academic guidance and development process
             </p>
           </div>
 
@@ -84,22 +91,22 @@ export function ContactFooter({ onStartProjectClick }) {
               return (
                 <div
                   key={idx}
-                  className="rounded-lg border border-neutral-800 bg-neutral-900/60 transition-colors"
+                  className="rounded-xl border border-border-dark bg-surface/40 hover:bg-surface/60 transition-colors overflow-hidden"
                 >
                   <button
                     type="button"
                     onClick={() => toggleFaq(idx)}
-                    className="w-full p-4 text-left flex items-center justify-between text-sm font-medium text-neutral-200 hover:text-white"
+                    className="w-full p-5 text-left flex items-center justify-between text-sm sm:text-base font-semibold text-white focus-ring"
                   >
-                    <span>{faq.q}</span>
+                    <span className="pr-4">{faq.q}</span>
                     <ChevronDown
-                      className={`w-4 h-4 text-neutral-400 transition-transform duration-200 ${
-                        isOpen ? 'rotate-180 text-white' : ''
+                      className={`w-4 h-4 text-muted-foreground flex-shrink-0 transition-transform duration-200 ${
+                        isOpen ? 'rotate-180 text-cobalt-accent' : ''
                       }`}
                     />
                   </button>
                   {isOpen && (
-                    <div className="px-4 pb-4 text-xs text-neutral-400 leading-relaxed border-t border-neutral-800/60 pt-3 animate-fade-in">
+                    <div className="px-5 pb-5 text-xs sm:text-sm text-slate-grey dark:text-muted-foreground leading-relaxed border-t border-border-dark/60 pt-3.5 animate-fade-in">
                       {faq.a}
                     </div>
                   )}
@@ -110,42 +117,47 @@ export function ContactFooter({ onStartProjectClick }) {
         </div>
       </div>
 
-      {/* Main Footer Content */}
-      <div className="py-16">
+      {/* Main Footer Directory */}
+      <div className="py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-10">
             
-            {/* Col 1: Brand & Bio (2 cols wide) */}
-            <div className="lg:col-span-2 space-y-4">
+            {/* Col 1 & 2: Brand & Studio Mission */}
+            <div className="lg:col-span-2 space-y-5">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded bg-white flex items-center justify-center text-neutral-950">
+                <div className="w-8 h-8 rounded-md bg-cobalt-muted flex items-center justify-center text-white shadow-sm">
                   <Code2 className="w-4 h-4 stroke-[2.2]" />
                 </div>
-                <span className="font-mono text-base font-bold tracking-tight text-white uppercase">
-                  {siteConfig.brand}
-                </span>
+                <div className="flex items-center gap-1.5">
+                  <span className="font-display text-base font-bold tracking-tight text-white uppercase">
+                    {siteConfig.brand}
+                  </span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-cobalt-accent" />
+                </div>
               </div>
               
-              <p className="text-xs text-neutral-400 max-w-sm leading-relaxed">
+              <p className="text-xs text-muted-foreground max-w-sm leading-relaxed">
                 A technology and project development initiative helping students plan, build, and thoroughly understand academic and practical software projects across web, AI/ML, mobile, IoT, and cybersecurity.
               </p>
 
-              {/* Editable Placeholders Notice */}
-              <div className="p-3 rounded border border-neutral-800/80 bg-neutral-900/40 text-[11px] text-neutral-400 font-mono">
-                <div className="text-neutral-300 font-semibold mb-1">Direct Contact Placeholders:</div>
-                <div>Email: {siteConfig.contact.emailPlaceholder}</div>
-                <div>Phone: {siteConfig.contact.phonePlaceholder}</div>
-                <div>Location: {siteConfig.contact.locationPlaceholder}</div>
+              {/* Editable Touchpoint Placeholders */}
+              <div className="p-4 rounded-lg border border-border-dark bg-surface-elevated/40 text-xs font-mono space-y-1 text-muted-foreground">
+                <div className="text-white font-semibold mb-1 text-[11px] uppercase tracking-wider">
+                  Contact Coordinates
+                </div>
+                <div>Email: <span className="text-slate-grey">{siteConfig.contact.emailPlaceholder}</span></div>
+                <div>Phone: <span className="text-slate-grey">{siteConfig.contact.phonePlaceholder}</span></div>
+                <div>Location: <span className="text-slate-grey">{siteConfig.contact.locationPlaceholder}</span></div>
               </div>
             </div>
 
-            {/* Col 2: Services Links */}
-            <div className="space-y-3">
-              <h4 className="text-xs font-mono uppercase tracking-wider text-neutral-400 font-semibold">
+            {/* Col 3: Services */}
+            <div className="space-y-3.5">
+              <h4 className="text-xs font-mono uppercase tracking-wider text-white font-semibold">
                 Services
               </h4>
-              <ul className="space-y-2 text-xs text-neutral-400">
-                {servicesData.slice(0, 5).map((s) => (
+              <ul className="space-y-2 text-xs text-muted-foreground">
+                {servicesData.map((s) => (
                   <li key={s.id}>
                     <a
                       href="#services"
@@ -159,12 +171,12 @@ export function ContactFooter({ onStartProjectClick }) {
               </ul>
             </div>
 
-            {/* Col 3: Selected Projects */}
-            <div className="space-y-3">
-              <h4 className="text-xs font-mono uppercase tracking-wider text-neutral-400 font-semibold">
-                Projects
+            {/* Col 4: Project Portfolio */}
+            <div className="space-y-3.5">
+              <h4 className="text-xs font-mono uppercase tracking-wider text-white font-semibold">
+                Selected Works
               </h4>
-              <ul className="space-y-2 text-xs text-neutral-400">
+              <ul className="space-y-2 text-xs text-muted-foreground">
                 {projectsData.slice(0, 5).map((p) => (
                   <li key={p.id}>
                     <a
@@ -179,12 +191,12 @@ export function ContactFooter({ onStartProjectClick }) {
               </ul>
             </div>
 
-            {/* Col 4: Quick Navigation & Touchpoint */}
-            <div className="space-y-3">
-              <h4 className="text-xs font-mono uppercase tracking-wider text-neutral-400 font-semibold">
-                Navigation
+            {/* Col 5: Navigation & Methodology */}
+            <div className="space-y-3.5">
+              <h4 className="text-xs font-mono uppercase tracking-wider text-white font-semibold">
+                Company
               </h4>
-              <ul className="space-y-2 text-xs text-neutral-400">
+              <ul className="space-y-2 text-xs text-muted-foreground">
                 {siteConfig.navLinks.map((link) => (
                   <li key={link.name}>
                     <a
@@ -201,14 +213,14 @@ export function ContactFooter({ onStartProjectClick }) {
 
           </div>
 
-          {/* Bottom Copyright & Status Bar */}
-          <div className="mt-16 pt-8 border-t border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500 font-mono">
+          {/* Bottom Copyright & Guarantee */}
+          <div className="mt-16 pt-8 border-t border-border-dark flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground font-mono">
             <div>
-              &copy; {new Date().getFullYear()} Coderitz. Built with precision. All rights reserved.
+              &copy; {new Date().getFullYear()} Coderitz. All rights reserved.
             </div>
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              <span>Available for CSE &amp; IT project assistance</span>
+              <span>Direct co-founder project guidance &amp; implementation</span>
             </div>
           </div>
 

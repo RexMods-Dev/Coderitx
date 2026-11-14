@@ -1,69 +1,79 @@
 import React from 'react';
 import { workflowSteps } from '../data/workflow';
-import { Check, MessageSquare, Compass, Hammer, Presentation } from 'lucide-react';
+import { Check, MessageSquare, Compass, Hammer, Presentation, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Button } from './ui/Button';
 
 const stepIcons = [MessageSquare, Compass, Hammer, Presentation];
 
 export function Workflow({ onStartProjectClick }) {
   return (
-    <section id="workflow" className="py-20 md:py-28 border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-950">
+    <section id="workflow" className="py-24 md:py-32 border-b border-border-soft dark:border-border-dark bg-ivory-warm dark:bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="max-w-2xl mb-16">
-          <div className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-2">
-            <span>03 / Development Method</span>
+          <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-cobalt-muted dark:text-cobalt-accent font-semibold mb-3">
+            <span>03 / Development Methodology</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-neutral-950 dark:text-white mb-4">
+          
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-tight text-ink-midnight dark:text-foreground mb-4">
             How We Work
           </h2>
-          <p className="text-base text-neutral-600 dark:text-neutral-300 leading-relaxed">
-            We follow a straightforward four-step development approach designed to keep you informed, confident, and prepared for your college evaluation.
+          
+          <p className="text-base text-slate-grey dark:text-muted-foreground leading-relaxed">
+            A disciplined four-phase engineering framework designed to turn conceptual ideas into evaluated, working software with complete student understanding.
           </p>
         </div>
 
-        {/* 4-Step Process Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Phased Pipeline Layout (Connected Stages) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+          
           {workflowSteps.map((step, idx) => {
             const Icon = stepIcons[idx] || MessageSquare;
+            const isDeliverStep = idx === 3;
 
             return (
               <div
                 key={step.step}
-                className="relative flex flex-col justify-between p-6 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 shadow-sm hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors"
+                className={`relative flex flex-col justify-between p-7 rounded-xl border transition-all duration-200 ${
+                  isDeliverStep
+                    ? 'border-cobalt-muted/40 dark:border-cobalt-accent/40 bg-surface shadow-surface ring-1 ring-cobalt-muted/20 dark:ring-cobalt-accent/20'
+                    : 'border-border-soft dark:border-border-dark bg-surface shadow-subtle hover:shadow-surface'
+                }`}
               >
                 <div>
-                  {/* Step Number & Icon */}
+                  {/* Step Numeric Header + Icon */}
                   <div className="flex items-center justify-between mb-6">
-                    <span className="font-mono text-2xl font-bold text-neutral-300 dark:text-neutral-700">
-                      {step.step}
+                    <span className="font-mono text-xs font-bold text-cobalt-muted dark:text-cobalt-accent px-2 py-0.5 rounded bg-cobalt-muted/10 dark:bg-cobalt-accent/10 border border-cobalt-muted/20 dark:border-cobalt-accent/20">
+                      PHASE {step.step}
                     </span>
-                    <div className="w-8 h-8 rounded border border-neutral-200 dark:border-neutral-800 flex items-center justify-center text-neutral-800 dark:text-neutral-200 bg-neutral-50 dark:bg-neutral-800/80">
-                      <Icon className="w-4 h-4" />
+                    
+                    <div className="w-8 h-8 rounded-md bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground">
+                      <Icon className="w-4 h-4 stroke-[1.8]" />
                     </div>
                   </div>
 
                   {/* Title & Summary */}
-                  <h3 className="text-lg font-bold tracking-tight text-neutral-950 dark:text-white mb-2">
+                  <h3 className="font-display text-xl font-bold tracking-tight text-ink-midnight dark:text-foreground mb-2">
                     {step.name}
                   </h3>
-                  <p className="text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-3">
+
+                  <p className="text-xs font-semibold text-slate-grey dark:text-muted-foreground mb-3 leading-normal">
                     {step.summary}
                   </p>
 
-                  {/* Deep Details */}
-                  <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed mb-6">
+                  <p className="text-xs text-slate-grey/90 dark:text-muted-foreground/90 leading-relaxed mb-6">
                     {step.details}
                   </p>
                 </div>
 
-                {/* Outcome badge */}
-                <div className="pt-4 border-t border-neutral-100 dark:border-neutral-800/80">
-                  <div className="text-[10px] font-mono uppercase text-neutral-400 mb-1">
-                    Key Outcome:
+                {/* Bottom Deliverable Tag */}
+                <div className="pt-4 border-t border-border-soft dark:border-border-dark">
+                  <div className="text-[10px] font-mono uppercase tracking-wider text-slate-grey dark:text-muted-foreground mb-1.5 font-semibold">
+                    Target Milestone:
                   </div>
-                  <div className="text-xs font-medium text-neutral-900 dark:text-neutral-200 flex items-start gap-1.5">
-                    <Check className="w-3.5 h-3.5 text-neutral-500 mt-0.5 flex-shrink-0" />
+                  <div className="text-xs font-medium text-ink-midnight dark:text-foreground flex items-start gap-1.5">
+                    <Check className="w-3.5 h-3.5 text-cobalt-muted dark:text-cobalt-accent mt-0.5 flex-shrink-0" />
                     <span>{step.deliverable}</span>
                   </div>
                 </div>
@@ -73,23 +83,34 @@ export function Workflow({ onStartProjectClick }) {
           })}
         </div>
 
-        {/* Technical Understanding Emphasis Banner */}
-        <div className="mt-12 p-6 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div className="space-y-1">
-            <h4 className="text-sm font-bold text-neutral-950 dark:text-white">
-              Why Step 4 matters most to us
+        {/* Detailed Callout: The Deliver & Explain Distinction */}
+        <div className="mt-12 p-7 sm:p-8 rounded-xl border border-border-soft dark:border-border-dark bg-surface shadow-subtle flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+          <div className="space-y-2 max-w-2xl">
+            <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-cobalt-muted dark:text-cobalt-accent">
+              <ShieldCheck className="w-4 h-4" />
+              <span>The Coderitz Understanding Guarantee</span>
+            </div>
+            
+            <h4 className="font-display text-lg sm:text-xl font-bold tracking-tight text-ink-midnight dark:text-foreground">
+              Software delivery is incomplete without technical understanding.
             </h4>
-            <p className="text-xs text-neutral-600 dark:text-neutral-400 max-w-2xl leading-relaxed">
-              Anyone can produce code, but passing college reviews requires understanding it. We conduct thorough walkthroughs covering module design, database queries, and typical viva questions so you can present your project with complete confidence.
+            
+            <p className="text-xs sm:text-sm text-slate-grey dark:text-muted-foreground leading-relaxed">
+              Academic success requires you to defend the project before college evaluators. We dedicate time to walkthroughs covering database schemas, algorithmic logic, API endpoints, and potential viva questions so you speak with mastery.
             </p>
           </div>
-          <button
-            type="button"
-            onClick={onStartProjectClick}
-            className="px-4 py-2 rounded-md bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 text-xs font-medium whitespace-nowrap hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors"
-          >
-            Schedule Initial Discussion
-          </button>
+
+          <div className="flex-shrink-0 w-full sm:w-auto">
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={onStartProjectClick}
+              className="w-full sm:w-auto gap-2"
+            >
+              <span>Schedule Project Discussion</span>
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
 
       </div>

@@ -5,7 +5,8 @@ export const teamData = [
     role: "Co-Founder",
     qualifications: [
       "BCA Graduate",
-      "Python Full Stack Development Certified"
+      "Python Full Stack Development Certified",
+      "Currently pursuing MCA"
     ],
     technicalFocus: [
       "Python",

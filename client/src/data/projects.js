@@ -156,3 +156,4 @@ export const projectCategories = [
   { key: "ai", label: "AI & Machine Learning" },
   { key: "web", label: "Web Applications" }
 ];
+

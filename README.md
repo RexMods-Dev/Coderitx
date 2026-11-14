@@ -144,3 +144,4 @@ CREATE TABLE IF NOT EXISTS enquiries (
 - **Dark Mode Support:** Clean toggle in Navbar; state persisted across sessions via `localStorage`.
 - **Typography:** `Inter` for clean body and headings; `JetBrains Mono` for badges, metadata, and technical specifications.
 - **Credible Software Studio:** No exaggerated claims, no fake stock photos, no inflated stats. Honest, transparent co-founder profiles and production-verified project architectures.
+

@@ -1,31 +1,32 @@
 import React from 'react';
 import { teamData } from '../data/team';
 import { Badge } from './ui/Badge';
-import { ShieldCheck, UserCheck, Terminal, Award } from 'lucide-react';
+import { ShieldCheck, UserCheck, Terminal, Award, CheckCircle2 } from 'lucide-react';
 
 export function AboutTeam() {
   return (
-    <section id="about" className="py-20 md:py-28 border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950">
+    <section id="about" className="py-24 md:py-32 border-b border-border-soft dark:border-border-dark bg-surface dark:bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="max-w-3xl mb-16">
-          <div className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-2">
+          <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-cobalt-muted dark:text-cobalt-accent font-semibold mb-3">
             <span>04 / Leadership &amp; Transparency</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-neutral-950 dark:text-white mb-4">
+          
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-tight text-ink-midnight dark:text-foreground mb-5">
             A small team. Different technical strengths. One shared goal.
           </h2>
-          <p className="text-base text-neutral-600 dark:text-neutral-300 leading-relaxed">
+          
+          <p className="text-base text-slate-grey dark:text-muted-foreground leading-relaxed">
             Coderitz is built by a team of technology graduates with backgrounds spanning software development, data science, cybersecurity and practical application engineering. We believe good projects come from understanding the problem, choosing the right technologies and building solutions that work.
           </p>
         </div>
 
-        {/* Co-Founders Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Co-Founders Dossiers Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {teamData.map((member) => {
-            // Initials avatar
-            const initials = member.name
+            const monogram = member.name
               .split(' ')
               .map((n) => n[0])
               .join('')
@@ -34,53 +35,55 @@ export function AboutTeam() {
             return (
               <div
                 key={member.id}
-                className="flex flex-col justify-between p-6 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/50 hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors shadow-sm"
+                className="group flex flex-col justify-between p-7 rounded-xl border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200"
               >
                 <div>
-                  {/* Top Bar with Initials & Role */}
+                  {/* Top Bar: Monogram and Role */}
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-md border border-neutral-200 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center font-mono font-bold text-sm text-neutral-900 dark:text-white">
-                      {initials}
+                    <div className="w-11 h-11 rounded-lg bg-surface dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center font-mono font-bold text-xs text-ink-midnight dark:text-foreground group-hover:border-cobalt-muted/50 dark:group-hover:border-cobalt-accent/50 transition-colors shadow-subtle">
+                      {monogram}
                     </div>
-                    <Badge variant="outline" className="font-mono text-[11px]">
+                    
+                    <Badge variant="subtle" className="font-mono text-[11px] text-slate-grey dark:text-muted-foreground">
                       {member.role}
                     </Badge>
                   </div>
 
                   {/* Name */}
-                  <h3 className="text-xl font-bold tracking-tight text-neutral-950 dark:text-white mb-3">
+                  <h3 className="font-display text-xl font-bold tracking-tight text-ink-midnight dark:text-foreground mb-3">
                     {member.name}
                   </h3>
 
-                  {/* Qualifications list (Exact factual credentials from prompt) */}
-                  <div className="space-y-1.5 mb-5 pb-4 border-b border-neutral-100 dark:border-neutral-800/80">
+                  {/* Factual Qualifications */}
+                  <div className="space-y-1.5 mb-5 pb-4 border-b border-border-soft/60 dark:border-border-dark/60">
                     {member.qualifications.map((qual, idx) => (
                       <div
                         key={idx}
-                        className="text-xs text-neutral-600 dark:text-neutral-300 flex items-start gap-1.5"
+                        className="text-xs text-slate-grey dark:text-muted-foreground flex items-start gap-1.5"
                       >
-                        <Award className="w-3.5 h-3.5 text-neutral-500 mt-0.5 flex-shrink-0" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-cobalt-muted dark:text-cobalt-accent mt-0.5 flex-shrink-0" />
                         <span>{qual}</span>
                       </div>
                     ))}
                   </div>
 
-                  {/* Short Factual Bio */}
-                  <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed mb-6">
+                  {/* Factual Bio */}
+                  <p className="text-xs text-slate-grey dark:text-muted-foreground leading-relaxed mb-6">
                     {member.bio}
                   </p>
                 </div>
 
-                {/* Technical Focus Chips */}
-                <div className="pt-4 border-t border-neutral-100 dark:border-neutral-800/80">
-                  <div className="text-[10px] font-mono uppercase text-neutral-400 mb-2">
-                    Primary Domain Focus
+                {/* Technical Focus Tags */}
+                <div className="pt-4 border-t border-border-soft dark:border-border-dark">
+                  <div className="text-[10px] font-mono uppercase tracking-wider text-slate-grey/80 dark:text-muted-foreground/80 mb-2 font-semibold">
+                    Core Technical Competencies
                   </div>
+                  
                   <div className="flex flex-wrap gap-1.5">
                     {member.technicalFocus.map((tech) => (
                       <span
                         key={tech}
-                        className="px-2 py-0.5 rounded text-[10px] font-mono bg-neutral-100 dark:bg-neutral-850 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300"
+                        className="px-2.5 py-0.5 rounded text-[10px] font-mono bg-surface dark:bg-surface-elevated text-ink-midnight dark:text-foreground border border-border-soft/60 dark:border-border-dark/60"
                       >
                         {tech}
                       </span>
@@ -92,21 +95,35 @@ export function AboutTeam() {
             );
           })}
 
-          {/* Transparency Statement Card */}
-          <div className="flex flex-col justify-between p-6 rounded-lg border border-dashed border-neutral-300 dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-900/20">
+          {/* Direct Engineering Access Commitment Card */}
+          <div className="flex flex-col justify-between p-7 rounded-xl border border-dashed border-border-soft dark:border-border-dark bg-ivory-warm/70 dark:bg-surface-elevated/40">
             <div>
-              <div className="w-10 h-10 rounded border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 flex items-center justify-center text-neutral-800 dark:text-neutral-200 mb-5">
-                <ShieldCheck className="w-5 h-5 stroke-[1.8]" />
+              <div className="w-10 h-10 rounded-lg bg-surface dark:bg-surface border border-border-soft dark:border-border-dark flex items-center justify-center text-cobalt-muted dark:text-cobalt-accent mb-5 shadow-subtle">
+                <ShieldCheck className="w-5 h-5 stroke-[1.9]" />
               </div>
-              <h3 className="text-lg font-bold tracking-tight text-neutral-950 dark:text-white mb-2">
-                Our Commitment to Transparency
+              
+              <h3 className="font-display text-lg font-bold tracking-tight text-ink-midnight dark:text-foreground mb-3">
+                Direct Developer Access
               </h3>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                We believe students deserve clarity. You work directly with the developers writing and reviewing your codebase—not middlemen or anonymous contractors. Our credentials and technical proficiencies are stated exactly as they are.
+              
+              <p className="text-xs text-slate-grey dark:text-muted-foreground leading-relaxed mb-4">
+                You work directly with the developers writing, refining, and testing your codebase. We never outsource project delivery to anonymous third parties or automated scrapers.
               </p>
+
+              <div className="space-y-2 text-xs text-ink-midnight dark:text-foreground font-medium">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cobalt-muted dark:bg-cobalt-accent" />
+                  <span>Transparent credentials &amp; experience</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cobalt-muted dark:bg-cobalt-accent" />
+                  <span>Scheduled 1-on-1 code walkthroughs</span>
+                </div>
+              </div>
             </div>
-            <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800 text-[11px] font-mono text-neutral-500">
-              Direct access to real developers.
+
+            <div className="pt-4 border-t border-border-soft dark:border-border-dark text-[11px] font-mono text-slate-grey dark:text-muted-foreground">
+              Technical integrity first.
             </div>
           </div>
 

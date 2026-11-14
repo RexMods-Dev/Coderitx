@@ -23,30 +23,30 @@ export function ProjectModal({ project, isOpen, onClose, onDiscussProject }) {
   if (!isOpen || !project) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-8">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-neutral-950/70 backdrop-blur-sm transition-opacity animate-fade-in"
+        className="fixed inset-0 bg-ink-midnight/60 dark:bg-black/70 backdrop-blur-sm transition-opacity animate-fade-in"
         onClick={onClose}
       />
 
-      {/* Modal Card */}
-      <div className="relative w-full max-w-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl shadow-2xl overflow-hidden z-10 max-h-[90vh] flex flex-col animate-slide-up">
+      {/* Modal Surface */}
+      <div className="relative w-full max-w-2xl bg-surface border border-border-soft dark:border-border-dark rounded-xl shadow-elevated overflow-hidden z-10 max-h-[90vh] flex flex-col animate-slide-up">
         
         {/* Modal Header */}
-        <div className="p-6 border-b border-neutral-200 dark:border-neutral-800 flex items-start justify-between bg-neutral-50/50 dark:bg-neutral-950/50">
+        <div className="p-6 sm:p-7 border-b border-border-soft dark:border-border-dark bg-ivory-warm/60 dark:bg-ink-midnight/50 flex items-start justify-between">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <Badge variant="outline" className="font-mono text-xs">
+              <Badge variant="cobalt" className="font-mono text-xs">
                 {project.category}
               </Badge>
-              <span className="text-neutral-400 text-xs font-mono">•</span>
-              <span className="text-xs font-mono text-neutral-500">TECHNICAL OVERVIEW</span>
+              <span className="text-slate-grey/40 dark:text-muted-foreground/40 text-xs font-mono">•</span>
+              <span className="text-xs font-mono text-slate-grey dark:text-muted-foreground">TECHNICAL DOSSIER</span>
             </div>
-            <h3 className="text-2xl font-bold tracking-tight text-neutral-950 dark:text-white">
+            <h3 className="font-display text-2xl font-bold tracking-tight text-ink-midnight dark:text-foreground">
               {project.title}
             </h3>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+            <p className="text-sm text-slate-grey dark:text-muted-foreground mt-1">
               {project.tagline}
             </p>
           </div>
@@ -55,21 +55,21 @@ export function ProjectModal({ project, isOpen, onClose, onDiscussProject }) {
             type="button"
             onClick={onClose}
             aria-label="Close modal"
-            className="p-1.5 rounded-md text-neutral-500 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+            className="p-1.5 rounded-md text-slate-grey hover:text-ink-midnight dark:text-muted-foreground dark:hover:text-foreground hover:bg-surface-elevated transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 overflow-y-auto space-y-6 text-sm text-neutral-700 dark:text-neutral-300">
+        <div className="p-6 sm:p-7 overflow-y-auto space-y-6 text-sm text-ink-midnight dark:text-foreground">
           
           {/* Detailed description */}
           <div>
-            <h4 className="text-xs font-mono uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-2">
-              System Description
+            <h4 className="text-xs font-mono uppercase tracking-wider text-slate-grey dark:text-muted-foreground mb-2 font-semibold">
+              System Architecture &amp; Logic
             </h4>
-            <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+            <p className="text-slate-grey dark:text-muted-foreground leading-relaxed">
               {project.longDescription || project.description}
             </p>
           </div>
@@ -77,19 +77,19 @@ export function ProjectModal({ project, isOpen, onClose, onDiscussProject }) {
           {/* Architecture Breakdown */}
           {project.architecture && (
             <div>
-              <h4 className="text-xs font-mono uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-3">
+              <h4 className="text-xs font-mono uppercase tracking-wider text-slate-grey dark:text-muted-foreground mb-3 font-semibold">
                 Architectural Layers
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {Object.entries(project.architecture).map(([layer, desc]) => (
                   <div
                     key={layer}
-                    className="p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-950/60"
+                    className="p-3.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface-elevated/40"
                   >
-                    <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase mb-1">
+                    <div className="text-[11px] font-mono text-cobalt-muted dark:text-cobalt-accent uppercase mb-1 font-semibold">
                       {layer}
                     </div>
-                    <div className="text-xs font-medium text-neutral-900 dark:text-neutral-200">
+                    <div className="text-xs font-medium text-ink-midnight dark:text-foreground">
                       {desc}
                     </div>
                   </div>
@@ -98,22 +98,22 @@ export function ProjectModal({ project, isOpen, onClose, onDiscussProject }) {
             </div>
           )}
 
-          {/* Metrics / Key highlights */}
+          {/* Implementation Metrics */}
           {project.metrics && (
             <div>
-              <h4 className="text-xs font-mono uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-3">
-                Implementation Metrics
+              <h4 className="text-xs font-mono uppercase tracking-wider text-slate-grey dark:text-muted-foreground mb-3 font-semibold">
+                Technical Highlights
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {project.metrics.map((metric, idx) => (
                   <div
                     key={idx}
-                    className="p-3 rounded border border-neutral-100 dark:border-neutral-800 bg-neutral-50/60 dark:bg-neutral-800/40"
+                    className="p-3 rounded border border-border-soft/80 dark:border-border-dark/80 bg-surface"
                   >
-                    <div className="text-[10px] font-mono uppercase text-neutral-400">
+                    <div className="text-[10px] font-mono uppercase text-slate-grey dark:text-muted-foreground">
                       {metric.label}
                     </div>
-                    <div className="text-xs font-semibold text-neutral-900 dark:text-white mt-0.5">
+                    <div className="text-xs font-semibold text-ink-midnight dark:text-foreground mt-0.5">
                       {metric.value}
                     </div>
                   </div>
@@ -124,14 +124,14 @@ export function ProjectModal({ project, isOpen, onClose, onDiscussProject }) {
 
           {/* Technologies Stack */}
           <div>
-            <h4 className="text-xs font-mono uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-2">
-              Technologies &amp; Libraries
+            <h4 className="text-xs font-mono uppercase tracking-wider text-slate-grey dark:text-muted-foreground mb-2.5 font-semibold">
+              Verified Tech Stack
             </h4>
             <div className="flex flex-wrap gap-2">
               {project.technologies.map((tech) => (
                 <span
                   key={tech}
-                  className="px-3 py-1 rounded font-mono text-xs font-medium border border-neutral-200 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200"
+                  className="px-3 py-1 rounded font-mono text-xs font-medium border border-border-soft dark:border-border-dark bg-ivory-warm dark:bg-surface-elevated text-ink-midnight dark:text-foreground"
                 >
                   {tech}
                 </span>
@@ -142,9 +142,9 @@ export function ProjectModal({ project, isOpen, onClose, onDiscussProject }) {
         </div>
 
         {/* Modal Footer */}
-        <div className="p-4 sm:p-6 border-t border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-950/50 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <span className="text-xs text-neutral-500 font-mono">
-            Want a project with a similar architecture?
+        <div className="p-5 sm:p-6 border-t border-border-soft dark:border-border-dark bg-ivory-warm/50 dark:bg-ink-midnight/50 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <span className="text-xs text-slate-grey dark:text-muted-foreground font-mono">
+            Direct codebase walkthrough available for students.
           </span>
           <div className="flex items-center gap-2 w-full sm:w-auto">
             <Button
@@ -156,6 +156,7 @@ export function ProjectModal({ project, isOpen, onClose, onDiscussProject }) {
               Close
             </Button>
             <Button
+              variant="primary"
               size="sm"
               onClick={() => {
                 onClose();

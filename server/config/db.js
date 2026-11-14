@@ -209,3 +209,4 @@ export function getDbStatus() {
     connectionError: isPgConnected ? null : dbErrorDetails
   };
 }
+
