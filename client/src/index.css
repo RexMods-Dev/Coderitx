@@ -66,7 +66,7 @@
   background: rgba(116, 119, 130, 0.45);
 }
 
-/* Restrained architectural grid & crosshair guides */
+/* Architectural grid */
 .bg-subtle-grid {
   background-size: 44px 44px;
   background-image: 
@@ -94,28 +94,78 @@
   backface-visibility: hidden;
 }
 
+/* Advanced Glassmorphism Utilities */
+.glass-surface {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 32px 0 rgba(23, 25, 31, 0.06);
+}
+
+.dark .glass-surface {
+  background: rgba(27, 30, 38, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.dark .glass-pill {
+  background: rgba(34, 38, 49, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 /* Metallic laptop chassis reflections & bevels */
 .laptop-lid-frame {
   box-shadow: 
-    0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset,
     0 2px 4px rgba(0, 0, 0, 0.2),
-    0 20px 50px -10px rgba(0, 0, 0, 0.35);
+    0 25px 60px -10px rgba(0, 0, 0, 0.35);
 }
 
 .dark .laptop-lid-frame {
   box-shadow: 
-    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.12) inset,
     0 2px 4px rgba(0, 0, 0, 0.6),
-    0 30px 70px -15px rgba(0, 0, 0, 0.7);
+    0 35px 80px -15px rgba(0, 0, 0, 0.7);
 }
 
 .screen-glass-glare {
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.12) 0%,
-    rgba(255, 255, 255, 0.03) 40%,
-    transparent 60%
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.05) 35%,
+    transparent 65%
   );
+}
+
+/* Radiant animated aura */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(1deg); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.75; transform: scale(1.08); }
+}
+
+.animate-float-slow {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 8s ease-in-out infinite;
 }
 
 /* Clean focus outline helper */

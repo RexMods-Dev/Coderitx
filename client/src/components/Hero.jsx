@@ -47,6 +47,11 @@ export function Hero({ onStartProjectClick, onExploreWorkClick }) {
         { opacity: 0, scale: 0.9, y: 40 }, 
         { opacity: 1, scale: 1, y: 0, duration: 1, ease: "power2.out" }, 
         "-=0.5"
+      )
+      .fromTo(".satellite-card",
+        { opacity: 0, scale: 0.8, y: 20 },
+        { opacity: 1, scale: 1, y: 0, stagger: 0.12, duration: 0.8, ease: "back.out(1.7)" },
+        "-=0.4"
       );
 
       // 2. Responsive Scroll-Driven Transformation
@@ -60,7 +65,7 @@ export function Hero({ onStartProjectClick, onExploreWorkClick }) {
             scrollTrigger: {
               trigger: heroSectionRef.current,
               start: "top top",
-              end: "+=1600",
+              end: "+=1200",
               pin: true,
               scrub: 0.8,
               anticipatePin: 1,
@@ -68,64 +73,72 @@ export function Hero({ onStartProjectClick, onExploreWorkClick }) {
             }
           });
 
-          // Stage 2: Interaction - Hero text floats up & fades; Laptop rotates to flat & zooms
+          // Stage 2: Interaction - Hero text floats up & fades; Satellites disperse
           scrollTl.to(heroContentRef.current, {
             opacity: 0,
-            y: -60,
+            y: -50,
             duration: 0.35,
             ease: "power2.inOut"
+          }, 0)
+          .to(".satellite-card", {
+            opacity: 0,
+            scale: 0.7,
+            y: -30,
+            stagger: 0.05,
+            duration: 0.3,
+            ease: "power2.in"
           }, 0)
           .to("#laptop-lid", {
             rotateX: 0,
             rotateY: 0,
-            scale: 1.6,
-            y: -20,
-            duration: 0.6,
+            scale: 1.5,
+            y: -15,
+            duration: 0.5,
             ease: "power1.inOut"
           }, 0.05)
           
           // Stage 3: Expansion - Screen scales larger towards viewer
           .to("#laptop-lid", {
-            scale: 2.45,
-            y: 40,
+            scale: 2.35,
+            y: 35,
             duration: 0.5,
             ease: "power2.inOut"
-          }, 0.4)
+          }, 0.35)
 
           // Stage 4: Hardware Disappearance - Base, bezel, and glare fade away
           .to("#laptop-base", {
             opacity: 0,
-            y: 50,
+            y: 45,
             duration: 0.3,
             ease: "power2.inOut"
-          }, 0.45)
+          }, 0.4)
           .to("#laptop-bezel", {
             padding: 0,
             borderRadius: "0px",
             background: "transparent",
-            duration: 0.4,
+            duration: 0.35,
             ease: "power2.inOut"
-          }, 0.5)
+          }, 0.45)
           .to("#laptop-lid", {
             borderRadius: "0px",
             borderWidth: "0px",
             boxShadow: "none",
-            duration: 0.4,
+            duration: 0.35,
             ease: "power2.inOut"
-          }, 0.55)
+          }, 0.5)
           .to(".screen-glass-glare", {
             opacity: 0,
             duration: 0.3,
             ease: "power2.inOut"
-          }, 0.5)
+          }, 0.45)
           
           // Stage 5: Website Takeover - Screen expands to occupy full frame
           .to("#laptop-screen", {
             borderRadius: "0px",
             borderWidth: "0px",
-            duration: 0.4,
+            duration: 0.35,
             ease: "power2.inOut"
-          }, 0.6);
+          }, 0.55);
         },
 
         // Mobile Breakpoint (Fluid touch presentation without restrictive scroll pinning)
@@ -154,23 +167,23 @@ export function Hero({ onStartProjectClick, onExploreWorkClick }) {
       {/* Background Architectural Grid Pattern */}
       <div className="absolute inset-0 bg-subtle-grid opacity-80 pointer-events-none" />
 
-      {/* Ambient Lighting Depth */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[760px] h-[380px] bg-cobalt-muted/[0.05] dark:bg-cobalt-accent/[0.04] rounded-full blur-3xl pointer-events-none" />
+      {/* Radiant Glowing Glassmorphism Ambient Mesh */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[780px] h-[400px] bg-gradient-to-r from-cobalt-muted/15 via-purple-500/10 to-indigo-500/15 dark:from-cobalt-accent/15 dark:via-purple-500/10 dark:to-indigo-500/10 rounded-full blur-[110px] pointer-events-none animate-pulse-glow" />
 
       {/* Main Hero Header Content */}
       <div
         ref={heroContentRef}
         className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-20 transition-all duration-300"
       >
-        {/* Studio Status Pill */}
-        <div className="hero-status-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-border-soft dark:border-border-dark bg-surface shadow-subtle text-xs font-mono text-slate-grey dark:text-muted-foreground mb-6">
+        {/* Studio Status Pill with Glassmorphism */}
+        <div className="hero-status-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-border-soft/80 dark:border-border-dark/80 glass-pill shadow-subtle text-xs font-mono text-slate-grey dark:text-muted-foreground mb-6">
           <span className="w-2 h-2 rounded-full bg-cobalt-muted dark:bg-cobalt-accent animate-pulse" />
           <span className="font-semibold text-ink-midnight dark:text-foreground">Coderitz Engineering Studio</span>
           <span className="text-border-soft dark:text-border-dark">•</span>
           <span>Academic &amp; Practical Software</span>
         </div>
 
-        {/* Primary Headline with Editorial Authority */}
+        {/* Primary Headline with Authority */}
         <h1 className="hero-headline font-display text-4xl sm:text-6xl lg:text-[4.5rem] font-extrabold tracking-tight text-ink-midnight dark:text-foreground leading-[1.06] mb-6">
           Ideas deserve to become<br />
           <span className="text-cobalt-muted dark:text-cobalt-accent">something real.</span>
@@ -219,7 +232,7 @@ export function Hero({ onStartProjectClick, onExploreWorkClick }) {
         </div>
       </div>
 
-      {/* Cinematic Laptop Mockup Stage */}
+      {/* Cinematic Laptop Mockup Stage with 3D Holographic Satellites */}
       <div
         ref={laptopWrapperRef}
         className="w-full max-w-5xl mx-auto px-4 sm:px-6 relative z-10 mt-8 sm:mt-12 perspective-container"
@@ -230,9 +243,9 @@ export function Hero({ onStartProjectClick, onExploreWorkClick }) {
         />
 
         {/* Scroll Instruction Hint for Desktop */}
-        <div className="hidden md:flex items-center justify-center gap-2 mt-6 text-xs font-mono text-slate-grey/70 dark:text-muted-foreground/60 select-none">
+        <div className="hidden md:flex items-center justify-center gap-2 mt-8 text-xs font-mono text-slate-grey/70 dark:text-muted-foreground/60 select-none">
           <span className="w-1.5 h-1.5 rounded-full bg-cobalt-muted dark:bg-cobalt-accent animate-bounce" />
-          <span>Scroll down to expand studio preview</span>
+          <span>Interactive 3D Stage • Scroll down to expand studio preview</span>
           <ChevronDown className="w-3.5 h-3.5 text-cobalt-muted dark:text-cobalt-accent animate-bounce" />
         </div>
       </div>
