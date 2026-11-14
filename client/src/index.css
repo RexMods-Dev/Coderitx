@@ -27,6 +27,10 @@
     border-color: var(--border-color);
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: var(--bg-main);
     color: var(--text-primary);
@@ -34,11 +38,12 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-    letter-spacing: -0.02em;
+    font-family: 'Plus Jakarta Sans', 'Manrope', 'Inter', sans-serif;
+    letter-spacing: -0.025em;
   }
 }
 
@@ -63,16 +68,54 @@
 
 /* Restrained architectural grid & crosshair guides */
 .bg-subtle-grid {
-  background-size: 40px 40px;
+  background-size: 44px 44px;
   background-image: 
-    linear-gradient(to right, rgba(116, 119, 130, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(116, 119, 130, 0.07) 1px, transparent 1px);
+    linear-gradient(to right, rgba(116, 119, 130, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(116, 119, 130, 0.06) 1px, transparent 1px);
 }
 
 .dark .bg-subtle-grid {
   background-image: 
-    linear-gradient(to right, rgba(166, 168, 177, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(166, 168, 177, 0.05) 1px, transparent 1px);
+    linear-gradient(to right, rgba(166, 168, 177, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(166, 168, 177, 0.04) 1px, transparent 1px);
+}
+
+/* 3D Perspective and Device Container Utilities */
+.perspective-container {
+  perspective: 1400px;
+  perspective-origin: center center;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* Metallic laptop chassis reflections & bevels */
+.laptop-lid-frame {
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 20px 50px -10px rgba(0, 0, 0, 0.35);
+}
+
+.dark .laptop-lid-frame {
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 2px 4px rgba(0, 0, 0, 0.6),
+    0 30px 70px -15px rgba(0, 0, 0, 0.7);
+}
+
+.screen-glass-glare {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.03) 40%,
+    transparent 60%
+  );
 }
 
 /* Clean focus outline helper */

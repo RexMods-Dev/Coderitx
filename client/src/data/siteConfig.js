@@ -2,8 +2,8 @@ export const siteConfig = {
   brand: "CODERITZ",
   brandSubtitle: "Technology & Project Development",
   hero: {
-    headline: "Have an idea? Let's build it.",
-    supportingText: "From academic projects to practical software solutions, Coderitz helps turn technical ideas into working applications. Explore possibilities, discuss your requirements and build something meaningful with our team.",
+    headline: "Ideas deserve to become something real.",
+    supportingText: "From academic concepts to practical software applications, Coderitz brings ideas to life through thoughtful engineering, structured development and technical collaboration.",
     domains: [
       "Web Development",
       "AI & ML",
@@ -11,7 +11,7 @@ export const siteConfig = {
       "IoT",
       "Software Engineering"
     ],
-    primaryCta: "Start Your Project",
+    primaryCta: "Start a Project",
     secondaryCta: "Explore Our Work"
   },
   about: {
@@ -20,7 +20,7 @@ export const siteConfig = {
   },
   portfolio: {
     headline: "Built with code. Driven by ideas.",
-    subheading: "A selection of technical projects spanning distributed systems, embedded hardware, mobile tracking, and artificial intelligence."
+    subheading: "A curated portfolio of software systems engineered by our team, spanning real-time distributed platforms, embedded IoT hardware, mobile telemetry, and computer vision."
   },
   enquiry: {
     headline: "Tell us what you're planning to build.",
@@ -36,7 +36,7 @@ export const siteConfig = {
     ]
   },
   contact: {
-    closingHeadline: "Your next project starts with a conversation.",
+    closingHeadline: "Have an idea? Let's build it.",
     cta: "Start Your Project",
     emailPlaceholder: "contact@coderitz.dev",
     phonePlaceholder: "+91 98765 43210",
@@ -71,4 +71,3 @@ export const siteConfig = {
     }
   ]
 };
-

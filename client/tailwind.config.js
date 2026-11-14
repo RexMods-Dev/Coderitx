@@ -47,6 +47,7 @@ export default {
       fontFamily: {
         display: [
           '"Plus Jakarta Sans"',
+          'Manrope',
           'Inter',
           '-apple-system',
           'BlinkMacSystemFont',
@@ -74,12 +75,15 @@ export default {
         'md': '8px',
         'lg': '12px',
         'xl': '16px',
+        '2xl': '20px',
+        '3xl': '28px',
       },
       boxShadow: {
         'subtle': '0 1px 2px 0 rgba(23, 25, 31, 0.04)',
         'surface': '0 4px 12px -2px rgba(23, 25, 31, 0.06), 0 2px 6px -1px rgba(23, 25, 31, 0.03)',
         'elevated': '0 12px 28px -6px rgba(23, 25, 31, 0.08), 0 4px 12px -2px rgba(23, 25, 31, 0.04)',
-        'dark-surface': '0 4px 14px -2px rgba(0, 0, 0, 0.35)',
+        'laptop': '0 30px 60px -15px rgba(23, 25, 31, 0.25), 0 10px 24px -5px rgba(23, 25, 31, 0.15)',
+        'laptop-dark': '0 30px 70px -15px rgba(0, 0, 0, 0.7), 0 12px 30px -5px rgba(0, 0, 0, 0.5)',
       },
       animation: {
         'fade-in': 'fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1)',

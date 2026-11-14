@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowUpRight, Code, Server, Terminal, Layers, Cpu, Radio, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Code, Server, Terminal, Layers, Cpu, Radio, Sparkles, Activity, Shield, MapPin, Database } from 'lucide-react';
 import { projectsData, projectCategories } from '../data/projects';
 import { Badge } from './ui/Badge';
 import { Button } from './ui/Button';
@@ -13,20 +13,15 @@ export function Projects({ onDiscussProject }) {
     ? projectsData
     : projectsData.filter((p) => p.categoryKey === activeCategory);
 
-  // Split into flagships (top 2) and catalog projects when viewing 'all'
-  const isAllCategory = activeCategory === 'all';
-  const flagshipProjects = isAllCategory ? filteredProjects.slice(0, 2) : [];
-  const catalogProjects = isAllCategory ? filteredProjects.slice(2) : filteredProjects;
-
   return (
-    <section id="work" className="py-24 md:py-32 border-b border-border-soft dark:border-border-dark bg-surface dark:bg-background">
+    <section id="work" className="py-24 md:py-32 border-b border-border-soft dark:border-border-dark bg-surface dark:bg-background relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-cobalt-muted dark:text-cobalt-accent font-semibold mb-3">
-              <span>02 / Selected Works</span>
+              <span>02 / Selected Work</span>
             </div>
             
             <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-tight text-ink-midnight dark:text-foreground mb-4">
@@ -73,183 +68,237 @@ export function Projects({ onDiscussProject }) {
           })}
         </div>
 
-        {/* Flagship Showcases (Featured 2-Column Split when on 'All') */}
-        {isAllCategory && flagshipProjects.length > 0 && (
-          <div className="mb-12 space-y-6">
-            <div className="text-xs font-mono uppercase tracking-wider text-slate-grey dark:text-muted-foreground flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-cobalt-muted dark:bg-cobalt-accent" />
-              <span>Flagship Architectural Case Studies</span>
-            </div>
+        {/* FEATURED CASE STUDY 1: Auction Hub (Wide Flagship Dossier) */}
+        {(activeCategory === 'all' || activeCategory === 'realtime') && (
+          <div className="mb-10 p-8 sm:p-10 rounded-2xl border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface shadow-subtle hover:shadow-surface transition-all">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <div className="lg:col-span-7 space-y-4">
+                <div className="flex items-center gap-2">
+                  <Badge variant="cobalt" className="font-mono text-xs">Real-time Platform</Badge>
+                  <span className="text-xs font-mono text-slate-grey dark:text-muted-foreground uppercase">Flagship 01</span>
+                </div>
+                
+                <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-ink-midnight dark:text-foreground">
+                  Auction Hub
+                </h3>
+                <p className="text-xs font-mono text-cobalt-muted dark:text-cobalt-accent font-medium">
+                  Real-time bidding platform with background worker queues
+                </p>
+                <p className="text-sm text-slate-grey dark:text-muted-foreground leading-relaxed">
+                  Real-time bidding logic with Celery background task processing, multi-user auction sessions, OTP verification and automated notification workflows. Built to handle time-sensitive auction closings and state synchronization across active bidders.
+                </p>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {flagshipProjects.map((project, idx) => (
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {["Django", "Celery", "Redis", "PostgreSQL"].map((tech) => (
+                    <span key={tech} className="px-2.5 py-0.5 rounded text-xs font-mono bg-surface dark:bg-surface-elevated text-ink-midnight dark:text-foreground border border-border-soft dark:border-border-dark font-medium">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="pt-2">
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={() => setSelectedProject(projectsData[0])}
+                    className="gap-1.5"
+                  >
+                    <span>Inspect System Architecture</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </Button>
+                </div>
+              </div>
+
+              {/* Architectural Schematic Visual */}
+              <div className="lg:col-span-5 p-5 rounded-xl border border-border-soft dark:border-border-dark bg-surface dark:bg-surface-elevated font-mono text-xs space-y-3">
+                <div className="flex items-center justify-between text-[11px] text-slate-grey dark:text-muted-foreground border-b border-border-soft dark:border-border-dark pb-2">
+                  <span className="flex items-center gap-1.5 font-semibold text-ink-midnight dark:text-foreground">
+                    <Activity className="w-3.5 h-3.5 text-cobalt-muted dark:text-cobalt-accent" />
+                    Bidding Pipeline Spec
+                  </span>
+                  <span className="text-emerald-600 dark:text-emerald-400 font-bold">Sub-second Sync</span>
+                </div>
+                <div className="space-y-1.5 text-[11px]">
+                  <div className="flex justify-between py-1 border-b border-border-soft/60 dark:border-border-dark/60">
+                    <span className="text-slate-grey dark:text-muted-foreground">Worker Engine:</span>
+                    <span className="text-ink-midnight dark:text-foreground font-semibold">Celery + Redis Broker</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-border-soft/60 dark:border-border-dark/60">
+                    <span className="text-slate-grey dark:text-muted-foreground">Bid Locking:</span>
+                    <span className="text-ink-midnight dark:text-foreground font-semibold">ACID PostgreSQL atomic</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-border-soft/60 dark:border-border-dark/60">
+                    <span className="text-slate-grey dark:text-muted-foreground">Auth Security:</span>
+                    <span className="text-ink-midnight dark:text-foreground font-semibold">Two-step OTP Phone Flow</span>
+                  </div>
+                  <div className="flex justify-between py-1">
+                    <span className="text-slate-grey dark:text-muted-foreground">Notification:</span>
+                    <span className="text-ink-midnight dark:text-foreground font-semibold">Async Email / SMS Dispatch</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* FEATURED CASE STUDY 2: Smart RFID Hospital System (Hardware / IoT Flagship) */}
+        {(activeCategory === 'all' || activeCategory === 'iot') && (
+          <div className="mb-12 p-8 sm:p-10 rounded-2xl border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface shadow-subtle hover:shadow-surface transition-all">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              {/* Hardware Telemetry Blueprint */}
+              <div className="lg:col-span-5 order-2 lg:order-1 p-5 rounded-xl border border-border-soft dark:border-border-dark bg-surface dark:bg-surface-elevated font-mono text-xs space-y-3">
+                <div className="flex items-center justify-between text-[11px] text-slate-grey dark:text-muted-foreground border-b border-border-soft dark:border-border-dark pb-2">
+                  <span className="flex items-center gap-1.5 font-semibold text-ink-midnight dark:text-foreground">
+                    <Cpu className="w-3.5 h-3.5 text-cobalt-muted dark:text-cobalt-accent" />
+                    Embedded-to-Cloud Sync
+                  </span>
+                  <span className="text-emerald-600 dark:text-emerald-400 font-bold">&lt; 250ms Scan</span>
+                </div>
+                <div className="space-y-1.5 text-[11px]">
+                  <div className="flex justify-between py-1 border-b border-border-soft/60 dark:border-border-dark/60">
+                    <span className="text-slate-grey dark:text-muted-foreground">Microcontroller:</span>
+                    <span className="text-ink-midnight dark:text-foreground font-semibold">ESP32 Dual-Core</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-border-soft/60 dark:border-border-dark/60">
+                    <span className="text-slate-grey dark:text-muted-foreground">Sensor Interface:</span>
+                    <span className="text-ink-midnight dark:text-foreground font-semibold">RC522 13.56MHz RFID</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-border-soft/60 dark:border-border-dark/60">
+                    <span className="text-slate-grey dark:text-muted-foreground">API Gateway:</span>
+                    <span className="text-ink-midnight dark:text-foreground font-semibold">Django REST (JWT Auth)</span>
+                  </div>
+                  <div className="flex justify-between py-1">
+                    <span className="text-slate-grey dark:text-muted-foreground">Data Layer:</span>
+                    <span className="text-ink-midnight dark:text-foreground font-semibold">Supabase Real-time</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="lg:col-span-7 order-1 lg:order-2 space-y-4">
+                <div className="flex items-center gap-2">
+                  <Badge variant="cobalt" className="font-mono text-xs">Healthcare / IoT</Badge>
+                  <span className="text-xs font-mono text-slate-grey dark:text-muted-foreground uppercase">Flagship 02</span>
+                </div>
+                
+                <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-ink-midnight dark:text-foreground">
+                  Smart RFID Hospital System
+                </h3>
+                <p className="text-xs font-mono text-cobalt-muted dark:text-cobalt-accent font-medium">
+                  Embedded hardware integrated with healthcare management API
+                </p>
+                <p className="text-sm text-slate-grey dark:text-muted-foreground leading-relaxed">
+                  A full-stack hospital management system integrating web technologies with embedded hardware for faster patient identification. RFID smart cards communicate through microcontrollers with a Django REST API connected to Supabase for instant chart retrieval.
+                </p>
+
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {["Django", "ESP32", "Supabase", "RFID"].map((tech) => (
+                    <span key={tech} className="px-2.5 py-0.5 rounded text-xs font-mono bg-surface dark:bg-surface-elevated text-ink-midnight dark:text-foreground border border-border-soft dark:border-border-dark font-medium">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="pt-2">
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={() => setSelectedProject(projectsData[1])}
+                    className="gap-1.5"
+                  >
+                    <span>Inspect Hardware &amp; API Spec</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* REST OF CATALOG PROJECTS (Curated Asymmetric Grid) */}
+        <div className="space-y-4">
+          <div className="text-xs font-mono uppercase tracking-wider text-slate-grey dark:text-muted-foreground flex items-center gap-2 pt-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-slate-grey/60" />
+            <span>Curated Software Systems Catalog</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProjects
+              .filter((p) => p.id !== 'auction-hub' && p.id !== 'smart-rfid-hospital')
+              .map((project) => (
                 <div
                   key={project.id}
-                  className="group relative flex flex-col justify-between p-8 rounded-xl border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200"
+                  className="group flex flex-col justify-between p-6 sm:p-7 rounded-xl border border-border-soft dark:border-border-dark bg-ivory-warm/30 dark:bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200"
                 >
                   <div>
-                    {/* Header: Category & Action */}
                     <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2">
-                        <Badge variant="cobalt" className="font-mono text-[11px]">
-                          {project.category}
-                        </Badge>
-                        <span className="text-[10px] font-mono text-slate-grey dark:text-muted-foreground uppercase">
-                          Featured Build
-                        </span>
-                      </div>
+                      <Badge variant="outline" className="font-mono text-[11px]">
+                        {project.category}
+                      </Badge>
 
                       <button
                         type="button"
                         onClick={() => setSelectedProject(project)}
-                        className="p-1.5 rounded-md text-slate-grey hover:text-ink-midnight dark:text-muted-foreground dark:hover:text-foreground hover:bg-surface transition-colors"
+                        className="p-1 rounded text-slate-grey hover:text-ink-midnight dark:text-muted-foreground dark:hover:text-foreground transition-colors"
                         title="Inspect Architecture"
                       >
                         <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       </button>
                     </div>
 
-                    <h3 className="font-display text-2xl font-bold tracking-tight text-ink-midnight dark:text-foreground mb-2">
+                    <h3 className="font-display text-xl font-bold tracking-tight text-ink-midnight dark:text-foreground mb-1.5">
                       {project.title}
                     </h3>
-                    <p className="text-xs font-mono text-cobalt-muted dark:text-cobalt-accent mb-4">
+
+                    <p className="text-[11px] font-mono text-cobalt-muted dark:text-cobalt-accent mb-3 font-medium">
                       {project.tagline}
                     </p>
 
-                    <p className="text-sm text-slate-grey dark:text-muted-foreground leading-relaxed mb-6">
+                    <p className="text-xs text-slate-grey dark:text-muted-foreground leading-relaxed mb-6">
                       {project.description}
                     </p>
-
-                    {/* Architectural Schematic Box */}
-                    <div className="p-4 rounded-lg bg-surface dark:bg-surface-elevated border border-border-soft dark:border-border-dark font-mono text-xs space-y-2 mb-6">
-                      <div className="text-[10px] uppercase text-slate-grey dark:text-muted-foreground font-semibold flex items-center justify-between">
-                        <span>Architecture Matrix</span>
-                        <span className="text-emerald-600 dark:text-emerald-400">Production Ready</span>
-                      </div>
-                      {project.architecture && (
-                        <div className="grid grid-cols-2 gap-2 pt-1 text-[11px]">
-                          {Object.entries(project.architecture).slice(0, 4).map(([k, v]) => (
-                            <div key={k} className="truncate">
-                              <span className="text-slate-grey dark:text-muted-foreground capitalize">{k}:</span>{' '}
-                              <span className="text-ink-midnight dark:text-foreground font-medium">{v}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
                   </div>
 
-                  {/* Footer: Tech tags and CTA */}
-                  <div className="pt-4 border-t border-border-soft dark:border-border-dark flex items-center justify-between flex-wrap gap-3">
-                    <div className="flex flex-wrap gap-1.5">
+                  <div className="pt-4 border-t border-border-soft dark:border-border-dark">
+                    <div className="flex flex-wrap gap-1.5 mb-4">
                       {project.technologies.map((tech) => (
                         <span
                           key={tech}
-                          className="px-2.5 py-0.5 rounded text-[11px] font-mono bg-surface dark:bg-surface-elevated text-ink-midnight dark:text-foreground border border-border-soft dark:border-border-dark"
+                          className="px-2 py-0.5 rounded text-[11px] font-mono bg-surface dark:bg-surface-elevated text-slate-grey dark:text-muted-foreground border border-border-soft/60 dark:border-border-dark/60"
                         >
                           {tech}
                         </span>
                       ))}
                     </div>
 
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={() => setSelectedProject(project)}
-                      className="text-xs gap-1"
-                    >
-                      <span>Inspect Details</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
-                    </Button>
-                  </div>
-
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Catalog Showcase Projects */}
-        <div className="space-y-4">
-          {isAllCategory && (
-            <div className="text-xs font-mono uppercase tracking-wider text-slate-grey dark:text-muted-foreground flex items-center gap-2 pt-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-slate-grey/60" />
-              <span>Engineered Software Catalog</span>
-            </div>
-          )}
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {catalogProjects.map((project) => (
-              <div
-                key={project.id}
-                className="group flex flex-col justify-between p-6 rounded-xl border border-border-soft dark:border-border-dark bg-ivory-warm/30 dark:bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <Badge variant="outline" className="font-mono text-[11px]">
-                      {project.category}
-                    </Badge>
-
-                    <button
-                      type="button"
-                      onClick={() => setSelectedProject(project)}
-                      className="p-1 rounded text-slate-grey hover:text-ink-midnight dark:text-muted-foreground dark:hover:text-foreground transition-colors"
-                      title="Inspect Architecture"
-                    >
-                      <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </button>
-                  </div>
-
-                  <h3 className="font-display text-lg font-bold tracking-tight text-ink-midnight dark:text-foreground mb-2">
-                    {project.title}
-                  </h3>
-
-                  <p className="text-xs text-slate-grey dark:text-muted-foreground leading-relaxed mb-6">
-                    {project.description}
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-border-soft dark:border-border-dark">
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {project.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2 py-0.5 rounded text-[11px] font-mono bg-surface dark:bg-surface-elevated text-slate-grey dark:text-muted-foreground border border-border-soft/60 dark:border-border-dark/60"
+                    <div className="flex items-center justify-between pt-1">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedProject(project)}
+                        className="text-xs font-semibold text-cobalt-muted dark:text-cobalt-accent hover:underline flex items-center gap-1"
                       >
-                        {tech}
+                        <span>Inspect architecture</span>
+                        <ArrowUpRight className="w-3.5 h-3.5" />
+                      </button>
+
+                      <span className="text-[11px] font-mono text-slate-grey/60 dark:text-muted-foreground/60">
+                        Walkthrough ready
                       </span>
-                    ))}
+                    </div>
                   </div>
 
-                  <div className="flex items-center justify-between pt-1">
-                    <button
-                      type="button"
-                      onClick={() => setSelectedProject(project)}
-                      className="text-xs font-semibold text-cobalt-muted dark:text-cobalt-accent hover:underline flex items-center gap-1"
-                    >
-                      <span>Inspect architecture</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
-                    </button>
-
-                    <span className="text-[11px] font-mono text-slate-grey/60 dark:text-muted-foreground/60">
-                      Walkthrough ready
-                    </span>
-                  </div>
                 </div>
-
-              </div>
             ))}
           </div>
         </div>
 
         {/* Ethical Transparency Banner */}
-        <div className="mt-12 p-5 rounded-xl border border-border-soft dark:border-border-dark bg-ivory-warm/50 dark:bg-surface/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-slate-grey dark:text-muted-foreground">
+        <div className="mt-14 p-6 rounded-xl border border-border-soft dark:border-border-dark bg-ivory-warm/60 dark:bg-surface/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-slate-grey dark:text-muted-foreground">
           <div className="flex items-center gap-2.5">
             <span className="w-2 h-2 rounded-full bg-cobalt-muted dark:bg-cobalt-accent flex-shrink-0" />
-            <span>All projects reflect verified, production-standard architectures authored and maintained by Coderitz co-founders.</span>
+            <span>All project architectures reflect genuine codebases engineered and maintained by Coderitz team members.</span>
           </div>
-          <span className="font-mono text-[11px] text-ink-midnight dark:text-foreground">
-            Source code walkthroughs provided during handover.
+          <span className="font-mono text-[11px] text-ink-midnight dark:text-foreground font-semibold">
+            Complete source code walkthroughs provided during project handover.
           </span>
         </div>
 

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useTheme } from './hooks/useTheme';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -19,7 +19,7 @@ export function App() {
     }
     const enquiryElem = document.getElementById('enquiry');
     if (enquiryElem) {
-      const headerOffset = 70;
+      const headerOffset = 76;
       const elementPosition = enquiryElem.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
       window.scrollTo({
@@ -32,7 +32,7 @@ export function App() {
   const scrollToWork = () => {
     const workElem = document.getElementById('work');
     if (workElem) {
-      const headerOffset = 70;
+      const headerOffset = 76;
       const elementPosition = workElem.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
       window.scrollTo({
@@ -44,46 +44,46 @@ export function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors duration-200">
-      {/* Top Navbar */}
+      {/* Top Fixed Navbar */}
       <Navbar
         theme={theme}
         toggleTheme={toggleTheme}
         onStartProjectClick={() => scrollToEnquiry()}
       />
 
-      {/* Main Content Sections */}
+      {/* Main Content Flow */}
       <main className="flex-1">
-        {/* Hero Section */}
+        {/* Cinematic Laptop-to-Website Hero Presentation */}
         <Hero
           onStartProjectClick={() => scrollToEnquiry()}
           onExploreWorkClick={scrollToWork}
         />
 
-        {/* Services Section */}
+        {/* 01 What We Build (Services) */}
         <Services
           onSelectServiceForEnquiry={(serviceName) => scrollToEnquiry(serviceName)}
         />
 
-        {/* Selected Projects Portfolio */}
+        {/* 02 Selected Work (Projects Showcase) */}
         <Projects
           onDiscussProject={(projectName) => scrollToEnquiry(`Similar to: ${projectName}`)}
         />
 
-        {/* How We Work 4-Step Process */}
+        {/* 03 How We Work (Development Framework) */}
         <Workflow
           onStartProjectClick={() => scrollToEnquiry()}
         />
 
-        {/* About Coderitz & The 5 Co-Founders */}
+        {/* 04 Leadership & Transparency (About Team) */}
         <AboutTeam />
 
-        {/* Project Request Form */}
+        {/* 05 Project Request (Enquiry Form) */}
         <ProjectForm
           initialCategory={selectedCategoryPrefill}
         />
       </main>
 
-      {/* Contact & Footer */}
+      {/* Closing CTA & Footer */}
       <ContactFooter
         onStartProjectClick={() => scrollToEnquiry()}
       />

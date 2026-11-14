@@ -9,20 +9,15 @@ import {
   ArrowRight,
   Sliders,
   Check,
-  Code2
+  Code2,
+  Layers,
+  Database,
+  Radio,
+  Sparkles
 } from 'lucide-react';
 import { servicesData } from '../data/services';
 import { Badge } from './ui/Badge';
 import { Button } from './ui/Button';
-
-const iconMap = {
-  GraduationCap,
-  Layout,
-  BrainCircuit,
-  Smartphone,
-  Cpu,
-  Terminal
-};
 
 export function Services({ onSelectServiceForEnquiry }) {
   const [selectedDomain, setSelectedDomain] = useState('all');
@@ -32,16 +27,16 @@ export function Services({ onSelectServiceForEnquiry }) {
     : servicesData.filter((s) => s.id === selectedDomain);
 
   return (
-    <section id="services" className="py-24 md:py-32 border-b border-border-soft dark:border-border-dark bg-ivory-warm dark:bg-background">
+    <section id="services" className="py-24 md:py-32 border-b border-border-soft dark:border-border-dark bg-ivory-warm dark:bg-background relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Editorial Split Header */}
+        {/* Editorial Section Header */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start mb-16">
           
           {/* Left Column: Scope Overview */}
           <div className="lg:col-span-5">
             <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-cobalt-muted dark:text-cobalt-accent font-semibold mb-3">
-              <span>01 / Technical Capabilities</span>
+              <span>01 / What We Build</span>
             </div>
             
             <h2 className="font-display text-3xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-tight text-ink-midnight dark:text-foreground leading-tight mb-5">
@@ -59,19 +54,19 @@ export function Services({ onSelectServiceForEnquiry }) {
                 <span>Flexible Engagement Model</span>
               </div>
               <p className="text-xs text-slate-grey dark:text-muted-foreground leading-relaxed">
-                We do not sell rigid pre-packaged templates. Every project is scoped according to your college syllabus, timeline requirements, and personal learning objectives.
+                No rigid packages. We adapt scope, architecture, and technology to fit your college guidelines, timeline, or prototype needs.
               </p>
             </div>
           </div>
 
-          {/* Right Column: Architectural Domain Badges & Summary */}
+          {/* Right Column: Filter Pills & Custom Stack Note */}
           <div className="lg:col-span-7 flex flex-col justify-between h-full pt-2">
             <div className="space-y-4">
               <div className="text-xs font-mono uppercase tracking-wider text-slate-grey dark:text-muted-foreground">
                 Domain Categories
               </div>
 
-              {/* Domain Filter Pills */}
+              {/* Filter Pills */}
               <div className="flex flex-wrap gap-2">
                 <button
                   type="button"
@@ -101,8 +96,8 @@ export function Services({ onSelectServiceForEnquiry }) {
               </div>
             </div>
 
-            <div className="mt-8 p-4 rounded-lg bg-surface/70 border border-border-soft/80 dark:border-border-dark/80 text-xs text-slate-grey dark:text-muted-foreground flex items-center justify-between">
-              <span>Looking for a custom tech stack or combination?</span>
+            <div className="mt-8 p-4 rounded-lg bg-surface/80 border border-border-soft/80 dark:border-border-dark/80 text-xs text-slate-grey dark:text-muted-foreground flex items-center justify-between">
+              <span>Have a custom syllabus requirement or hybrid stack?</span>
               <button
                 type="button"
                 onClick={() => onSelectServiceForEnquiry('Custom Architecture Requirement')}
@@ -116,88 +111,267 @@ export function Services({ onSelectServiceForEnquiry }) {
 
         </div>
 
-        {/* Services Stream: Architectural Dossiers with Distinctive Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {filteredServices.map((service, index) => {
-            const IconComponent = iconMap[service.icon] || Terminal;
-            const globalIndex = servicesData.findIndex((s) => s.id === service.id);
-
-            return (
-              <div
-                key={service.id}
-                className="group relative flex flex-col justify-between p-7 rounded-xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200"
-              >
-                <div>
-                  {/* Top Bar: Numeric Index + Badge */}
-                  <div className="flex items-center justify-between mb-5">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-9 h-9 rounded-md bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors">
-                        <IconComponent className="w-4 h-4 stroke-[1.9]" />
-                      </div>
-                      <span className="font-mono text-xs text-slate-grey dark:text-muted-foreground font-semibold">
-                        0{globalIndex + 1}
-                      </span>
-                    </div>
-
-                    <Badge variant="cobalt" className="font-mono text-[11px]">
-                      {service.badge}
-                    </Badge>
-                  </div>
-
-                  {/* Title & Description */}
-                  <h3 className="font-display text-xl font-bold tracking-tight text-ink-midnight dark:text-foreground mb-3">
-                    {service.title}
-                  </h3>
-
-                  <p className="text-sm text-slate-grey dark:text-muted-foreground leading-relaxed mb-6">
-                    {service.description}
-                  </p>
-
-                  {/* Key Highlights / Deliverables */}
-                  <div className="space-y-2 mb-6 pt-4 border-t border-border-soft/60 dark:border-border-dark/60">
-                    <div className="text-[11px] font-mono uppercase tracking-wider text-slate-grey/80 dark:text-muted-foreground/80 font-medium">
-                      Core Implementation Scope:
-                    </div>
-                    {service.highlights.map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-2 text-xs text-ink-midnight dark:text-foreground">
-                        <Check className="w-3.5 h-3.5 text-cobalt-muted dark:text-cobalt-accent mt-0.5 flex-shrink-0" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
+        {/* Distinctive Service Dossiers: Each with its own tailored visual treatment */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          
+          {/* Service 1: Academic & CSE Projects */}
+          <div className="group relative flex flex-col justify-between p-7 rounded-xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
+            <div>
+              <div className="flex items-center justify-between mb-5">
+                <div className="w-10 h-10 rounded-lg bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors">
+                  <GraduationCap className="w-5 h-5 stroke-[1.9]" />
                 </div>
-
-                {/* Footer: Technologies & Direct Enquiry CTA */}
-                <div className="pt-4 border-t border-border-soft dark:border-border-dark">
-                  <div className="flex flex-wrap gap-1.5 mb-5">
-                    {service.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2.5 py-0.5 rounded text-[11px] font-mono bg-ivory-warm dark:bg-surface-elevated text-slate-grey dark:text-muted-foreground border border-border-soft/60 dark:border-border-dark/60"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center justify-between pt-1">
-                    <button
-                      type="button"
-                      onClick={() => onSelectServiceForEnquiry(service.title)}
-                      className="text-xs font-semibold text-cobalt-muted dark:text-cobalt-accent hover:text-cobalt-deep dark:hover:text-cobalt-hover inline-flex items-center gap-1.5 group-hover:translate-x-0.5 transition-transform"
-                    >
-                      <span>Request project consultation</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                    <span className="text-[11px] font-mono text-slate-grey/70 dark:text-muted-foreground/70">
-                      Syllabus aligned
-                    </span>
-                  </div>
-                </div>
-
+                <Badge variant="cobalt" className="font-mono text-[11px]">Academic Standard</Badge>
               </div>
-            );
-          })}
+
+              <h3 className="font-display text-xl font-bold tracking-tight text-ink-midnight dark:text-foreground mb-2">
+                CSE &amp; Academic Projects
+              </h3>
+              <p className="text-xs text-slate-grey dark:text-muted-foreground leading-relaxed mb-5">
+                Project planning, development assistance, implementation and technical guidance tailored for college submission standards and viva defense.
+              </p>
+
+              {/* Unique Visual Element: Academic Viva Preparation Spec */}
+              <div className="p-3 rounded-lg bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
+                <div className="text-[10px] uppercase text-cobalt-muted dark:text-cobalt-accent font-semibold">Evaluation Blueprint:</div>
+                <div className="flex items-center gap-1.5 text-ink-midnight dark:text-foreground">
+                  <Check className="w-3 h-3 text-emerald-500" />
+                  <span>Documented schemas &amp; ER diagrams</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-ink-midnight dark:text-foreground">
+                  <Check className="w-3 h-3 text-emerald-500" />
+                  <span>Function-by-function code walkthrough</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-border-soft dark:border-border-dark">
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                {["Python", "Java", "Django", "FastAPI", "C++"].map((t) => (
+                  <span key={t} className="px-2 py-0.5 rounded text-[11px] font-mono bg-ivory-warm dark:bg-surface-elevated text-slate-grey dark:text-muted-foreground border border-border-soft/60 dark:border-border-dark/60">{t}</span>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => onSelectServiceForEnquiry('CSE & Academic Projects')}
+                className="text-xs font-semibold text-cobalt-muted dark:text-cobalt-accent hover:underline flex items-center gap-1"
+              >
+                <span>Request academic consultation</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Service 2: Web Applications */}
+          <div className="group relative flex flex-col justify-between p-7 rounded-xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
+            <div>
+              <div className="flex items-center justify-between mb-5">
+                <div className="w-10 h-10 rounded-lg bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors">
+                  <Layout className="w-5 h-5 stroke-[1.9]" />
+                </div>
+                <Badge variant="subtle" className="font-mono text-[11px]">Full-Stack Systems</Badge>
+              </div>
+
+              <h3 className="font-display text-xl font-bold tracking-tight text-ink-midnight dark:text-foreground mb-2">
+                Web Applications
+              </h3>
+              <p className="text-xs text-slate-grey dark:text-muted-foreground leading-relaxed mb-5">
+                Full-stack websites, dashboards, management systems and REST APIs built with modern frontend frameworks and robust backend architectures.
+              </p>
+
+              {/* Unique Visual Element: Endpoint & Database Matrix */}
+              <div className="p-3 rounded-lg bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
+                <div className="text-[10px] uppercase text-cobalt-muted dark:text-cobalt-accent font-semibold">Architecture Spec:</div>
+                <div className="text-ink-midnight dark:text-foreground font-medium">RESTful &amp; GraphQL Endpoint Design</div>
+                <div className="text-slate-grey dark:text-muted-foreground text-[10px]">PostgreSQL with Connection Pooling</div>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-border-soft dark:border-border-dark">
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                {["React", "Node.js", "Express", "PostgreSQL", "Tailwind"].map((t) => (
+                  <span key={t} className="px-2 py-0.5 rounded text-[11px] font-mono bg-ivory-warm dark:bg-surface-elevated text-slate-grey dark:text-muted-foreground border border-border-soft/60 dark:border-border-dark/60">{t}</span>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => onSelectServiceForEnquiry('Web Applications')}
+                className="text-xs font-semibold text-cobalt-muted dark:text-cobalt-accent hover:underline flex items-center gap-1"
+              >
+                <span>Request web architecture</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Service 3: AI & Machine Learning */}
+          <div className="group relative flex flex-col justify-between p-7 rounded-xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
+            <div>
+              <div className="flex items-center justify-between mb-5">
+                <div className="w-10 h-10 rounded-lg bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors">
+                  <BrainCircuit className="w-5 h-5 stroke-[1.9]" />
+                </div>
+                <Badge variant="cobalt" className="font-mono text-[11px]">Intelligent Systems</Badge>
+              </div>
+
+              <h3 className="font-display text-xl font-bold tracking-tight text-ink-midnight dark:text-foreground mb-2">
+                AI &amp; Machine Learning
+              </h3>
+              <p className="text-xs text-slate-grey dark:text-muted-foreground leading-relaxed mb-5">
+                Object detection, predictive models, data analysis and intelligent applications trained on targeted datasets with clear inference pipelines.
+              </p>
+
+              {/* Unique Visual Element: Model Training & Inference Metric */}
+              <div className="p-3 rounded-lg bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
+                <div className="text-[10px] uppercase text-cobalt-muted dark:text-cobalt-accent font-semibold">Model Pipeline:</div>
+                <div className="text-ink-midnight dark:text-foreground font-medium">Ultralytics YOLOv8 + PyTorch</div>
+                <div className="text-emerald-600 dark:text-emerald-400 text-[10px]">Real-time Edge Inference &amp; Validation</div>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-border-soft dark:border-border-dark">
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                {["Python", "PyTorch", "YOLOv8", "OpenCV", "Scikit-Learn"].map((t) => (
+                  <span key={t} className="px-2 py-0.5 rounded text-[11px] font-mono bg-ivory-warm dark:bg-surface-elevated text-slate-grey dark:text-muted-foreground border border-border-soft/60 dark:border-border-dark/60">{t}</span>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => onSelectServiceForEnquiry('AI & Machine Learning')}
+                className="text-xs font-semibold text-cobalt-muted dark:text-cobalt-accent hover:underline flex items-center gap-1"
+              >
+                <span>Request ML pipeline</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Service 4: Mobile Applications */}
+          <div className="group relative flex flex-col justify-between p-7 rounded-xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
+            <div>
+              <div className="flex items-center justify-between mb-5">
+                <div className="w-10 h-10 rounded-lg bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors">
+                  <Smartphone className="w-5 h-5 stroke-[1.9]" />
+                </div>
+                <Badge variant="subtle" className="font-mono text-[11px]">Cross-Platform</Badge>
+              </div>
+
+              <h3 className="font-display text-xl font-bold tracking-tight text-ink-midnight dark:text-foreground mb-2">
+                Mobile Applications
+              </h3>
+              <p className="text-xs text-slate-grey dark:text-muted-foreground leading-relaxed mb-5">
+                Android and cross-platform application development with clean interfaces, state management, and seamless backend API synchronization.
+              </p>
+
+              {/* Unique Visual Element: Telemetry & State Cache */}
+              <div className="p-3 rounded-lg bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
+                <div className="text-[10px] uppercase text-cobalt-muted dark:text-cobalt-accent font-semibold">Mobile Layer:</div>
+                <div className="text-ink-midnight dark:text-foreground font-medium">React Native &amp; Expo Workflow</div>
+                <div className="text-slate-grey dark:text-muted-foreground text-[10px]">Real-time Geolocation &amp; Telemetry</div>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-border-soft dark:border-border-dark">
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                {["React Native", "Expo", "Redux", "Firebase", "REST"].map((t) => (
+                  <span key={t} className="px-2 py-0.5 rounded text-[11px] font-mono bg-ivory-warm dark:bg-surface-elevated text-slate-grey dark:text-muted-foreground border border-border-soft/60 dark:border-border-dark/60">{t}</span>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => onSelectServiceForEnquiry('Mobile Applications')}
+                className="text-xs font-semibold text-cobalt-muted dark:text-cobalt-accent hover:underline flex items-center gap-1"
+              >
+                <span>Request mobile architecture</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Service 5: IoT & Embedded Systems */}
+          <div className="group relative flex flex-col justify-between p-7 rounded-xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
+            <div>
+              <div className="flex items-center justify-between mb-5">
+                <div className="w-10 h-10 rounded-lg bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors">
+                  <Cpu className="w-5 h-5 stroke-[1.9]" />
+                </div>
+                <Badge variant="cobalt" className="font-mono text-[11px]">Hardware &amp; Cloud</Badge>
+              </div>
+
+              <h3 className="font-display text-xl font-bold tracking-tight text-ink-midnight dark:text-foreground mb-2">
+                IoT &amp; Embedded Systems
+              </h3>
+              <p className="text-xs text-slate-grey dark:text-muted-foreground leading-relaxed mb-5">
+                ESP32, RFID, microcontrollers and hardware-integrated applications communicating reliably with web dashboards and cloud APIs.
+              </p>
+
+              {/* Unique Visual Element: Hardware Protocol Spec */}
+              <div className="p-3 rounded-lg bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
+                <div className="text-[10px] uppercase text-cobalt-muted dark:text-cobalt-accent font-semibold">Embedded Pipeline:</div>
+                <div className="text-ink-midnight dark:text-foreground font-medium">ESP32 Firmware + RC522 RFID</div>
+                <div className="text-emerald-600 dark:text-emerald-400 text-[10px]">Secure HTTP / MQTT Cloud Sync</div>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-border-soft dark:border-border-dark">
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                {["ESP32", "Arduino", "RFID", "MQTT", "Supabase"].map((t) => (
+                  <span key={t} className="px-2 py-0.5 rounded text-[11px] font-mono bg-ivory-warm dark:bg-surface-elevated text-slate-grey dark:text-muted-foreground border border-border-soft/60 dark:border-border-dark/60">{t}</span>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => onSelectServiceForEnquiry('IoT & Embedded Systems')}
+                className="text-xs font-semibold text-cobalt-muted dark:text-cobalt-accent hover:underline flex items-center gap-1"
+              >
+                <span>Request embedded consultation</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Service 6: Custom Software Solutions */}
+          <div className="group relative flex flex-col justify-between p-7 rounded-xl border border-border-soft dark:border-border-dark bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200">
+            <div>
+              <div className="flex items-center justify-between mb-5">
+                <div className="w-10 h-10 rounded-lg bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight transition-colors">
+                  <Terminal className="w-5 h-5 stroke-[1.9]" />
+                </div>
+                <Badge variant="subtle" className="font-mono text-[11px]">Bespoke Systems</Badge>
+              </div>
+
+              <h3 className="font-display text-xl font-bold tracking-tight text-ink-midnight dark:text-foreground mb-2">
+                Custom Software Solutions
+              </h3>
+              <p className="text-xs text-slate-grey dark:text-muted-foreground leading-relaxed mb-5">
+                Tailored systems for individual requirements, student innovation prototypes, and small business workflow automations.
+              </p>
+
+              {/* Unique Visual Element: Async Queue & Automation Spec */}
+              <div className="p-3 rounded-lg bg-ivory-warm/60 dark:bg-surface-elevated/60 border border-border-soft dark:border-border-dark font-mono text-[11px] space-y-1.5 mb-5">
+                <div className="text-[10px] uppercase text-cobalt-muted dark:text-cobalt-accent font-semibold">Async Worker Spec:</div>
+                <div className="text-ink-midnight dark:text-foreground font-medium">Celery Task Processing + Redis</div>
+                <div className="text-slate-grey dark:text-muted-foreground text-[10px]">Automated OTP &amp; Notification Workflows</div>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-border-soft dark:border-border-dark">
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                {["Node.js", "Python", "Celery", "Redis", "Docker"].map((t) => (
+                  <span key={t} className="px-2 py-0.5 rounded text-[11px] font-mono bg-ivory-warm dark:bg-surface-elevated text-slate-grey dark:text-muted-foreground border border-border-soft/60 dark:border-border-dark/60">{t}</span>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => onSelectServiceForEnquiry('Custom Software Solutions')}
+                className="text-xs font-semibold text-cobalt-muted dark:text-cobalt-accent hover:underline flex items-center gap-1"
+              >
+                <span>Request custom solution</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+
         </div>
 
       </div>

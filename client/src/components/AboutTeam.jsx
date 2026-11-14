@@ -5,7 +5,7 @@ import { ShieldCheck, UserCheck, Terminal, Award, CheckCircle2 } from 'lucide-re
 
 export function AboutTeam() {
   return (
-    <section id="about" className="py-24 md:py-32 border-b border-border-soft dark:border-border-dark bg-surface dark:bg-background">
+    <section id="about" className="py-24 md:py-32 border-b border-border-soft dark:border-border-dark bg-surface dark:bg-background relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -35,12 +35,12 @@ export function AboutTeam() {
             return (
               <div
                 key={member.id}
-                className="group flex flex-col justify-between p-7 rounded-xl border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200"
+                className="group flex flex-col justify-between p-7 sm:p-8 rounded-2xl border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200"
               >
                 <div>
                   {/* Top Bar: Monogram and Role */}
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-11 h-11 rounded-lg bg-surface dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center font-mono font-bold text-xs text-ink-midnight dark:text-foreground group-hover:border-cobalt-muted/50 dark:group-hover:border-cobalt-accent/50 transition-colors shadow-subtle">
+                    <div className="w-12 h-12 rounded-xl bg-surface dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center font-mono font-bold text-xs text-ink-midnight dark:text-foreground group-hover:border-cobalt-muted/50 dark:group-hover:border-cobalt-accent/50 transition-colors shadow-subtle">
                       {monogram}
                     </div>
                     
@@ -95,11 +95,11 @@ export function AboutTeam() {
             );
           })}
 
-          {/* Direct Engineering Access Commitment Card */}
-          <div className="flex flex-col justify-between p-7 rounded-xl border border-dashed border-border-soft dark:border-border-dark bg-ivory-warm/70 dark:bg-surface-elevated/40">
+          {/* Direct Developer Access Commitment Card */}
+          <div className="flex flex-col justify-between p-7 sm:p-8 rounded-2xl border border-dashed border-border-soft dark:border-border-dark bg-ivory-warm/70 dark:bg-surface-elevated/40">
             <div>
-              <div className="w-10 h-10 rounded-lg bg-surface dark:bg-surface border border-border-soft dark:border-border-dark flex items-center justify-center text-cobalt-muted dark:text-cobalt-accent mb-5 shadow-subtle">
-                <ShieldCheck className="w-5 h-5 stroke-[1.9]" />
+              <div className="w-12 h-12 rounded-xl bg-surface dark:bg-surface border border-border-soft dark:border-border-dark flex items-center justify-center text-cobalt-muted dark:text-cobalt-accent mb-5 shadow-subtle">
+                <ShieldCheck className="w-6 h-6 stroke-[1.9]" />
               </div>
               
               <h3 className="font-display text-lg font-bold tracking-tight text-ink-midnight dark:text-foreground mb-3">
@@ -122,7 +122,7 @@ export function AboutTeam() {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-border-soft dark:border-border-dark text-[11px] font-mono text-slate-grey dark:text-muted-foreground">
+            <div className="pt-4 border-t border-border-soft dark:border-border-dark text-[11px] font-mono text-slate-grey dark:text-muted-foreground font-semibold">
               Technical integrity first.
             </div>
           </div>
