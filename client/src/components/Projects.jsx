@@ -19,14 +19,14 @@ export function Projects({ onDiscussProject }) {
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
-      // Header reveal
+      // Header reveal (smooth & stately)
       gsap.fromTo(".projects-header-anim", 
         { opacity: 0, y: 35 }, 
         {
           opacity: 1, 
           y: 0, 
-          duration: 0.8, 
-          ease: "power2.out",
+          duration: 0.95, 
+          ease: "power3.out",
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top 80%",
@@ -35,15 +35,15 @@ export function Projects({ onDiscussProject }) {
         }
       );
 
-      // Flagship cards reveal
+      // Flagship cards reveal (weighted, luxurious ease)
       gsap.fromTo(".flagship-card-anim", 
-        { opacity: 0, y: 40 }, 
+        { opacity: 0, y: 45 }, 
         {
           opacity: 1, 
           y: 0, 
-          duration: 0.85, 
-          stagger: 0.18, 
-          ease: "power2.out",
+          duration: 1.05, 
+          stagger: 0.16, 
+          ease: "power3.out",
           scrollTrigger: {
             trigger: ".flagship-container",
             start: "top 85%",
@@ -52,15 +52,15 @@ export function Projects({ onDiscussProject }) {
         }
       );
 
-      // Catalog cards stagger
+      // Catalog cards stagger (smooth cadence)
       gsap.fromTo(".catalog-card-anim", 
-        { opacity: 0, y: 35 }, 
+        { opacity: 0, y: 40 }, 
         {
           opacity: 1, 
           y: 0, 
-          duration: 0.7, 
-          stagger: 0.08, 
-          ease: "power2.out",
+          duration: 0.85, 
+          stagger: 0.09, 
+          ease: "power3.out",
           scrollTrigger: {
             trigger: ".catalog-grid-container",
             start: "top 90%",

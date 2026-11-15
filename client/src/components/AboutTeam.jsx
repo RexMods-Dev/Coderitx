@@ -15,14 +15,14 @@ export function AboutTeam() {
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
-      // Header reveal
+      // Header reveal (smooth & stately)
       gsap.fromTo(".team-header-anim", 
         { opacity: 0, y: 35 }, 
         {
           opacity: 1, 
           y: 0, 
-          duration: 0.8, 
-          ease: "power2.out",
+          duration: 0.95, 
+          ease: "power3.out",
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top 80%",
@@ -31,15 +31,15 @@ export function AboutTeam() {
         }
       );
 
-      // Founder dossier cards stagger
+      // Founder dossier cards stagger (smooth cadence)
       gsap.fromTo(".founder-dossier-card", 
-        { opacity: 0, y: 40 }, 
+        { opacity: 0, y: 45 }, 
         {
           opacity: 1, 
           y: 0, 
-          duration: 0.8, 
+          duration: 0.95, 
           stagger: 0.12, 
-          ease: "power2.out",
+          ease: "power3.out",
           scrollTrigger: {
             trigger: ".team-grid-container",
             start: "top 85%",

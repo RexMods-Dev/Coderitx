@@ -38,8 +38,8 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
         {
           opacity: 1, 
           y: 0, 
-          duration: 0.8, 
-          ease: "power2.out",
+          duration: 0.95, 
+          ease: "power3.out",
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top 80%",
@@ -49,12 +49,12 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
       );
 
       gsap.fromTo(".form-container-card", 
-        { opacity: 0, y: 40 }, 
+        { opacity: 0, y: 45 }, 
         {
           opacity: 1, 
           y: 0, 
-          duration: 0.85, 
-          ease: "power2.out",
+          duration: 1.0, 
+          ease: "power3.out",
           scrollTrigger: {
             trigger: ".form-container-card",
             start: "top 85%",
@@ -229,7 +229,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
         </div>
 
         {/* Structured Form Container */}
-        <div className="form-container-card max-w-3xl mx-auto rounded-3xl border border-border-soft dark:border-border-dark bg-surface dark:bg-[#1B1E26] p-8 sm:p-11 shadow-elevated">
+        <div className="form-container-card max-w-3xl mx-auto rounded-3xl border border-border-soft dark:border-border-dark bg-surface dark:bg-[#1B1E26] p-5 sm:p-9 md:p-11 shadow-elevated">
           
           {/* Success Confirmation State */}
           {status === 'success' ? (
@@ -313,7 +313,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="e.g. John Doe"
-                    className={`w-full px-4 py-2.5 rounded-lg border text-sm bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/50 transition-colors focus-ring ${
+                    className={`w-full px-4 py-2.5 rounded-lg border text-base sm:text-sm bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/50 transition-colors focus-ring ${
                       errors.name
                         ? 'border-red-500'
                         : 'border-border-soft dark:border-border-dark'
@@ -335,7 +335,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="john@example.com"
-                    className={`w-full px-4 py-2.5 rounded-lg border text-sm bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/50 transition-colors focus-ring ${
+                    className={`w-full px-4 py-2.5 rounded-lg border text-base sm:text-sm bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/50 transition-colors focus-ring ${
                       errors.email
                         ? 'border-red-500'
                         : 'border-border-soft dark:border-border-dark'
@@ -360,7 +360,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="+91 98765 43210"
-                    className={`w-full px-4 py-2.5 rounded-lg border text-sm bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/50 transition-colors focus-ring ${
+                    className={`w-full px-4 py-2.5 rounded-lg border text-base sm:text-sm bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/50 transition-colors focus-ring ${
                       errors.phone
                         ? 'border-red-500'
                         : 'border-border-soft dark:border-border-dark'
@@ -382,7 +382,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                     value={formData.institution}
                     onChange={handleChange}
                     placeholder="e.g. University College of Engineering"
-                    className="w-full px-4 py-2.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/50 transition-colors focus-ring text-sm"
+                    className="w-full px-4 py-2.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/50 transition-colors focus-ring text-base sm:text-sm"
                   />
                 </div>
               </div>
@@ -398,7 +398,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
-                    className="w-full px-4 py-2.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground transition-colors focus-ring text-sm"
+                    className="w-full px-4 py-2.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground transition-colors focus-ring text-base sm:text-sm"
                   >
                     {siteConfig.enquiry.categories.map((cat) => (
                       <option key={cat} value={cat} className="bg-white dark:bg-[#1B1E26] text-ink-midnight dark:text-foreground">
@@ -419,7 +419,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                     value={formData.preferred_tech}
                     onChange={handleChange}
                     placeholder="e.g. Django, React, ESP32, YOLOv8"
-                    className="w-full px-4 py-2.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/50 transition-colors focus-ring text-sm"
+                    className="w-full px-4 py-2.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/50 transition-colors focus-ring text-base sm:text-sm"
                   />
                 </div>
               </div>
@@ -436,7 +436,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                   value={formData.description}
                   onChange={handleChange}
                   placeholder="Outline the core objective, problem to solve, college guide guidelines, or specific features you need implemented..."
-                  className={`w-full px-4 py-2.5 rounded-lg border text-sm bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/50 transition-colors focus-ring resize-y ${
+                  className={`w-full px-4 py-2.5 rounded-lg border text-base sm:text-sm bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/50 transition-colors focus-ring resize-y ${
                     errors.description
                       ? 'border-red-500'
                       : 'border-border-soft dark:border-border-dark'
@@ -460,7 +460,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                     value={formData.deadline}
                     onChange={handleChange}
                     placeholder="e.g. 4 weeks, End of semester"
-                    className="w-full px-4 py-2.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/50 transition-colors focus-ring text-sm"
+                    className="w-full px-4 py-2.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/50 transition-colors focus-ring text-base sm:text-sm"
                   />
                 </div>
 
@@ -475,7 +475,7 @@ export function ProjectForm({ initialCategory = '', onSubmissionSuccess }) {
                     value={formData.additional_requirements}
                     onChange={handleChange}
                     placeholder="e.g. Code walkthrough, Viva prep, Report guidance"
-                    className="w-full px-4 py-2.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/50 transition-colors focus-ring text-sm"
+                    className="w-full px-4 py-2.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/70 dark:bg-[#14161E] text-ink-midnight dark:text-foreground placeholder:text-slate-grey/50 dark:placeholder:text-muted-foreground/50 transition-colors focus-ring text-base sm:text-sm"
                   />
                 </div>
               </div>

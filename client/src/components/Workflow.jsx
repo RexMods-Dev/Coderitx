@@ -18,14 +18,14 @@ export function Workflow({ onStartProjectClick }) {
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
-      // Header reveal
+      // Header reveal (smooth & stately)
       gsap.fromTo(".workflow-header-anim", 
         { opacity: 0, y: 35 }, 
         {
           opacity: 1, 
           y: 0, 
-          duration: 0.8, 
-          ease: "power2.out",
+          duration: 0.95, 
+          ease: "power3.out",
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top 80%",
@@ -49,20 +49,20 @@ export function Workflow({ onStartProjectClick }) {
             trigger: ".workflow-steps-container",
             start: "top 75%",
             end: "bottom 70%",
-            scrub: 0.8
+            scrub: 1.0
           }
         });
       }
 
-      // Workflow step cards sequence
+      // Workflow step cards sequence (smooth cadence)
       gsap.fromTo(".workflow-step-card", 
-        { opacity: 0, y: 40 }, 
+        { opacity: 0, y: 45 }, 
         {
           opacity: 1, 
           y: 0, 
-          duration: 0.8, 
-          stagger: 0.15, 
-          ease: "power2.out",
+          duration: 0.95, 
+          stagger: 0.14, 
+          ease: "power3.out",
           scrollTrigger: {
             trigger: ".workflow-steps-container",
             start: "top 80%",
@@ -73,12 +73,12 @@ export function Workflow({ onStartProjectClick }) {
 
       // Guarantee callout banner
       gsap.fromTo(".workflow-guarantee-banner", 
-        { opacity: 0, y: 30 }, 
+        { opacity: 0, y: 35 }, 
         {
           opacity: 1, 
           y: 0, 
-          duration: 0.8, 
-          ease: "power2.out",
+          duration: 0.95, 
+          ease: "power3.out",
           scrollTrigger: {
             trigger: ".workflow-guarantee-banner",
             start: "top 90%",

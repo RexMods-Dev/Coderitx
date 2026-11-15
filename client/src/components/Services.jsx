@@ -32,14 +32,14 @@ export function Services({ onSelectServiceForEnquiry }) {
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
-      // Header reveal
+      // Header reveal (smooth & stately)
       gsap.fromTo(".services-header-anim", 
         { opacity: 0, y: 35 }, 
         {
           opacity: 1, 
           y: 0, 
-          duration: 0.8, 
-          ease: "power2.out",
+          duration: 0.95, 
+          ease: "power3.out",
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top 80%",
@@ -48,15 +48,15 @@ export function Services({ onSelectServiceForEnquiry }) {
         }
       );
 
-      // Dossier cards stagger reveal
+      // Dossier cards stagger reveal (smooth cadence)
       gsap.fromTo(".service-dossier-card", 
-        { opacity: 0, y: 40 }, 
+        { opacity: 0, y: 45 }, 
         {
           opacity: 1, 
           y: 0, 
-          duration: 0.75, 
+          duration: 0.9, 
           stagger: 0.1, 
-          ease: "power2.out",
+          ease: "power3.out",
           scrollTrigger: {
             trigger: ".services-grid-container",
             start: "top 85%",

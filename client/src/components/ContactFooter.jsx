@@ -33,8 +33,8 @@ export function ContactFooter({ onStartProjectClick }) {
         {
           opacity: 1, 
           y: 0, 
-          duration: 0.85, 
-          ease: "power2.out",
+          duration: 0.95, 
+          ease: "power3.out",
           scrollTrigger: {
             trigger: ".closing-cta-container",
             start: "top 85%",
@@ -48,8 +48,8 @@ export function ContactFooter({ onStartProjectClick }) {
         {
           opacity: 1, 
           y: 0, 
-          duration: 0.8, 
-          ease: "power2.out",
+          duration: 0.95, 
+          ease: "power3.out",
           scrollTrigger: {
             trigger: ".faq-container-anim",
             start: "top 85%",

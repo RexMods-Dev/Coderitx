@@ -43,16 +43,16 @@ export const LaptopMockup = forwardRef(({
       const deltaX = (e.clientX - centerX) / (window.innerWidth / 2);
       const deltaY = (e.clientY - centerY) / (window.innerHeight / 2);
 
-      // 1. Laptop 3D Tilt with smooth lerp
-      const rotY = deltaX * 11;
+      // 1. Laptop 3D Tilt with smooth, luxurious dampening
+      const rotY = deltaX * 12;
       const rotX = 14 - deltaY * 9;
 
       if (lidRef.current) {
         gsap.to(lidRef.current, {
           rotateY: rotY,
           rotateX: rotX,
-          duration: 0.8,
-          ease: "power2.out",
+          duration: 1.0,
+          ease: "power3.out",
           overwrite: "auto"
         });
       }
@@ -60,11 +60,11 @@ export const LaptopMockup = forwardRef(({
       // 2. Glare reflection shift
       if (glareRef.current) {
         gsap.to(glareRef.current, {
-          x: deltaX * 65,
-          y: deltaY * 45,
-          opacity: 0.65 + deltaX * 0.25,
-          duration: 0.8,
-          ease: "power2.out",
+          x: deltaX * 70,
+          y: deltaY * 50,
+          opacity: 0.6 + deltaX * 0.25,
+          duration: 1.0,
+          ease: "power3.out",
           overwrite: "auto"
         });
       }
@@ -72,10 +72,10 @@ export const LaptopMockup = forwardRef(({
       // 3. Ambient Shadow offset
       if (shadowRef.current) {
         gsap.to(shadowRef.current, {
-          x: -deltaX * 18,
-          scaleX: 1 - Math.abs(deltaX) * 0.05,
-          duration: 0.8,
-          ease: "power2.out",
+          x: -deltaX * 20,
+          scaleX: 1 - Math.abs(deltaX) * 0.06,
+          duration: 1.0,
+          ease: "power3.out",
           overwrite: "auto"
         });
       }
@@ -83,44 +83,44 @@ export const LaptopMockup = forwardRef(({
       // 4. Independent 3D Parallax on Floating Glass Cards
       if (sat1Ref.current) {
         gsap.to(sat1Ref.current, {
-          x: -deltaX * 42,
-          y: -deltaY * 30,
-          rotateZ: -deltaX * 4,
-          duration: 0.85,
-          ease: "power2.out",
+          x: -deltaX * 45,
+          y: -deltaY * 35,
+          rotateZ: -deltaX * 4.5,
+          duration: 1.1,
+          ease: "power3.out",
           overwrite: "auto"
         });
       }
 
       if (sat2Ref.current) {
         gsap.to(sat2Ref.current, {
-          x: deltaX * 38,
-          y: -deltaY * 34,
-          rotateZ: deltaX * 3.5,
-          duration: 0.85,
-          ease: "power2.out",
+          x: deltaX * 42,
+          y: -deltaY * 38,
+          rotateZ: deltaX * 4,
+          duration: 1.1,
+          ease: "power3.out",
           overwrite: "auto"
         });
       }
 
       if (sat3Ref.current) {
         gsap.to(sat3Ref.current, {
-          x: -deltaX * 32,
-          y: deltaY * 26,
-          rotateZ: -deltaX * 2.5,
-          duration: 0.9,
-          ease: "power2.out",
+          x: -deltaX * 36,
+          y: deltaY * 30,
+          rotateZ: -deltaX * 3,
+          duration: 1.15,
+          ease: "power3.out",
           overwrite: "auto"
         });
       }
 
       if (sat4Ref.current) {
         gsap.to(sat4Ref.current, {
-          x: deltaX * 40,
-          y: deltaY * 32,
-          rotateZ: deltaX * 3,
-          duration: 0.9,
-          ease: "power2.out",
+          x: deltaX * 44,
+          y: deltaY * 36,
+          rotateZ: deltaX * 3.5,
+          duration: 1.15,
+          ease: "power3.out",
           overwrite: "auto"
         });
       }
@@ -130,18 +130,18 @@ export const LaptopMockup = forwardRef(({
 
     // Continuous breathing float animation on laptop
     const floatAnim = gsap.to(containerRef.current, {
-      y: "-=12px",
-      duration: 3.6,
+      y: "-=14px",
+      duration: 4.2,
       repeat: -1,
       yoyo: true,
       ease: "sine.inOut"
     });
 
     // Independent hovering on satellite cards with phase offsets
-    const s1Anim = gsap.to(sat1Ref.current, { y: "+=10px", duration: 3.0, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    const s2Anim = gsap.to(sat2Ref.current, { y: "-=12px", duration: 3.4, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.5 });
-    const s3Anim = gsap.to(sat3Ref.current, { y: "-=9px", duration: 3.1, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.9 });
-    const s4Anim = gsap.to(sat4Ref.current, { y: "+=11px", duration: 3.7, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.3 });
+    const s1Anim = gsap.to(sat1Ref.current, { y: "+=12px", duration: 3.4, repeat: -1, yoyo: true, ease: "sine.inOut" });
+    const s2Anim = gsap.to(sat2Ref.current, { y: "-=14px", duration: 3.8, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.5 });
+    const s3Anim = gsap.to(sat3Ref.current, { y: "-=10px", duration: 3.5, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.9 });
+    const s4Anim = gsap.to(sat4Ref.current, { y: "+=13px", duration: 4.0, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.3 });
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
@@ -166,10 +166,10 @@ export const LaptopMockup = forwardRef(({
     >
       
       {/* Radiant Glowing Background Aura */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[80%] bg-gradient-to-tr from-cobalt-muted/20 via-indigo-500/10 to-purple-500/15 dark:from-cobalt-accent/20 dark:via-indigo-500/15 dark:to-purple-500/10 rounded-full blur-[90px] pointer-events-none -z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] h-[85%] bg-gradient-to-tr from-cobalt-muted/20 via-indigo-500/15 to-purple-500/20 dark:from-cobalt-accent/25 dark:via-indigo-500/20 dark:to-purple-500/15 rounded-full blur-[100px] pointer-events-none -z-10 animate-pulse-glow" />
 
       {/* ============================================================== */}
-      {/* 3D FLOATING SATELLITE GLASSMORPHISM CARDS (ORBITING LAPTOP)    */}
+      {/* 3D FLOATING SATELLITE GLASSMORPHISM CARDS (DESKTOP)             */}
       {/* ============================================================== */}
       
       {/* SATELLITE 1: Top-Left (PostgreSQL Database Pool) */}
@@ -265,7 +265,7 @@ export const LaptopMockup = forwardRef(({
         <div
           ref={lidRef}
           id="laptop-lid"
-          className="laptop-lid relative w-full aspect-[16/10] max-h-[540px] rounded-[18px] sm:rounded-[24px] p-[10px] sm:p-[12px] bg-gradient-to-b from-[#252830] via-[#1E2027] to-[#16181F] dark:from-[#2C2F3A] dark:via-[#22252F] dark:to-[#181A22] border border-white/25 dark:border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.35),0_0_0_1px_rgba(255,255,255,0.1)_inset] dark:shadow-[0_30px_70px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.08)_inset] transition-colors"
+          className="laptop-lid relative w-full aspect-[16/11] sm:aspect-[16/10] min-h-[290px] sm:min-h-[420px] max-h-[540px] rounded-[16px] sm:rounded-[24px] p-[8px] sm:p-[12px] bg-gradient-to-b from-[#252830] via-[#1E2027] to-[#16181F] dark:from-[#2C2F3A] dark:via-[#22252F] dark:to-[#181A22] border border-white/25 dark:border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.35),0_0_0_1px_rgba(255,255,255,0.1)_inset] dark:shadow-[0_30px_70px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.08)_inset] transition-colors"
           style={{
             transformOrigin: 'bottom center',
             transformStyle: 'preserve-3d',
@@ -274,25 +274,25 @@ export const LaptopMockup = forwardRef(({
           }}
         >
           {/* Outer Chamfer Rim Highlight */}
-          <div className="absolute inset-0 rounded-[18px] sm:rounded-[24px] border border-white/10 pointer-events-none" />
+          <div className="absolute inset-0 rounded-[16px] sm:rounded-[24px] border border-white/10 pointer-events-none" />
 
           {/* Inner Display Bezel (MacBook Pro Ultra-Slim Bezel) */}
           <div
             id="laptop-bezel"
-            className="laptop-bezel relative w-full h-full rounded-[12px] sm:rounded-[16px] bg-[#0A0B0E] p-[5px] sm:p-[7px] flex flex-col overflow-hidden"
+            className="laptop-bezel relative w-full h-full rounded-[10px] sm:rounded-[16px] bg-[#0A0B0E] p-[4px] sm:p-[7px] flex flex-col overflow-hidden"
           >
             {/* Top Camera Housing Notch & Mic Sensor */}
-            <div className="absolute top-1 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-30 pointer-events-none px-3 py-0.5 rounded-b-md bg-[#0A0B0E]">
+            <div className="absolute top-0.5 sm:top-1 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-30 pointer-events-none px-2.5 sm:px-3 py-0.5 rounded-b-md bg-[#0A0B0E]">
               <div className="w-1.5 h-1.5 rounded-full bg-[#181A20] border border-white/15 flex items-center justify-center">
                 <div className="w-0.5 h-0.5 rounded-full bg-cobalt-accent/90 shadow-[0_0_4px_rgba(129,144,240,0.8)]" />
               </div>
-              <div className="w-0.5 h-0.5 rounded-full bg-emerald-400/80 shadow-[0_0_4px_rgba(52,211,153,0.8)]" />
+              <div className="w-0.5 h-0.5 rounded-full bg-emerald-400/90 shadow-[0_0_4px_rgba(52,211,153,0.9)] animate-pulse" />
             </div>
 
             {/* Live Screen Glass Surface */}
             <div
               id="laptop-screen"
-              className="laptop-screen relative w-full h-full rounded-[8px] sm:rounded-[10px] overflow-hidden bg-[#0A0C12] border border-black/40"
+              className="laptop-screen relative w-full h-full rounded-[7px] sm:rounded-[10px] overflow-hidden bg-[#0A0C12] border border-black/40 flex flex-col"
             >
               {/* Dynamic Glare Reflection Overlay */}
               <div
@@ -301,7 +301,7 @@ export const LaptopMockup = forwardRef(({
               />
 
               {/* Website / IDE Preview Content */}
-              <div id="laptop-screen-content" className="w-full h-full">
+              <div id="laptop-screen-content" className="w-full h-full flex flex-col">
                 <LaptopScreenContent
                   onStartProjectClick={onStartProjectClick}
                   onExploreWorkClick={onExploreWorkClick}
@@ -317,9 +317,9 @@ export const LaptopMockup = forwardRef(({
           id="laptop-base"
           className="laptop-base relative w-[104%] -mt-[2px] flex flex-col items-center z-10"
         >
-          {/* Keyboard backlight hinge glow */}
-          <div className="w-[90%] h-[5px] bg-[#101217] dark:bg-[#13151D] rounded-t-sm border-t border-white/20 dark:border-white/10 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cobalt-muted/30 to-transparent" />
+          {/* Keyboard backlight hinge breathing glow */}
+          <div className="w-[90%] h-[5px] bg-[#101217] dark:bg-[#13151D] rounded-t-sm border-t border-white/20 dark:border-white/10 relative overflow-hidden animate-keyboard-breathe">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cobalt-muted/50 dark:via-cobalt-accent/50 to-transparent" />
           </div>
 
           {/* Precision CNC front chassis edge */}
@@ -331,11 +331,68 @@ export const LaptopMockup = forwardRef(({
           {/* Realistic Dynamic Ambient Occlusion Shadow */}
           <div
             ref={shadowRef}
-            className="w-[94%] h-[28px] sm:h-[38px] -mt-[6px] bg-ink-midnight/35 dark:bg-black/85 blur-2xl rounded-full pointer-events-none -z-10 transition-transform"
+            className="w-[94%] h-[28px] sm:h-[38px] -mt-[6px] bg-ink-midnight/40 dark:bg-black/90 blur-2xl rounded-full pointer-events-none -z-10 transition-transform"
           />
         </div>
 
       </div>
+
+      {/* ============================================================== */}
+      {/* MOBILE TELEMETRY STRIP (Visible only on < md screens)          */}
+      {/* ============================================================== */}
+      <div className="mt-5 grid grid-cols-2 gap-2 md:hidden">
+        <div className="p-2.5 rounded-xl glass-surface dark:bg-[#1A1D26]/90 border border-border-soft dark:border-border-dark flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg bg-cobalt-muted/15 text-cobalt-muted dark:text-cobalt-accent flex items-center justify-center flex-shrink-0">
+            <Database className="w-3.5 h-3.5" />
+          </div>
+          <div className="font-mono text-[10px] leading-tight truncate">
+            <div className="font-bold text-ink-midnight dark:text-white flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span>PostgreSQL</span>
+            </div>
+            <div className="text-slate-grey dark:text-slate-400 text-[9px]">14ms ACID Pool</div>
+          </div>
+        </div>
+
+        <div className="p-2.5 rounded-xl glass-surface dark:bg-[#1A1D26]/90 border border-border-soft dark:border-border-dark flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg bg-amber-500/15 text-amber-500 flex items-center justify-center flex-shrink-0">
+            <Cpu className="w-3.5 h-3.5" />
+          </div>
+          <div className="font-mono text-[10px] leading-tight truncate">
+            <div className="font-bold text-ink-midnight dark:text-white flex items-center gap-1">
+              <Radio className="w-2.5 h-2.5 text-amber-500" />
+              <span>ESP32</span>
+            </div>
+            <div className="text-slate-grey dark:text-slate-400 text-[9px]">RFID Telemetry</div>
+          </div>
+        </div>
+
+        <div className="p-2.5 rounded-xl glass-surface dark:bg-[#1A1D26]/90 border border-border-soft dark:border-border-dark flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg bg-purple-500/15 text-purple-500 flex items-center justify-center flex-shrink-0">
+            <BrainCircuit className="w-3.5 h-3.5" />
+          </div>
+          <div className="font-mono text-[10px] leading-tight truncate">
+            <div className="font-bold text-ink-midnight dark:text-white flex items-center gap-1">
+              <Sparkles className="w-2.5 h-2.5 text-purple-500" />
+              <span>YOLOv8 AI</span>
+            </div>
+            <div className="text-emerald-600 dark:text-emerald-400 text-[9px] font-semibold">98.4% mAP</div>
+          </div>
+        </div>
+
+        <div className="p-2.5 rounded-xl glass-surface dark:bg-[#1A1D26]/90 border border-border-soft dark:border-border-dark flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+            <ShieldCheck className="w-3.5 h-3.5" />
+          </div>
+          <div className="font-mono text-[10px] leading-tight truncate">
+            <div className="font-bold text-ink-midnight dark:text-white">
+              <span>Viva Defense</span>
+            </div>
+            <div className="text-slate-grey dark:text-slate-400 text-[9px]">1-on-1 Walkthrough</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 });

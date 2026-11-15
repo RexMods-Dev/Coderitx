@@ -66,6 +66,24 @@
   background: rgba(116, 119, 130, 0.45);
 }
 
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Smooth luxury transitions */
+.smooth-spring {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.smooth-dampened {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* Architectural grid */
 .bg-subtle-grid {
   background-size: 44px 44px;
@@ -84,6 +102,7 @@
 .perspective-container {
   perspective: 1400px;
   perspective-origin: center center;
+  will-change: transform;
 }
 
 .preserve-3d {
@@ -143,13 +162,13 @@
 .screen-glass-glare {
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.22) 0%,
-    rgba(255, 255, 255, 0.06) 38%,
-    transparent 68%
+    rgba(255, 255, 255, 0.24) 0%,
+    rgba(255, 255, 255, 0.08) 35%,
+    transparent 65%
   );
 }
 
-/* Radiant animated aura */
+/* Radiant animated aura & keyboard breathing pulses */
 @keyframes floatSlow {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   50% { transform: translateY(-12px) rotate(1deg); }
@@ -157,11 +176,21 @@
 
 @keyframes pulseGlow {
   0%, 100% { opacity: 0.45; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.08); }
+  50% { opacity: 0.85; transform: scale(1.08); }
+}
+
+@keyframes keyboardBreathe {
+  0%, 100% { opacity: 0.35; filter: drop-shadow(0 0 8px rgba(82, 103, 216, 0.3)); }
+  50% { opacity: 0.85; filter: drop-shadow(0 0 18px rgba(129, 144, 240, 0.7)); }
+}
+
+@keyframes dataStreamPulse {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -170,11 +199,23 @@
 }
 
 .animate-pulse-glow {
-  animation: pulseGlow 8s ease-in-out infinite;
+  animation: pulseGlow 7s ease-in-out infinite;
+}
+
+.animate-keyboard-breathe {
+  animation: keyboardBreathe 4s ease-in-out infinite;
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.3s ease-out forwards;
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Mobile responsive safeguards */
+@media (max-width: 640px) {
+  .hero-headline {
+    font-size: 2.25rem !important;
+    line-height: 1.15 !important;
+  }
 }
 
 /* Clean focus outline helper */
