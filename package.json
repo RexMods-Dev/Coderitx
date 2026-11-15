@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
-    "build": "npm run build --prefix client",
+    "build": "npm run build --prefix client && node -e \"fs.cpSync('client/dist', 'docs', {recursive: true})\"",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d client/dist",
+    "deploy": "gh-pages -d client/dist -t",
     "server": "npm run dev --prefix server",
     "client": "npm run dev --prefix client",
     "start": "node server/index.js"
