@@ -1,6 +1,6 @@
-import React, { forwardRef, useEffect, useRef } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { Database, Cpu, BrainCircuit, ShieldCheck, Activity, Radio, Sparkles, Terminal } from 'lucide-react';
+import { Database, Cpu, BrainCircuit, ShieldCheck, Radio, Sparkles } from 'lucide-react';
 import { LaptopScreenContent } from './LaptopScreenContent';
 
 export const LaptopMockup = forwardRef(({
@@ -10,8 +10,10 @@ export const LaptopMockup = forwardRef(({
 }, ref) => {
   const containerRef = useRef(null);
   const lidRef = useRef(null);
+  const screenContentRef = useRef(null);
   const baseRef = useRef(null);
   const glareRef = useRef(null);
+  const spotlightRef = useRef(null);
   const shadowRef = useRef(null);
 
   // Satellite glass card refs for 3D parallax
@@ -20,7 +22,10 @@ export const LaptopMockup = forwardRef(({
   const sat3Ref = useRef(null);
   const sat4Ref = useRef(null);
 
-  // Mouse tilt & multi-layer 3D parallax interaction
+  // State for dynamic spotlight coordinates following cursor
+  const [spotlightPos, setSpotlightPos] = useState({ x: 50, y: 30, opacity: 0 });
+
+  // Mouse tilt, dynamic cursor spotlight, and multi-area subtle movements
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
@@ -38,55 +43,89 @@ export const LaptopMockup = forwardRef(({
       const rect = containerRef.current?.getBoundingClientRect();
       if (!rect) return;
 
+      // Normalized coordinates from center (-1 to 1)
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-      const deltaX = (e.clientX - centerX) / (window.innerWidth / 2);
-      const deltaY = (e.clientY - centerY) / (window.innerHeight / 2);
+      const deltaX = Math.max(-1, Math.min(1, (e.clientX - centerX) / (rect.width / 1.6)));
+      const deltaY = Math.max(-1, Math.min(1, (e.clientY - centerY) / (rect.height / 1.6)));
 
-      // 1. Laptop 3D Tilt with smooth, luxurious dampening
-      const rotY = deltaX * 12;
-      const rotX = 14 - deltaY * 9;
+      // Percentage position inside container for dynamic spotlight (0 to 100%)
+      const pctX = ((e.clientX - rect.left) / rect.width) * 100;
+      const pctY = ((e.clientY - rect.top) / rect.height) * 100;
+
+      // Update spotlight position smoothly
+      setSpotlightPos({
+        x: Math.round(pctX),
+        y: Math.round(pctY),
+        opacity: 0.65
+      });
+
+      // 1. MacBook Lid 3D Perspective Tilt (Subtle, weighted, luxurious)
+      const rotY = deltaX * 11; // max 11 deg yaw
+      const rotX = 13 - deltaY * 7; // 6 to 20 deg pitch
 
       if (lidRef.current) {
         gsap.to(lidRef.current, {
           rotateY: rotY,
           rotateX: rotX,
-          duration: 1.0,
+          duration: 0.9,
           ease: "power3.out",
           overwrite: "auto"
         });
       }
 
-      // 2. Glare reflection shift
+      // 2. Sub-surface Glass Depth: Screen content counter-parallax gives depth under glass
+      if (screenContentRef.current) {
+        gsap.to(screenContentRef.current, {
+          x: deltaX * 8,
+          y: deltaY * 6,
+          duration: 0.95,
+          ease: "power3.out",
+          overwrite: "auto"
+        });
+      }
+
+      // 3. Specular Glare Reflection on Display Glass
       if (glareRef.current) {
         gsap.to(glareRef.current, {
-          x: deltaX * 70,
-          y: deltaY * 50,
-          opacity: 0.6 + deltaX * 0.25,
-          duration: 1.0,
+          x: deltaX * 65,
+          y: deltaY * 45,
+          opacity: 0.55 + deltaX * 0.2,
+          duration: 0.9,
           ease: "power3.out",
           overwrite: "auto"
         });
       }
 
-      // 3. Ambient Shadow offset
+      // 4. Aluminum Chassis Base counter-alignment
+      if (baseRef.current) {
+        gsap.to(baseRef.current, {
+          rotateY: deltaX * 3.5,
+          x: deltaX * 4,
+          duration: 0.9,
+          ease: "power3.out",
+          overwrite: "auto"
+        });
+      }
+
+      // 5. Dynamic Contact Shadow shift
       if (shadowRef.current) {
         gsap.to(shadowRef.current, {
-          x: -deltaX * 20,
-          scaleX: 1 - Math.abs(deltaX) * 0.06,
-          duration: 1.0,
+          x: -deltaX * 18,
+          scaleX: 1 - Math.abs(deltaX) * 0.05,
+          duration: 0.95,
           ease: "power3.out",
           overwrite: "auto"
         });
       }
 
-      // 4. Independent 3D Parallax on Floating Glass Cards
+      // 6. Subtle Parallax on Floating Satellite Cards
       if (sat1Ref.current) {
         gsap.to(sat1Ref.current, {
-          x: -deltaX * 45,
-          y: -deltaY * 35,
-          rotateZ: -deltaX * 4.5,
-          duration: 1.1,
+          x: -deltaX * 40,
+          y: -deltaY * 30,
+          rotateZ: -deltaX * 4,
+          duration: 1.0,
           ease: "power3.out",
           overwrite: "auto"
         });
@@ -94,10 +133,10 @@ export const LaptopMockup = forwardRef(({
 
       if (sat2Ref.current) {
         gsap.to(sat2Ref.current, {
-          x: deltaX * 42,
-          y: -deltaY * 38,
-          rotateZ: deltaX * 4,
-          duration: 1.1,
+          x: deltaX * 38,
+          y: -deltaY * 34,
+          rotateZ: deltaX * 3.5,
+          duration: 1.0,
           ease: "power3.out",
           overwrite: "auto"
         });
@@ -105,10 +144,10 @@ export const LaptopMockup = forwardRef(({
 
       if (sat3Ref.current) {
         gsap.to(sat3Ref.current, {
-          x: -deltaX * 36,
-          y: deltaY * 30,
-          rotateZ: -deltaX * 3,
-          duration: 1.15,
+          x: -deltaX * 32,
+          y: deltaY * 26,
+          rotateZ: -deltaX * 2.8,
+          duration: 1.05,
           ease: "power3.out",
           overwrite: "auto"
         });
@@ -116,21 +155,94 @@ export const LaptopMockup = forwardRef(({
 
       if (sat4Ref.current) {
         gsap.to(sat4Ref.current, {
-          x: deltaX * 44,
-          y: deltaY * 36,
-          rotateZ: deltaX * 3.5,
-          duration: 1.15,
+          x: deltaX * 40,
+          y: deltaY * 32,
+          rotateZ: deltaX * 3,
+          duration: 1.05,
           ease: "power3.out",
           overwrite: "auto"
         });
       }
     };
 
+    const handleMouseLeave = () => {
+      setSpotlightPos((p) => ({ ...p, opacity: 0 }));
+
+      // Smoothly return to resting position
+      if (lidRef.current) {
+        gsap.to(lidRef.current, {
+          rotateY: 0,
+          rotateX: 13,
+          duration: 1.2,
+          ease: "power2.out",
+          overwrite: "auto"
+        });
+      }
+
+      if (screenContentRef.current) {
+        gsap.to(screenContentRef.current, {
+          x: 0,
+          y: 0,
+          duration: 1.2,
+          ease: "power2.out",
+          overwrite: "auto"
+        });
+      }
+
+      if (baseRef.current) {
+        gsap.to(baseRef.current, {
+          rotateY: 0,
+          x: 0,
+          duration: 1.2,
+          ease: "power2.out",
+          overwrite: "auto"
+        });
+      }
+
+      if (glareRef.current) {
+        gsap.to(glareRef.current, {
+          x: 0,
+          y: 0,
+          opacity: 0.55,
+          duration: 1.2,
+          ease: "power2.out",
+          overwrite: "auto"
+        });
+      }
+
+      if (shadowRef.current) {
+        gsap.to(shadowRef.current, {
+          x: 0,
+          scaleX: 1,
+          duration: 1.2,
+          ease: "power2.out",
+          overwrite: "auto"
+        });
+      }
+
+      [sat1Ref, sat2Ref, sat3Ref, sat4Ref].forEach((refItem) => {
+        if (refItem.current) {
+          gsap.to(refItem.current, {
+            x: 0,
+            y: 0,
+            rotateZ: 0,
+            duration: 1.2,
+            ease: "power2.out",
+            overwrite: "auto"
+          });
+        }
+      });
+    };
+
+    const containerEl = containerRef.current;
     window.addEventListener('mousemove', handleMouseMove);
+    if (containerEl) {
+      containerEl.addEventListener('mouseleave', handleMouseLeave);
+    }
 
     // Continuous breathing float animation on laptop
     const floatAnim = gsap.to(containerRef.current, {
-      y: "-=14px",
+      y: "-=12px",
       duration: 4.2,
       repeat: -1,
       yoyo: true,
@@ -138,14 +250,17 @@ export const LaptopMockup = forwardRef(({
     });
 
     // Independent hovering on satellite cards with phase offsets
-    const s1Anim = gsap.to(sat1Ref.current, { y: "+=12px", duration: 3.4, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    const s2Anim = gsap.to(sat2Ref.current, { y: "-=14px", duration: 3.8, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.5 });
-    const s3Anim = gsap.to(sat3Ref.current, { y: "-=10px", duration: 3.5, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.9 });
-    const s4Anim = gsap.to(sat4Ref.current, { y: "+=13px", duration: 4.0, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.3 });
+    const s1Anim = gsap.to(sat1Ref.current, { y: "+=10px", duration: 3.4, repeat: -1, yoyo: true, ease: "sine.inOut" });
+    const s2Anim = gsap.to(sat2Ref.current, { y: "-=12px", duration: 3.8, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.5 });
+    const s3Anim = gsap.to(sat3Ref.current, { y: "-=9px", duration: 3.5, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.9 });
+    const s4Anim = gsap.to(sat4Ref.current, { y: "+=11px", duration: 4.0, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.3 });
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);
+      if (containerEl) {
+        containerEl.removeEventListener('mouseleave', handleMouseLeave);
+      }
       floatAnim.kill();
       s1Anim.kill();
       s2Anim.kill();
@@ -161,7 +276,7 @@ export const LaptopMockup = forwardRef(({
         if (typeof ref === 'function') ref(el);
         else if (ref) ref.current = el;
       }}
-      className={`laptop-mockup-root relative w-full max-w-[960px] mx-auto select-none ${className}`}
+      className={`laptop-mockup-root relative w-full max-w-[940px] mx-auto select-none ${className}`}
       style={{ transformStyle: 'preserve-3d' }}
     >
       
@@ -254,45 +369,61 @@ export const LaptopMockup = forwardRef(({
       </div>
 
       {/* ============================================================== */}
-      {/* 3D MACBOOK PRO HARDWARE CONTAINER                              */}
+      {/* 3D AUTHENTIC MACBOOK PRO UNIBODY HARDWARE                      */}
       {/* ============================================================== */}
       <div
         className="laptop-perspective-group relative w-full flex flex-col items-center"
         style={{ transformStyle: 'preserve-3d' }}
       >
         
-        {/* LAPTOP LID / SCREEN UNIT */}
+        {/* MACBOOK LID / RETINA DISPLAY UNIT */}
         <div
           ref={lidRef}
           id="laptop-lid"
-          className="laptop-lid relative w-full aspect-[16/11] sm:aspect-[16/10] min-h-[290px] sm:min-h-[420px] max-h-[540px] rounded-[16px] sm:rounded-[24px] p-[8px] sm:p-[12px] bg-gradient-to-b from-[#252830] via-[#1E2027] to-[#16181F] dark:from-[#2C2F3A] dark:via-[#22252F] dark:to-[#181A22] border border-white/25 dark:border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.35),0_0_0_1px_rgba(255,255,255,0.1)_inset] dark:shadow-[0_30px_70px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.08)_inset] transition-colors"
+          className="laptop-lid relative w-full aspect-[16/11] sm:aspect-[16/10] min-h-[300px] sm:min-h-[420px] max-h-[540px] rounded-[20px] sm:rounded-[28px] p-[7px] sm:p-[10px] bg-gradient-to-b from-[#2E313A] via-[#21232B] to-[#16181F] dark:from-[#353844] dark:via-[#262833] dark:to-[#171921] border border-white/30 dark:border-white/15 shadow-[0_25px_60px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.1)_inset] dark:shadow-[0_35px_80px_rgba(0,0,0,0.75),0_0_0_1px_rgba(255,255,255,0.08)_inset] transition-colors"
           style={{
             transformOrigin: 'bottom center',
             transformStyle: 'preserve-3d',
             backfaceVisibility: 'hidden',
-            transform: 'perspective(1400px) rotateX(14deg)'
+            transform: 'perspective(1400px) rotateX(13deg)'
           }}
         >
-          {/* Outer Chamfer Rim Highlight */}
-          <div className="absolute inset-0 rounded-[16px] sm:rounded-[24px] border border-white/10 pointer-events-none" />
+          {/* CNC Chamfer Rim Highlight (MacBook Aluminum Anodized Edge) */}
+          <div className="absolute inset-0 rounded-[20px] sm:rounded-[28px] border border-white/15 pointer-events-none" />
 
-          {/* Inner Display Bezel (MacBook Pro Ultra-Slim Bezel) */}
+          {/* Dynamic Cursor Spotlight that dances subtly across the MacBook lid surface */}
+          <div
+            ref={spotlightRef}
+            className="absolute inset-0 rounded-[20px] sm:rounded-[28px] pointer-events-none transition-opacity duration-300 z-30"
+            style={{
+              background: `radial-gradient(circle 340px at ${spotlightPos.x}% ${spotlightPos.y}%, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.03) 40%, transparent 70%)`,
+              opacity: spotlightPos.opacity
+            }}
+          />
+
+          {/* Inner Display Bezel (MacBook Pro Ultra-Slim Black Glass Bezel) */}
           <div
             id="laptop-bezel"
-            className="laptop-bezel relative w-full h-full rounded-[10px] sm:rounded-[16px] bg-[#0A0B0E] p-[4px] sm:p-[7px] flex flex-col overflow-hidden"
+            className="laptop-bezel relative w-full h-full rounded-[14px] sm:rounded-[20px] bg-[#0A0B0E] p-[3px] sm:p-[5px] flex flex-col overflow-hidden shadow-inner"
           >
-            {/* Top Camera Housing Notch & Mic Sensor */}
-            <div className="absolute top-0.5 sm:top-1 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-30 pointer-events-none px-2.5 sm:px-3 py-0.5 rounded-b-md bg-[#0A0B0E]">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#181A20] border border-white/15 flex items-center justify-center">
-                <div className="w-0.5 h-0.5 rounded-full bg-cobalt-accent/90 shadow-[0_0_4px_rgba(129,144,240,0.8)]" />
+            {/* SIGNATURE MACBOOK PRO TOP CAMERA NOTCH */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 sm:w-36 h-[17px] sm:h-[20px] rounded-b-[10px] sm:rounded-b-[12px] bg-[#0A0B0E] border-x border-b border-white/10 shadow-sm flex items-center justify-center gap-2 z-40 pointer-events-none">
+              {/* Ambient Sensor */}
+              <div className="w-1 h-1 rounded-full bg-[#181A22] border border-white/10" />
+              
+              {/* FaceTime HD Camera Lens with AR Coating Glare */}
+              <div className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#0D0F16] border border-white/20 flex items-center justify-center ring-1 ring-indigo-500/20">
+                <div className="w-1 h-1 rounded-full bg-gradient-to-tr from-cobalt-accent/90 to-purple-400/90 shadow-[0_0_4px_rgba(129,144,240,0.8)]" />
               </div>
-              <div className="w-0.5 h-0.5 rounded-full bg-emerald-400/90 shadow-[0_0_4px_rgba(52,211,153,0.9)] animate-pulse" />
+              
+              {/* Active Green Webcam LED */}
+              <div className="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.9)] animate-pulse" />
             </div>
 
-            {/* Live Screen Glass Surface */}
+            {/* Liquid Retina XDR Glass Surface */}
             <div
               id="laptop-screen"
-              className="laptop-screen relative w-full h-full rounded-[7px] sm:rounded-[10px] overflow-hidden bg-[#0A0C12] border border-black/40 flex flex-col"
+              className="laptop-screen relative w-full h-full rounded-[10px] sm:rounded-[14px] overflow-hidden bg-[#0A0C12] border border-black/50 flex flex-col"
             >
               {/* Dynamic Glare Reflection Overlay */}
               <div
@@ -300,8 +431,12 @@ export const LaptopMockup = forwardRef(({
                 className="screen-glass-glare absolute inset-0 pointer-events-none z-20 transition-opacity"
               />
 
-              {/* Website / IDE Preview Content */}
-              <div id="laptop-screen-content" className="w-full h-full flex flex-col">
+              {/* Live Interactive Screen Content (with sub-surface parallax ref) */}
+              <div
+                ref={screenContentRef}
+                id="laptop-screen-content"
+                className="w-full h-full flex flex-col"
+              >
                 <LaptopScreenContent
                   onStartProjectClick={onStartProjectClick}
                   onExploreWorkClick={onExploreWorkClick}
@@ -311,34 +446,40 @@ export const LaptopMockup = forwardRef(({
           </div>
         </div>
 
-        {/* LAPTOP LOWER CHASSIS & KEYBOARD DECK BASE */}
+        {/* MACBOOK LOWER CHASSIS & KEYBOARD DECK BASE */}
         <div
           ref={baseRef}
           id="laptop-base"
           className="laptop-base relative w-[104%] -mt-[2px] flex flex-col items-center z-10"
         >
-          {/* Keyboard backlight hinge breathing glow */}
-          <div className="w-[90%] h-[5px] bg-[#101217] dark:bg-[#13151D] rounded-t-sm border-t border-white/20 dark:border-white/10 relative overflow-hidden animate-keyboard-breathe">
+          {/* MacBook Recessed Black Hinge Bar with Keyboard Backlight Glow */}
+          <div className="w-[74%] sm:w-[78%] h-[5px] sm:h-[6px] bg-[#111319] dark:bg-[#13151D] rounded-t-sm border-t border-white/20 dark:border-white/10 relative overflow-hidden animate-keyboard-breathe">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cobalt-muted/50 dark:via-cobalt-accent/50 to-transparent" />
           </div>
 
-          {/* Precision CNC front chassis edge */}
-          <div className="w-full h-[15px] sm:h-[18px] bg-gradient-to-b from-[#323642] via-[#242732] to-[#151720] dark:from-[#353946] dark:via-[#262936] dark:to-[#171922] rounded-b-[16px] sm:rounded-b-[20px] border-b border-white/10 shadow-lg relative flex items-start justify-center pt-[1px]">
-            {/* Thumb opening recess notch */}
-            <div className="w-16 sm:w-20 h-[3px] sm:h-[4px] rounded-full bg-[#0B0C10] dark:bg-[#08090C] border-t border-black/60 shadow-inner" />
+          {/* Precision CNC Anodized Aluminum Front Deck Edge */}
+          <div className="w-full h-[15px] sm:h-[18px] bg-gradient-to-b from-[#353946] via-[#262936] to-[#171922] dark:from-[#3A3E4D] dark:via-[#292C3A] dark:to-[#191B24] rounded-b-[18px] sm:rounded-b-[24px] border-b border-white/15 shadow-xl relative flex items-start justify-center pt-[1px]">
+            {/* Signature MacBook Centered Thumb Opening Recess Groove */}
+            <div className="w-20 sm:w-28 h-[3.5px] sm:h-[4.5px] rounded-full bg-[#0A0C10] dark:bg-[#06070A] border-t border-black/80 shadow-inner" />
           </div>
 
-          {/* Realistic Dynamic Ambient Occlusion Shadow */}
+          {/* Bottom Rubber Support Feet (Left and Right) */}
+          <div className="w-[88%] flex justify-between px-6 -mt-[1px] pointer-events-none">
+            <div className="w-8 sm:w-12 h-[2px] rounded-full bg-black/60" />
+            <div className="w-8 sm:w-12 h-[2px] rounded-full bg-black/60" />
+          </div>
+
+          {/* Realistic Dual-Layer Ambient Occlusion Drop Shadow */}
           <div
             ref={shadowRef}
-            className="w-[94%] h-[28px] sm:h-[38px] -mt-[6px] bg-ink-midnight/40 dark:bg-black/90 blur-2xl rounded-full pointer-events-none -z-10 transition-transform"
+            className="w-[94%] h-[26px] sm:h-[36px] -mt-[4px] bg-ink-midnight/40 dark:bg-black/90 blur-2xl rounded-full pointer-events-none -z-10 transition-transform"
           />
         </div>
 
       </div>
 
       {/* ============================================================== */}
-      {/* MOBILE TELEMETRY STRIP (Visible only on < md screens)          */}
+      {/* MOBILE TELEMETRY GRID (Optimized for Mobile Screens)            */}
       {/* ============================================================== */}
       <div className="mt-5 grid grid-cols-2 gap-2 md:hidden">
         <div className="p-2.5 rounded-xl glass-surface dark:bg-[#1A1D26]/90 border border-border-soft dark:border-border-dark flex items-center gap-2">

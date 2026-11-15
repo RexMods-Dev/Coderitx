@@ -5,18 +5,11 @@ import {
   Terminal,
   CheckCircle2,
   Shield,
-  Cpu,
   Layers,
   Sparkles,
   Activity,
   RotateCcw,
-  Database,
-  Radio,
   FileCode2,
-  Check,
-  Zap,
-  Play,
-  Server
 } from 'lucide-react';
 
 const initialLogs = [
@@ -48,7 +41,6 @@ export function LaptopScreenContent({ onStartProjectClick, onExploreWorkClick })
   const [logs, setLogs] = useState(initialLogs.slice(0, 4));
   const [logIndex, setLogIndex] = useState(4);
   const [isSimulating, setIsSimulating] = useState(false);
-  const [pulseCount, setPulseCount] = useState(42);
   const [latency, setLatency] = useState(14);
   const [fps, setFps] = useState('60.0');
   const [activeDefenseIndex, setActiveDefenseIndex] = useState(0);
@@ -62,7 +54,6 @@ export function LaptopScreenContent({ onStartProjectClick, onExploreWorkClick })
         setLogs(initialLogs.slice(0, next));
         return next;
       });
-      setPulseCount((p) => p + 1);
       // Realistic fluctuation: 12-16ms latency, 59.8 - 60.1 FPS
       setLatency(12 + Math.floor(Math.random() * 5));
       setFps((59.7 + Math.random() * 0.4).toFixed(1));
@@ -115,16 +106,22 @@ export function LaptopScreenContent({ onStartProjectClick, onExploreWorkClick })
     <div className="w-full h-full bg-[#0B0D14] text-white overflow-hidden flex flex-col font-mono select-none relative">
       
       {/* ============================================================== */}
-      {/* TOP WINDOW BAR (macOS Pro Glass Window Header)                 */}
+      {/* TOP WINDOW BAR (macOS Native Menu Bar & Traffic Lights)        */}
       {/* ============================================================== */}
-      <div className="w-full px-2.5 sm:px-4 py-1.5 sm:py-2 bg-[#141720]/95 backdrop-blur-md border-b border-white/10 flex items-center justify-between z-20 flex-shrink-0">
+      <div className="w-full px-2.5 sm:px-4 pt-1 sm:pt-2 pb-1.5 sm:pb-2 bg-[#141720]/95 backdrop-blur-md border-b border-white/10 flex items-center justify-between z-20 flex-shrink-0">
         
-        {/* Left: Window traffic lights & filename */}
+        {/* Left: Window traffic lights with subtle hover glyphs */}
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1 sm:gap-1.5">
-            <div className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#FF5F56] border border-red-500/50 shadow-[0_0_6px_rgba(255,95,86,0.6)]" />
-            <div className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#FFBD2E] border border-amber-500/50 shadow-[0_0_6px_rgba(255,189,46,0.6)]" />
-            <div className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#27C93F] border border-emerald-500/50 shadow-[0_0_6px_rgba(39,201,63,0.6)]" />
+          <div className="flex items-center gap-1 sm:gap-1.5 group cursor-pointer">
+            <div className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#FF5F56] border border-red-500/50 shadow-[0_0_6px_rgba(255,95,86,0.6)] flex items-center justify-center text-[7px] text-black font-bold">
+              <span className="hidden group-hover:inline leading-none">×</span>
+            </div>
+            <div className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#FFBD2E] border border-amber-500/50 shadow-[0_0_6px_rgba(255,189,46,0.6)] flex items-center justify-center text-[7px] text-black font-bold">
+              <span className="hidden group-hover:inline leading-none">-</span>
+            </div>
+            <div className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#27C93F] border border-emerald-500/50 shadow-[0_0_6px_rgba(39,201,63,0.6)] flex items-center justify-center text-[7px] text-black font-bold">
+              <span className="hidden group-hover:inline leading-none">+</span>
+            </div>
           </div>
 
           <div className="hidden md:flex items-center gap-1.5 pl-2 border-l border-white/10 text-[10px] sm:text-[11px] text-slate-300">
@@ -134,57 +131,57 @@ export function LaptopScreenContent({ onStartProjectClick, onExploreWorkClick })
           </div>
         </div>
 
-        {/* Center: Interactive Mode Switcher Tabs */}
-        <div className="flex items-center gap-0.5 sm:gap-1 bg-black/60 p-0.5 sm:p-1 rounded-lg border border-white/10 text-[9px] sm:text-[10px]">
+        {/* Center: Desktop Tabs (Visible on tablet & desktop) */}
+        <div className="hidden sm:flex items-center gap-1 bg-black/60 p-1 rounded-lg border border-white/10 text-[10px]">
           <button
             type="button"
             onClick={() => setActiveTab('terminal')}
-            className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded transition-all flex items-center gap-1 ${
+            className={`px-2.5 py-1 rounded transition-all cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'terminal'
                 ? 'bg-cobalt-muted text-white font-semibold shadow-xs'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Terminal className="w-2.5 sm:w-3 h-2.5 sm:h-3" />
+            <Terminal className="w-3 h-3" />
             <span>Terminal</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab('architecture')}
-            className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded transition-all flex items-center gap-1 ${
+            className={`px-2.5 py-1 rounded transition-all cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'architecture'
                 ? 'bg-cobalt-muted text-white font-semibold shadow-xs'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Layers className="w-2.5 sm:w-3 h-2.5 sm:h-3" />
-            <span>Arch</span>
+            <Layers className="w-3 h-3" />
+            <span>Architecture</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab('defense')}
-            className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded transition-all flex items-center gap-1 ${
+            className={`px-2.5 py-1 rounded transition-all cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'defense'
                 ? 'bg-cobalt-muted text-white font-semibold shadow-xs'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Shield className="w-2.5 sm:w-3 h-2.5 sm:h-3" />
-            <span>Viva</span>
+            <Shield className="w-3 h-3" />
+            <span>Viva Prep</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab('code')}
-            className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded transition-all flex items-center gap-1 ${
+            className={`px-2.5 py-1 rounded transition-all cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'code'
                 ? 'bg-cobalt-muted text-white font-semibold shadow-xs'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Code2 className="w-2.5 sm:w-3 h-2.5 sm:h-3" />
+            <Code2 className="w-3 h-3" />
             <span>Code</span>
           </button>
         </div>
@@ -196,7 +193,7 @@ export function LaptopScreenContent({ onStartProjectClick, onExploreWorkClick })
             onClick={handleTriggerSimulation}
             disabled={isSimulating}
             title="Re-run compilation telemetry"
-            className="p-1 sm:p-1.5 rounded bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white transition-colors"
+            className="p-1 sm:p-1.5 rounded bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white transition-colors cursor-pointer"
           >
             <RotateCcw className={`w-2.5 sm:w-3 h-2.5 sm:h-3 ${isSimulating ? 'animate-spin text-cobalt-accent' : ''}`} />
           </button>
@@ -208,8 +205,55 @@ export function LaptopScreenContent({ onStartProjectClick, onExploreWorkClick })
         </div>
       </div>
 
+      {/* MOBILE-ONLY DEDICATED TABS BAR (Prevents notch collision on phones) */}
+      <div className="flex sm:hidden items-center justify-around gap-1 bg-black/70 px-2 py-1 border-b border-white/10 text-[9px] flex-shrink-0">
+        <button
+          type="button"
+          onClick={() => setActiveTab('terminal')}
+          className={`px-2 py-0.5 rounded transition-all cursor-pointer flex items-center gap-1 ${
+            activeTab === 'terminal' ? 'bg-cobalt-muted text-white font-semibold' : 'text-slate-400 hover:text-white'
+          }`}
+        >
+          <Terminal className="w-2.5 h-2.5" />
+          <span>Terminal</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('architecture')}
+          className={`px-2 py-0.5 rounded transition-all cursor-pointer flex items-center gap-1 ${
+            activeTab === 'architecture' ? 'bg-cobalt-muted text-white font-semibold' : 'text-slate-400 hover:text-white'
+          }`}
+        >
+          <Layers className="w-2.5 h-2.5" />
+          <span>Arch</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('defense')}
+          className={`px-2 py-0.5 rounded transition-all cursor-pointer flex items-center gap-1 ${
+            activeTab === 'defense' ? 'bg-cobalt-muted text-white font-semibold' : 'text-slate-400 hover:text-white'
+          }`}
+        >
+          <Shield className="w-2.5 h-2.5" />
+          <span>Viva</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('code')}
+          className={`px-2 py-0.5 rounded transition-all cursor-pointer flex items-center gap-1 ${
+            activeTab === 'code' ? 'bg-cobalt-muted text-white font-semibold' : 'text-slate-400 hover:text-white'
+          }`}
+        >
+          <Code2 className="w-2.5 h-2.5" />
+          <span>Code</span>
+        </button>
+      </div>
+
       {/* ============================================================== */}
-      {/* SCREEN MAIN BODY (Responsive, Adaptive, Alive)                 */}
+      {/* SCREEN MAIN BODY (Adaptive, Responsive, Interactive)           */}
       {/* ============================================================== */}
       <div className="flex-1 p-2.5 sm:p-4 overflow-hidden flex flex-col justify-between relative bg-[#090B10]">
         
@@ -262,7 +306,7 @@ export function LaptopScreenContent({ onStartProjectClick, onExploreWorkClick })
               </div>
             </div>
 
-            {/* Metrics HUD strip (Optimized for both Mobile and Desktop) */}
+            {/* Metrics HUD strip (Responsive for Mobile & Desktop) */}
             <div className="pt-2 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2 text-[9px] sm:text-[10px] flex-shrink-0">
               <div className="p-1.5 sm:p-2 rounded-lg bg-white/5 border border-white/10 hover:border-cobalt-muted/40 transition-colors">
                 <div className="text-slate-400 text-[8px] sm:text-[9px] uppercase tracking-wide flex items-center justify-between">
@@ -374,7 +418,7 @@ export function LaptopScreenContent({ onStartProjectClick, onExploreWorkClick })
                     key={idx}
                     type="button"
                     onClick={() => setActiveDefenseIndex(idx)}
-                    className={`px-2 py-0.5 rounded text-[9px] whitespace-nowrap transition-all ${
+                    className={`px-2 py-0.5 rounded text-[9px] whitespace-nowrap transition-all cursor-pointer ${
                       activeDefenseIndex === idx
                         ? 'bg-cobalt-muted text-white font-semibold'
                         : 'bg-white/5 text-slate-400 hover:text-white border border-white/10'
@@ -468,7 +512,7 @@ export function LaptopScreenContent({ onStartProjectClick, onExploreWorkClick })
             <button
               type="button"
               onClick={onStartProjectClick}
-              className="px-2.5 sm:px-3 py-1 rounded-md bg-cobalt-muted hover:bg-cobalt-deep text-white text-[9px] sm:text-[11px] font-semibold flex items-center gap-1 transition-all shadow-sm hover:scale-[1.02] active:scale-[0.98]"
+              className="px-2.5 sm:px-3 py-1 rounded-md bg-cobalt-muted hover:bg-cobalt-deep text-white text-[9px] sm:text-[11px] font-semibold flex items-center gap-1 transition-all shadow-sm hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
             >
               <span>Build This Project</span>
               <ArrowUpRight className="w-2.5 sm:w-3 h-2.5 sm:h-3" />
