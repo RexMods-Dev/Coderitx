@@ -24,7 +24,7 @@ export default {
         border: {
           soft: "#E7E5DF",
           dark: "#2D303A",
-          DEFAULT: "var(--border-color)",
+          DEFAULT: "rgb(var(--border-color) / <alpha-value>)",
         },
         cobalt: {
           muted: "#5267D8",
@@ -32,16 +32,16 @@ export default {
           accent: "#8190F0",
           hover: "#6B7DE8",
         },
-        // Semantic theme tokens
-        background: "var(--bg-main)",
+        // Semantic theme tokens supporting opacity modifiers (/40, /60, /80)
+        background: "rgb(var(--bg-main) / <alpha-value>)",
         surface: {
-          DEFAULT: "var(--bg-surface)",
-          elevated: "var(--bg-elevated)",
+          DEFAULT: "rgb(var(--bg-surface) / <alpha-value>)",
+          elevated: "rgb(var(--bg-elevated) / <alpha-value>)",
         },
-        foreground: "var(--text-primary)",
+        foreground: "rgb(var(--text-primary) / <alpha-value>)",
         muted: {
-          DEFAULT: "var(--text-muted)",
-          foreground: "var(--text-secondary)",
+          DEFAULT: "rgb(var(--text-muted) / <alpha-value>)",
+          foreground: "rgb(var(--text-secondary) / <alpha-value>)",
         },
       },
       fontFamily: {

@@ -2,24 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowUpRight, Code2 } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { Button } from './ui/Button';
+import { siteConfig } from '../data/siteConfig';
 
 export function Navbar({ theme, toggleTheme, onStartProjectClick }) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
+      setScrolled(window.scrollY > 20);
 
       // Section spy
       const sections = ['home', 'services', 'work', 'workflow', 'about', 'enquiry'];
-      for (const s of sections) {
-        const el = document.getElementById(s);
+      const scrollPosition = window.scrollY + 100;
+
+      for (const section of sections) {
+        const el = document.getElementById(section);
         if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 140 && rect.bottom >= 140) {
-            setActiveSection(s);
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(section);
             break;
           }
         }
@@ -34,7 +38,7 @@ export function Navbar({ theme, toggleTheme, onStartProjectClick }) {
     { name: 'Home', href: '#home', id: 'home' },
     { name: 'Services', href: '#services', id: 'services' },
     { name: 'Our Work', href: '#work', id: 'work' },
-    { name: 'How We Work', href: '#workflow', id: 'workflow' },
+    { name: 'Workflow', href: '#workflow', id: 'workflow' },
     { name: 'About Us', href: '#about', id: 'about' },
     { name: 'Contact', href: '#enquiry', id: 'enquiry' },
   ];
@@ -44,7 +48,7 @@ export function Navbar({ theme, toggleTheme, onStartProjectClick }) {
     setMobileMenuOpen(false);
     const target = document.querySelector(href);
     if (target) {
-      const headerOffset = 90;
+      const headerOffset = 76;
       const elementPosition = target.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
       window.scrollTo({
@@ -55,17 +59,17 @@ export function Navbar({ theme, toggleTheme, onStartProjectClick }) {
   };
 
   return (
-    <header className="fixed top-3 sm:top-5 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
-      
-      {/* Floating Island Container */}
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-3 sm:py-4 px-4 sm:px-6 lg:px-8`}
+    >
       <div
-        className={`w-full max-w-6xl rounded-2xl border transition-all duration-300 pointer-events-auto ${
+        className={`max-w-6xl mx-auto rounded-2xl transition-all duration-300 px-4 sm:px-6 py-2.5 sm:py-3 border ${
           scrolled
-            ? 'bg-surface/92 dark:bg-surface/92 backdrop-blur-xl border-border-soft dark:border-border-dark shadow-elevated py-2 px-4 sm:px-6'
-            : 'bg-surface/85 dark:bg-surface/85 backdrop-blur-lg border-border-soft/80 dark:border-border-dark/80 shadow-surface py-2.5 px-4 sm:px-6'
+            ? 'glass-surface border-border-soft/90 dark:border-border-dark/90 shadow-elevated'
+            : 'bg-surface/80 dark:bg-[#111318]/90 backdrop-blur-md border-border-soft/60 dark:border-border-dark/60 shadow-subtle'
         }`}
       >
-        <div className="flex items-center justify-between h-11">
+        <div className="flex items-center justify-between">
           
           {/* Brand Logo & Wordmark */}
           <a
@@ -96,8 +100,8 @@ export function Navbar({ theme, toggleTheme, onStartProjectClick }) {
                   onClick={(e) => handleLinkClick(e, link.href)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all relative ${
                     isActive
-                      ? 'text-ink-midnight dark:text-foreground bg-ivory-warm/80 dark:bg-surface-elevated'
-                      : 'text-slate-grey dark:text-muted-foreground hover:text-ink-midnight dark:hover:text-foreground hover:bg-ivory-warm/40 dark:hover:bg-surface-elevated/40'
+                      ? 'text-ink-midnight dark:text-foreground bg-ivory-warm dark:bg-[#222631]'
+                      : 'text-slate-grey dark:text-muted-foreground hover:text-ink-midnight dark:hover:text-foreground hover:bg-ivory-warm/60 dark:hover:bg-[#222631]/60'
                   }`}
                 >
                   {link.name}
@@ -130,7 +134,7 @@ export function Navbar({ theme, toggleTheme, onStartProjectClick }) {
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle navigation menu"
-              className="p-2 rounded-lg border border-border-soft dark:border-border-dark bg-surface text-slate-grey dark:text-muted-foreground hover:text-ink-midnight dark:hover:text-foreground focus-ring"
+              className="p-2 rounded-lg border border-border-soft dark:border-border-dark bg-surface dark:bg-[#1B1E26] text-slate-grey dark:text-muted-foreground hover:text-ink-midnight dark:hover:text-foreground focus-ring"
             >
               {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
@@ -146,7 +150,7 @@ export function Navbar({ theme, toggleTheme, onStartProjectClick }) {
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
-                className="py-2.5 px-3 rounded-lg text-xs font-semibold text-ink-midnight dark:text-foreground hover:bg-ivory-warm dark:hover:bg-surface-elevated flex items-center justify-between"
+                className="py-2.5 px-3 rounded-lg text-xs font-semibold text-ink-midnight dark:text-foreground hover:bg-ivory-warm dark:hover:bg-[#222631] flex items-center justify-between"
               >
                 <span>{link.name}</span>
                 <span className="text-[10px] font-mono text-slate-grey/60">0{idx + 1}</span>

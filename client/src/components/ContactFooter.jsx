@@ -89,7 +89,7 @@ export function ContactFooter({ onStartProjectClick }) {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[320px] bg-cobalt-muted/[0.09] rounded-full blur-3xl pointer-events-none" />
 
         <div className="closing-cta-anim max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-border-dark bg-surface-elevated/80 text-xs font-mono text-muted-foreground mb-6 shadow-subtle">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-border-dark bg-[#1B1E26] text-xs font-mono text-slate-300 mb-6 shadow-subtle">
             <span className="w-1.5 h-1.5 rounded-full bg-cobalt-accent animate-pulse" />
             <span>Consultation &amp; Feasibility Review</span>
           </div>
@@ -98,7 +98,7 @@ export function ContactFooter({ onStartProjectClick }) {
             {siteConfig.contact.closingHeadline}
           </h2>
 
-          <p className="text-base sm:text-lg text-slate-grey dark:text-muted-foreground max-w-xl mx-auto mb-10 leading-relaxed">
+          <p className="text-base sm:text-lg text-slate-300 max-w-xl mx-auto mb-10 leading-relaxed">
             Have a project concept, need technical guidance, or want to explore implementation approaches? Get in touch with our team today.
           </p>
 
@@ -135,7 +135,7 @@ export function ContactFooter({ onStartProjectClick }) {
               return (
                 <div
                   key={idx}
-                  className="rounded-2xl border border-border-dark bg-surface/40 hover:bg-surface/60 transition-colors overflow-hidden"
+                  className="rounded-2xl border border-border-dark bg-[#161821] hover:bg-[#1C1F2B] transition-colors overflow-hidden"
                 >
                   <button
                     type="button"
@@ -144,13 +144,13 @@ export function ContactFooter({ onStartProjectClick }) {
                   >
                     <span className="pr-4">{faq.q}</span>
                     <ChevronDown
-                      className={`w-4 h-4 text-muted-foreground flex-shrink-0 transition-transform duration-200 ${
+                      className={`w-4 h-4 text-slate-400 flex-shrink-0 transition-transform duration-200 ${
                         isOpen ? 'rotate-180 text-cobalt-accent' : ''
                       }`}
                     />
                   </button>
                   {isOpen && (
-                    <div className="px-5 pb-5 text-xs sm:text-sm text-slate-grey dark:text-muted-foreground leading-relaxed border-t border-border-dark/60 pt-3.5 animate-fade-in">
+                    <div className="px-5 pb-5 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-border-dark/60 pt-3.5 animate-fade-in">
                       {faq.a}
                     </div>
                   )}
@@ -184,14 +184,14 @@ export function ContactFooter({ onStartProjectClick }) {
                 A technology and project development initiative helping students plan, build, and thoroughly understand academic and practical software projects across web, AI/ML, mobile, IoT, and cybersecurity.
               </p>
 
-              {/* Editable Touchpoint Placeholders */}
-              <div className="p-4 rounded-xl border border-border-dark bg-surface-elevated/40 text-xs font-mono space-y-1 text-muted-foreground shadow-subtle">
+              {/* Contact Coordinates */}
+              <div className="p-4 rounded-xl border border-border-dark bg-[#161821] text-xs font-mono space-y-1 text-slate-300 shadow-subtle">
                 <div className="text-white font-semibold mb-1 text-[11px] uppercase tracking-wider">
                   Contact Coordinates
                 </div>
-                <div>Email: <span className="text-slate-grey">{siteConfig.contact.emailPlaceholder}</span></div>
-                <div>Phone: <span className="text-slate-grey">{siteConfig.contact.phonePlaceholder}</span></div>
-                <div>Location: <span className="text-slate-grey">{siteConfig.contact.locationPlaceholder}</span></div>
+                <div>Email: <span className="text-slate-400">{siteConfig.contact.emailPlaceholder}</span></div>
+                <div>Phone: <span className="text-slate-400">{siteConfig.contact.phonePlaceholder}</span></div>
+                <div>Location: <span className="text-slate-400">{siteConfig.contact.locationPlaceholder}</span></div>
               </div>
             </div>
 

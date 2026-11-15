@@ -59,7 +59,7 @@ export function Projects({ onDiscussProject }) {
           opacity: 1, 
           y: 0, 
           duration: 0.7, 
-          stagger: 0.1, 
+          stagger: 0.08, 
           ease: "power2.out",
           scrollTrigger: {
             trigger: ".catalog-grid-container",
@@ -97,7 +97,7 @@ export function Projects({ onDiscussProject }) {
             </p>
           </div>
 
-          <div className="font-mono text-xs text-slate-grey dark:text-muted-foreground bg-ivory-warm dark:bg-surface-elevated px-3 py-1.5 rounded-lg border border-border-soft dark:border-border-dark">
+          <div className="font-mono text-xs text-slate-grey dark:text-muted-foreground bg-ivory-warm dark:bg-[#1B1E26] px-3 py-1.5 rounded-lg border border-border-soft dark:border-border-dark">
             <span className="font-semibold text-ink-midnight dark:text-foreground">{projectsData.length}</span> Verified System Architectures
           </div>
         </div>
@@ -116,14 +116,14 @@ export function Projects({ onDiscussProject }) {
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all duration-150 flex items-center gap-1.5 ${
                   activeCategory === cat.key
                     ? 'bg-ink-midnight text-white dark:bg-foreground dark:text-ink-midnight shadow-sm'
-                    : 'bg-ivory-warm dark:bg-surface border border-border-soft dark:border-border-dark text-slate-grey dark:text-muted-foreground hover:text-ink-midnight dark:hover:text-foreground'
+                    : 'bg-ivory-warm dark:bg-[#1B1E26] border border-border-soft dark:border-border-dark text-slate-grey dark:text-muted-foreground hover:text-ink-midnight dark:hover:text-foreground'
                 }`}
               >
                 <span>{cat.label}</span>
                 <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
                   activeCategory === cat.key
                     ? 'bg-white/20 dark:bg-ink-midnight/20 text-white dark:text-ink-midnight'
-                    : 'bg-surface dark:bg-surface-elevated text-slate-grey dark:text-muted-foreground'
+                    : 'bg-surface dark:bg-[#222631] text-slate-grey dark:text-muted-foreground'
                 }`}>
                   {count}
                 </span>
@@ -135,7 +135,7 @@ export function Projects({ onDiscussProject }) {
         {/* FEATURED CASE STUDY 1: Auction Hub (Wide Flagship Dossier) */}
         <div className="flagship-container">
           {(activeCategory === 'all' || activeCategory === 'realtime') && (
-            <div className="flagship-card-anim mb-10 p-8 sm:p-10 rounded-2xl border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface shadow-subtle hover:shadow-surface transition-all">
+            <div className="flagship-card-anim mb-10 p-8 sm:p-10 rounded-2xl border border-border-soft dark:border-border-dark bg-surface dark:bg-[#1B1E26] shadow-subtle hover:shadow-surface hover:border-cobalt-muted/40 dark:hover:border-cobalt-accent/40 transition-all duration-300">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 <div className="lg:col-span-7 space-y-4">
                   <div className="flex items-center gap-2">
@@ -155,7 +155,7 @@ export function Projects({ onDiscussProject }) {
 
                   <div className="flex flex-wrap gap-2 pt-2">
                     {["Django", "Celery", "Redis", "PostgreSQL"].map((tech) => (
-                      <span key={tech} className="px-2.5 py-0.5 rounded text-xs font-mono bg-surface dark:bg-surface-elevated text-ink-midnight dark:text-foreground border border-border-soft dark:border-border-dark font-medium">
+                      <span key={tech} className="px-2.5 py-0.5 rounded text-xs font-mono bg-ivory-warm dark:bg-[#222631] text-ink-midnight dark:text-foreground border border-border-soft dark:border-border-dark font-medium">
                         {tech}
                       </span>
                     ))}
@@ -175,7 +175,7 @@ export function Projects({ onDiscussProject }) {
                 </div>
 
                 {/* Architectural Schematic Visual */}
-                <div className="lg:col-span-5 p-5 rounded-xl border border-border-soft dark:border-border-dark bg-surface dark:bg-surface-elevated font-mono text-xs space-y-3 shadow-subtle">
+                <div className="lg:col-span-5 p-5 rounded-xl border border-border-soft dark:border-border-dark bg-ivory-warm/80 dark:bg-[#15171F] font-mono text-xs space-y-3 shadow-subtle">
                   <div className="flex items-center justify-between text-[11px] text-slate-grey dark:text-muted-foreground border-b border-border-soft dark:border-border-dark pb-2">
                     <span className="flex items-center gap-1.5 font-semibold text-ink-midnight dark:text-foreground">
                       <Activity className="w-3.5 h-3.5 text-cobalt-muted dark:text-cobalt-accent" />
@@ -208,10 +208,10 @@ export function Projects({ onDiscussProject }) {
 
           {/* FEATURED CASE STUDY 2: Smart RFID Hospital System (Hardware / IoT Flagship) */}
           {(activeCategory === 'all' || activeCategory === 'iot') && (
-            <div className="flagship-card-anim mb-12 p-8 sm:p-10 rounded-2xl border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface shadow-subtle hover:shadow-surface transition-all">
+            <div className="flagship-card-anim mb-12 p-8 sm:p-10 rounded-2xl border border-border-soft dark:border-border-dark bg-surface dark:bg-[#1B1E26] shadow-subtle hover:shadow-surface hover:border-cobalt-muted/40 dark:hover:border-cobalt-accent/40 transition-all duration-300">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 {/* Hardware Telemetry Blueprint */}
-                <div className="lg:col-span-5 order-2 lg:order-1 p-5 rounded-xl border border-border-soft dark:border-border-dark bg-surface dark:bg-surface-elevated font-mono text-xs space-y-3 shadow-subtle">
+                <div className="lg:col-span-5 order-2 lg:order-1 p-5 rounded-xl border border-border-soft dark:border-border-dark bg-ivory-warm/80 dark:bg-[#15171F] font-mono text-xs space-y-3 shadow-subtle">
                   <div className="flex items-center justify-between text-[11px] text-slate-grey dark:text-muted-foreground border-b border-border-soft dark:border-border-dark pb-2">
                     <span className="flex items-center gap-1.5 font-semibold text-ink-midnight dark:text-foreground">
                       <Cpu className="w-3.5 h-3.5 text-cobalt-muted dark:text-cobalt-accent" />
@@ -257,7 +257,7 @@ export function Projects({ onDiscussProject }) {
 
                   <div className="flex flex-wrap gap-2 pt-2">
                     {["Django", "ESP32", "Supabase", "RFID"].map((tech) => (
-                      <span key={tech} className="px-2.5 py-0.5 rounded text-xs font-mono bg-surface dark:bg-surface-elevated text-ink-midnight dark:text-foreground border border-border-soft dark:border-border-dark font-medium">
+                      <span key={tech} className="px-2.5 py-0.5 rounded text-xs font-mono bg-ivory-warm dark:bg-[#222631] text-ink-midnight dark:text-foreground border border-border-soft dark:border-border-dark font-medium">
                         {tech}
                       </span>
                     ))}
@@ -293,7 +293,7 @@ export function Projects({ onDiscussProject }) {
               .map((project) => (
                 <div
                   key={project.id}
-                  className="catalog-card-anim group flex flex-col justify-between p-6 sm:p-7 rounded-2xl border border-border-soft dark:border-border-dark bg-ivory-warm/30 dark:bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200"
+                  className="catalog-card-anim group flex flex-col justify-between p-6 sm:p-7 rounded-2xl border border-border-soft dark:border-border-dark bg-surface dark:bg-[#1B1E26] hover:border-cobalt-muted/40 dark:hover:border-cobalt-accent/40 shadow-subtle hover:shadow-surface hover:-translate-y-1 transition-all duration-300"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
@@ -329,7 +329,7 @@ export function Projects({ onDiscussProject }) {
                       {project.technologies.map((tech) => (
                         <span
                           key={tech}
-                          className="px-2 py-0.5 rounded text-[11px] font-mono bg-surface dark:bg-surface-elevated text-slate-grey dark:text-muted-foreground border border-border-soft/60 dark:border-border-dark/60"
+                          className="px-2 py-0.5 rounded text-[11px] font-mono bg-ivory-warm dark:bg-[#222631] text-slate-grey dark:text-muted-foreground border border-border-soft/60 dark:border-border-dark/60"
                         >
                           {tech}
                         </span>
@@ -358,7 +358,7 @@ export function Projects({ onDiscussProject }) {
         </div>
 
         {/* Ethical Transparency Banner */}
-        <div className="mt-14 p-6 rounded-2xl border border-border-soft dark:border-border-dark bg-ivory-warm/60 dark:bg-surface/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-slate-grey dark:text-muted-foreground">
+        <div className="mt-14 p-6 rounded-2xl border border-border-soft dark:border-border-dark bg-surface dark:bg-[#15171F] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-slate-grey dark:text-muted-foreground">
           <div className="flex items-center gap-2.5">
             <span className="w-2 h-2 rounded-full bg-cobalt-muted dark:bg-cobalt-accent flex-shrink-0" />
             <span>All project architectures reflect genuine codebases engineered and maintained by Coderitz team members.</span>

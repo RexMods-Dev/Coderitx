@@ -3,11 +3,11 @@ import { cn } from '../../lib/utils';
 
 export function Badge({ className, variant = 'default', children, ...props }) {
   const variants = {
-    default: "bg-surface text-ink-midnight dark:bg-surface dark:text-foreground border-border-soft dark:border-border-dark",
+    default: "bg-surface text-ink-midnight dark:bg-[#1B1E26] dark:text-foreground border-border-soft dark:border-border-dark",
     outline: "text-slate-grey dark:text-muted-foreground border-border-soft dark:border-border-dark bg-transparent",
-    mono: "font-mono text-[11px] bg-ivory-warm dark:bg-surface-elevated text-slate-grey dark:text-muted-foreground border-border-soft dark:border-border-dark",
+    mono: "font-mono text-[11px] bg-ivory-warm dark:bg-[#222631] text-slate-grey dark:text-muted-foreground border-border-soft dark:border-border-dark",
     cobalt: "bg-cobalt-muted/10 text-cobalt-muted dark:bg-cobalt-accent/15 dark:text-cobalt-accent border-cobalt-muted/20 dark:border-cobalt-accent/25",
-    subtle: "bg-ivory-warm dark:bg-surface-elevated text-ink-midnight dark:text-foreground border-transparent font-medium"
+    subtle: "bg-ivory-warm dark:bg-[#222631] text-ink-midnight dark:text-foreground border-transparent font-medium"
   };
 
   return (

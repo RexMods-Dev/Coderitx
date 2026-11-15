@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { workflowSteps } from '../data/workflow';
-import { Check, MessageSquare, Compass, Hammer, Presentation, ArrowRight, ShieldCheck, ChevronRight } from 'lucide-react';
+import { Check, MessageSquare, Compass, Hammer, Presentation, ArrowRight, ShieldCheck, ChevronRight, Sparkles } from 'lucide-react';
 import { Button } from './ui/Button';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -11,6 +11,7 @@ const stepIcons = [MessageSquare, Compass, Hammer, Presentation];
 
 export function Workflow({ onStartProjectClick }) {
   const sectionRef = useRef(null);
+  const lineRef = useRef(null);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -33,6 +34,26 @@ export function Workflow({ onStartProjectClick }) {
         }
       );
 
+      // Workflow connecting line animation on scroll
+      if (lineRef.current) {
+        const pathLength = lineRef.current.getTotalLength();
+        gsap.set(lineRef.current, {
+          strokeDasharray: pathLength,
+          strokeDashoffset: pathLength
+        });
+
+        gsap.to(lineRef.current, {
+          strokeDashoffset: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".workflow-steps-container",
+            start: "top 75%",
+            end: "bottom 70%",
+            scrub: 0.8
+          }
+        });
+      }
+
       // Workflow step cards sequence
       gsap.fromTo(".workflow-step-card", 
         { opacity: 0, y: 40 }, 
@@ -44,7 +65,7 @@ export function Workflow({ onStartProjectClick }) {
           ease: "power2.out",
           scrollTrigger: {
             trigger: ".workflow-steps-container",
-            start: "top 85%",
+            start: "top 80%",
             toggleActions: "play none none none"
           }
         }
@@ -92,8 +113,31 @@ export function Workflow({ onStartProjectClick }) {
         {/* Refined Process Pipeline Visualization */}
         <div className="workflow-steps-container relative mb-16">
           
-          {/* Subtle connecting guideline on desktop */}
-          <div className="hidden lg:block absolute top-[52px] left-[8%] right-[8%] h-[2px] bg-border-soft dark:bg-border-dark z-0" />
+          {/* Animated Connecting SVG Guideline on desktop */}
+          <div className="hidden lg:block absolute top-[52px] left-[6%] right-[6%] h-[4px] z-0 pointer-events-none">
+            <svg className="w-full h-full overflow-visible" preserveAspectRatio="none">
+              {/* Background trace line */}
+              <line
+                x1="0%"
+                y1="50%"
+                x2="100%"
+                y2="50%"
+                className="stroke-border-soft dark:stroke-border-dark"
+                strokeWidth="2"
+                strokeDasharray="6 6"
+              />
+              {/* Active animated drawn line */}
+              <line
+                ref={lineRef}
+                x1="0%"
+                y1="50%"
+                x2="100%"
+                y2="50%"
+                className="stroke-cobalt-muted dark:stroke-cobalt-accent"
+                strokeWidth="2.5"
+              />
+            </svg>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
             {workflowSteps.map((step, idx) => {
@@ -103,20 +147,20 @@ export function Workflow({ onStartProjectClick }) {
               return (
                 <div
                   key={step.step}
-                  className={`workflow-step-card group relative flex flex-col justify-between p-7 rounded-2xl border transition-all duration-200 ${
+                  className={`workflow-step-card group relative flex flex-col justify-between p-7 rounded-2xl border transition-all duration-300 hover:-translate-y-1 ${
                     isDeliverStep
-                      ? 'border-cobalt-muted/50 dark:border-cobalt-accent/50 bg-surface shadow-surface ring-1 ring-cobalt-muted/20 dark:ring-cobalt-accent/20'
-                      : 'border-border-soft dark:border-border-dark bg-surface shadow-subtle hover:shadow-surface'
+                      ? 'border-cobalt-muted/50 dark:border-cobalt-accent/50 bg-surface dark:bg-[#1B1E26] shadow-surface ring-1 ring-cobalt-muted/20 dark:ring-cobalt-accent/20'
+                      : 'border-border-soft dark:border-border-dark bg-surface dark:bg-[#1B1E26] shadow-subtle hover:shadow-surface hover:border-cobalt-muted/40 dark:hover:border-cobalt-accent/40'
                   }`}
                 >
                   <div>
                     {/* Stage Badge & Step Indicator */}
                     <div className="flex items-center justify-between mb-6">
-                      <div className="w-12 h-12 rounded-xl bg-ivory-warm dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:border-cobalt-muted/50 dark:group-hover:border-cobalt-accent/50 transition-colors shadow-subtle">
-                        <Icon className="w-5 h-5 stroke-[1.9] text-cobalt-muted dark:text-cobalt-accent" />
+                      <div className="w-12 h-12 rounded-xl bg-ivory-warm dark:bg-[#222631] border border-border-soft dark:border-border-dark flex items-center justify-center text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight group-hover:border-cobalt-muted/50 dark:group-hover:border-cobalt-accent/50 transition-all shadow-subtle">
+                        <Icon className="w-5 h-5 stroke-[1.9]" />
                       </div>
 
-                      <span className="font-mono text-xs font-bold text-slate-grey dark:text-muted-foreground px-2.5 py-1 rounded bg-ivory-warm dark:bg-surface-elevated border border-border-soft/80 dark:border-border-dark/80">
+                      <span className="font-mono text-xs font-bold text-slate-grey dark:text-muted-foreground px-2.5 py-1 rounded bg-ivory-warm dark:bg-[#222631] border border-border-soft/80 dark:border-border-dark/80 group-hover:text-cobalt-muted dark:group-hover:text-cobalt-accent transition-colors">
                         STAGE {step.step}
                       </span>
                     </div>
@@ -153,8 +197,10 @@ export function Workflow({ onStartProjectClick }) {
         </div>
 
         {/* The Understanding Guarantee Callout */}
-        <div className="workflow-guarantee-banner p-8 sm:p-10 rounded-2xl border border-border-soft dark:border-border-dark bg-surface shadow-subtle flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
-          <div className="space-y-2.5 max-w-2xl">
+        <div className="workflow-guarantee-banner p-8 sm:p-10 rounded-2xl border border-border-soft dark:border-border-dark bg-surface dark:bg-[#1B1E26] shadow-subtle flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-cobalt-muted/5 dark:bg-cobalt-accent/5 rounded-full blur-2xl pointer-events-none" />
+
+          <div className="space-y-2.5 max-w-2xl relative z-10">
             <div className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-cobalt-muted dark:text-cobalt-accent">
               <ShieldCheck className="w-4 h-4" />
               <span>The Coderitz Understanding Guarantee</span>
@@ -169,7 +215,7 @@ export function Workflow({ onStartProjectClick }) {
             </p>
           </div>
 
-          <div className="flex-shrink-0 w-full sm:w-auto">
+          <div className="flex-shrink-0 w-full sm:w-auto relative z-10">
             <Button
               variant="primary"
               size="lg"

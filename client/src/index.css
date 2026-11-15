@@ -4,27 +4,27 @@
 
 @layer base {
   :root {
-    --bg-main: #F7F6F2;
-    --bg-surface: #FFFFFF;
-    --bg-elevated: #FFFFFF;
-    --text-primary: #17191F;
-    --text-secondary: #747782;
-    --text-muted: #9FA2AC;
-    --border-color: #E7E5DF;
+    --bg-main: 247 246 242;
+    --bg-surface: 255 255 255;
+    --bg-elevated: 255 255 255;
+    --text-primary: 23 25 31;
+    --text-secondary: 116 119 130;
+    --text-muted: 159 162 172;
+    --border-color: 231 229 223;
   }
 
   .dark {
-    --bg-main: #111318;
-    --bg-surface: #1B1E26;
-    --bg-elevated: #222631;
-    --text-primary: #F4F3EF;
-    --text-secondary: #A6A8B1;
-    --text-muted: #6B6F7B;
-    --border-color: #2D303A;
+    --bg-main: 17 19 24;
+    --bg-surface: 27 30 38;
+    --bg-elevated: 34 38 49;
+    --text-primary: 244 243 239;
+    --text-secondary: 166 168 177;
+    --text-muted: 107 111 123;
+    --border-color: 45 48 58;
   }
 
   * {
-    border-color: var(--border-color);
+    border-color: rgb(var(--border-color));
   }
 
   html {
@@ -32,8 +32,8 @@
   }
 
   body {
-    background-color: var(--bg-main);
-    color: var(--text-primary);
+    background-color: rgb(var(--bg-main));
+    color: rgb(var(--text-primary));
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -96,33 +96,33 @@
 
 /* Advanced Glassmorphism Utilities */
 .glass-surface {
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 8px 32px 0 rgba(23, 25, 31, 0.06);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 12px 36px 0 rgba(23, 25, 31, 0.08);
 }
 
 .dark .glass-surface {
-  background: rgba(27, 30, 38, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  background: rgba(27, 30, 38, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.6);
 }
 
 .glass-pill {
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
 .dark .glass-pill {
-  background: rgba(34, 38, 49, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(34, 38, 49, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Metallic laptop chassis reflections & bevels */
@@ -143,9 +143,9 @@
 .screen-glass-glare {
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.18) 0%,
-    rgba(255, 255, 255, 0.05) 35%,
-    transparent 65%
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.06) 38%,
+    transparent 68%
   );
 }
 
@@ -156,8 +156,13 @@
 }
 
 @keyframes pulseGlow {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.75; transform: scale(1.08); }
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.08); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-float-slow {
@@ -166,6 +171,10 @@
 
 .animate-pulse-glow {
   animation: pulseGlow 8s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
 }
 
 /* Clean focus outline helper */

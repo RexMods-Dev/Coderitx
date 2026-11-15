@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": 1,
+    "name": "Test Student",
+    "email": "test@example.com",
+    "phone": "9876543210",
+    "institution": "Test Engineering College",
+    "category": "CSE & Academic Project",
+    "preferred_tech": "React, Node.js, PostgreSQL",
+    "description": "Testing enquiry pipeline from automated animation verification.",
+    "deadline": "2026-12-01",
+    "additional_requirements": "Viva walkthrough requested",
+    "ip_address": "::1",
+    "status": "new",
+    "created_at": "2026-11-15T06:03:50.225Z"
+  }
+]

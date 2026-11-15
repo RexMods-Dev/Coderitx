@@ -31,10 +31,10 @@ export function ProjectModal({ project, isOpen, onClose, onDiscussProject }) {
       />
 
       {/* Modal Surface */}
-      <div className="relative w-full max-w-2xl bg-surface border border-border-soft dark:border-border-dark rounded-xl shadow-elevated overflow-hidden z-10 max-h-[90vh] flex flex-col animate-slide-up">
+      <div className="relative w-full max-w-2xl bg-surface dark:bg-[#1B1E26] border border-border-soft dark:border-border-dark rounded-xl shadow-elevated overflow-hidden z-10 max-h-[90vh] flex flex-col animate-slide-up">
         
         {/* Modal Header */}
-        <div className="p-6 sm:p-7 border-b border-border-soft dark:border-border-dark bg-ivory-warm/60 dark:bg-ink-midnight/50 flex items-start justify-between">
+        <div className="p-6 sm:p-7 border-b border-border-soft dark:border-border-dark bg-ivory-warm/60 dark:bg-[#15171F] flex items-start justify-between">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <Badge variant="cobalt" className="font-mono text-xs">
@@ -84,7 +84,7 @@ export function ProjectModal({ project, isOpen, onClose, onDiscussProject }) {
                 {Object.entries(project.architecture).map(([layer, desc]) => (
                   <div
                     key={layer}
-                    className="p-3.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface-elevated/40"
+                    className="p-3.5 rounded-lg border border-border-soft dark:border-border-dark bg-ivory-warm/80 dark:bg-[#15171F]"
                   >
                     <div className="text-[11px] font-mono text-cobalt-muted dark:text-cobalt-accent uppercase mb-1 font-semibold">
                       {layer}
@@ -108,7 +108,7 @@ export function ProjectModal({ project, isOpen, onClose, onDiscussProject }) {
                 {project.metrics.map((metric, idx) => (
                   <div
                     key={idx}
-                    className="p-3 rounded border border-border-soft/80 dark:border-border-dark/80 bg-surface"
+                    className="p-3 rounded border border-border-soft/80 dark:border-border-dark/80 bg-surface dark:bg-[#15171F]"
                   >
                     <div className="text-[10px] font-mono uppercase text-slate-grey dark:text-muted-foreground">
                       {metric.label}
@@ -131,7 +131,7 @@ export function ProjectModal({ project, isOpen, onClose, onDiscussProject }) {
               {project.technologies.map((tech) => (
                 <span
                   key={tech}
-                  className="px-3 py-1 rounded font-mono text-xs font-medium border border-border-soft dark:border-border-dark bg-ivory-warm dark:bg-surface-elevated text-ink-midnight dark:text-foreground"
+                  className="px-3 py-1 rounded font-mono text-xs font-medium border border-border-soft dark:border-border-dark bg-ivory-warm dark:bg-[#222631] text-ink-midnight dark:text-foreground"
                 >
                   {tech}
                 </span>
@@ -142,7 +142,7 @@ export function ProjectModal({ project, isOpen, onClose, onDiscussProject }) {
         </div>
 
         {/* Modal Footer */}
-        <div className="p-5 sm:p-6 border-t border-border-soft dark:border-border-dark bg-ivory-warm/50 dark:bg-ink-midnight/50 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="p-5 sm:p-6 border-t border-border-soft dark:border-border-dark bg-ivory-warm/50 dark:bg-[#15171F] flex flex-col sm:flex-row items-center justify-between gap-3">
           <span className="text-xs text-slate-grey dark:text-muted-foreground font-mono">
             Direct codebase walkthrough available for students.
           </span>

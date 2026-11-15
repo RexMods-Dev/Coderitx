@@ -3,7 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { teamData } from '../data/team';
 import { Badge } from './ui/Badge';
-import { ShieldCheck, UserCheck, Terminal, Award, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, UserCheck, Terminal, Award, CheckCircle2, Sparkles } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -83,12 +83,12 @@ export function AboutTeam() {
             return (
               <div
                 key={member.id}
-                className="founder-dossier-card group flex flex-col justify-between p-7 sm:p-8 rounded-2xl border border-border-soft dark:border-border-dark bg-ivory-warm/40 dark:bg-surface hover:border-slate-grey/30 dark:hover:border-muted-foreground/30 shadow-subtle hover:shadow-surface transition-all duration-200"
+                className="founder-dossier-card group flex flex-col justify-between p-7 sm:p-8 rounded-2xl border border-border-soft dark:border-border-dark bg-surface dark:bg-[#1B1E26] hover:border-cobalt-muted/40 dark:hover:border-cobalt-accent/40 shadow-subtle hover:shadow-surface hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
               >
                 <div>
                   {/* Top Bar: Monogram and Role */}
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-xl bg-surface dark:bg-surface-elevated border border-border-soft dark:border-border-dark flex items-center justify-center font-mono font-bold text-xs text-ink-midnight dark:text-foreground group-hover:border-cobalt-muted/50 dark:group-hover:border-cobalt-accent/50 transition-colors shadow-subtle">
+                    <div className="w-12 h-12 rounded-xl bg-ivory-warm dark:bg-[#222631] border border-border-soft dark:border-border-dark flex items-center justify-center font-mono font-bold text-xs text-ink-midnight dark:text-foreground group-hover:bg-cobalt-muted group-hover:text-white dark:group-hover:bg-cobalt-accent dark:group-hover:text-ink-midnight group-hover:border-cobalt-muted/50 dark:group-hover:border-cobalt-accent/50 transition-all shadow-subtle">
                       {monogram}
                     </div>
                     
@@ -131,7 +131,7 @@ export function AboutTeam() {
                     {member.technicalFocus.map((tech) => (
                       <span
                         key={tech}
-                        className="px-2.5 py-0.5 rounded text-[10px] font-mono bg-surface dark:bg-surface-elevated text-ink-midnight dark:text-foreground border border-border-soft/60 dark:border-border-dark/60"
+                        className="px-2.5 py-0.5 rounded text-[10px] font-mono bg-ivory-warm dark:bg-[#222631] text-ink-midnight dark:text-foreground border border-border-soft/60 dark:border-border-dark/60"
                       >
                         {tech}
                       </span>
@@ -144,9 +144,9 @@ export function AboutTeam() {
           })}
 
           {/* Direct Developer Access Commitment Card */}
-          <div className="founder-dossier-card flex flex-col justify-between p-7 sm:p-8 rounded-2xl border border-dashed border-border-soft dark:border-border-dark bg-ivory-warm/70 dark:bg-surface-elevated/40 shadow-subtle">
+          <div className="founder-dossier-card flex flex-col justify-between p-7 sm:p-8 rounded-2xl border border-dashed border-cobalt-muted/30 dark:border-cobalt-accent/30 bg-cobalt-muted/5 dark:bg-[#15171F] shadow-subtle hover:shadow-surface hover:-translate-y-1 transition-all duration-300">
             <div>
-              <div className="w-12 h-12 rounded-xl bg-surface dark:bg-surface border border-border-soft dark:border-border-dark flex items-center justify-center text-cobalt-muted dark:text-cobalt-accent mb-5 shadow-subtle">
+              <div className="w-12 h-12 rounded-xl bg-surface dark:bg-[#222631] border border-border-soft dark:border-border-dark flex items-center justify-center text-cobalt-muted dark:text-cobalt-accent mb-5 shadow-subtle">
                 <ShieldCheck className="w-6 h-6 stroke-[1.9]" />
               </div>
               
@@ -170,8 +170,9 @@ export function AboutTeam() {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-border-soft dark:border-border-dark text-[11px] font-mono text-slate-grey dark:text-muted-foreground font-semibold">
-              Technical integrity first.
+            <div className="pt-4 border-t border-border-soft dark:border-border-dark text-[11px] font-mono text-slate-grey dark:text-muted-foreground font-semibold flex items-center justify-between">
+              <span>Technical integrity first.</span>
+              <Sparkles className="w-3.5 h-3.5 text-cobalt-muted dark:text-cobalt-accent" />
             </div>
           </div>
 
